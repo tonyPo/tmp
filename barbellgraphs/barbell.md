@@ -22,6 +22,7 @@ The directed semi-complete graph with m1 nodes (b1) having incoming
     Note that one note of b2 is used for connecting to the path this note is relabeled to b3.
 
 ![semi-complete directed graph](https://raw.githubusercontent.com/tonyPo/graphcase_experiments/main/barbellgraphs/images/clique.png)
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/barbellgraphs/images/clique.png?raw=true" alt="Graph bell" width="400"/>>
 
 ## connecting path
 
