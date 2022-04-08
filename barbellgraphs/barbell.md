@@ -4,7 +4,7 @@
 the weighted directed barbell graph with node labels is created as follow. First a direct "semi"-complete graph is created as follow with are the connected via a path.
 
 ## semi-complete-graph
-The directed semi-complete graph with n nodes (b1) having incoming 
+The directed semi-complete graph with m1 nodes (b1) having incoming 
     egdes from the other n nodes (b2). And having both incoming and outgoing
     edge between nodes within the same group {b1, b} with the following
     properties:
@@ -20,5 +20,22 @@ The directed semi-complete graph with n nodes (b1) having incoming
         b2: attr1 = 0.5, attr2 = 0.3
 
     Note that one note of b2 is used for connecting to the path this note is relabeled to b3.
-    ![semi-complete directed graph]()
+
+![semi-complete directed graph](https://github.com/tonyPo/graphcase_experiments/tree/main/barbellgraphs/images/clique.png)
+
+## connecting path
+
+The directed semi_complete graphs are connected from a b2 node (relabelled to b3) 
+with a path of size m2 having alternating direction starting from the center node with the following properties:
+
+    weight : 0.7
+    label : b4 for centernode, increasing numbering towards b3
+    attr1 : 0.25
+    attr2 : 0.75
+
+![barbell graph](https://github.com/tonyPo/graphcase_experiments/tree/main/barbellgraphs/images/barbell.png)
+
+
+
+
 
