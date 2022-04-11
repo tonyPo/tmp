@@ -8,12 +8,17 @@ def plot_star(G):
     plots a star pattern
     """
     plt.subplot(111)
-    pos = nx.circular_layout(G )
-    color = [int(x[-1])/2 for _,x in nx.get_node_attributes(G,'label').items()]
+    # pos = nx.circular_layout(G )
+    pos = nx.nx_pydot.graphviz_layout(G, prog='neato')
+    labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
+    node_labels = {n:x for n,x in nx.get_node_attributes(G,'label').items()}
+    label_dic = {n:i for i,n in enumerate(set(labels))}
+    color = [label_dic[x] for _,x in nx.get_node_attributes(G,'label').items()]
     edges,weights = zip(*nx.get_edge_attributes(G,'weight').items())
     options = {
         'node_color': color,
         'node_size': 300,
+        'labels': node_labels,
         'edgelist':edges, 
         'edge_color':weights,
         'width': 1,
