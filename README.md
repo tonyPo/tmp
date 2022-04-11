@@ -1,2 +1,5 @@
 # graphcase_experiments
-experiments on graph case
+
+The following synthetic graphs are used
+
+- [directed attributed Barbell graph](barbellgraphs/barbell.md)
