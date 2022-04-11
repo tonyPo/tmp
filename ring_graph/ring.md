@@ -14,8 +14,10 @@ The following subgraphs are attached to the ring
 - star
 
 The subgrahps are explained in more detail below.
+The figure below shows an example with p=3 and n=2.
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/ring.png?raw=true" alt="Graph ring" width="600"/>
 
-## bell
+## Bell
 a directed semi-complete graph with n nodes (b1) having incoming egdes from the other n nodes (b2). And having both incoming and outgoing
 edge between nodes in the same group (b1, b2) with the following properties:
 
@@ -30,6 +32,8 @@ edge between nodes in the same group (b1, b2) with the following properties:
         b2: attr1 = 0.5, attr2 = 0.3
 
 The first b1 node is relabel to b3 and used to attach to the ring
+The figure below shows an example with size = 10
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/bell.png?raw=true" alt="Graph bell" width="400"/>
 
 ## star
 
@@ -42,6 +46,11 @@ creates a star of size n having one central node (s1) that is attached to two no
     weight s1 - s2 = 0.9
     weight s1 - s3 = 0.5
 
+The figure below shows an example with size = 9
+
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/star.png?raw=true" alt="Graph star" width="400"/>
+
+
 ## tree
 Creates a directed rooted tree. Every node has s children, where the first s/2 children (si) have an incoming edge from the parent and the second s/2 children (so) have an outgoing edges to the parent. The tree depth is equal to the specified depth. 
 The graph has the following properties:
@@ -53,6 +62,11 @@ The graph has the following properties:
 
     weight of si = 0.7,
     weight of so = 0.5
+
+The figure below shows an example with s=4 and depth =3
+
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/tree.png?raw=true" alt="Graph tree" width="400"/>
+
 
 
 
