@@ -15,7 +15,7 @@ The following subgraphs are attached to the ring
 
 The subgrahps are explained in more detail below.
 The figure below shows an example with p=3 and n=2.
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/ring.png?raw=true" alt="Graph ring" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/ring.png?raw=true" alt="Graph ring" width="600"/>
 
 ## Bell
 a directed semi-complete graph with n nodes (b1) having incoming egdes from the other n nodes (b2). And having both incoming and outgoing
@@ -47,6 +47,7 @@ creates a star of size n having one central node (s1) that is attached to two no
     weight s1 - s3 = 0.5
 
 The figure below shows an example with size = 9
+
 <img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/star.png?raw=true" alt="Graph star" width="400"/>
 
 
@@ -63,6 +64,7 @@ The graph has the following properties:
     weight of so = 0.5
 
 The figure below shows an example with s=4 and depth =3
+
 <img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/tree.png?raw=true" alt="Graph tree" width="400"/>
 
 
