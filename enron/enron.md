@@ -31,5 +31,6 @@ Agarwal et all created an extended labeling of non core employees. These are on 
 
 
 ## additional resources
-(https://github.com/enrondata/enrondata/tree/master/data)
+(https://github.com/enrondata/enrondata/tree/master/data). 
+
 http://enrondata.org/en/latest/data/custodian-names-and-titles/
