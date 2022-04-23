@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# package
+graphcase_experiments/data/
+mlruns/
+
 # Distribution / packaging
 .Python
 build/

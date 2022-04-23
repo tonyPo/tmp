@@ -83,14 +83,14 @@ def create_directed_barbell(m1, m2):
     weight=0.7
 
     bell1 = create_direted_complete(m1)
-    bell2 = create_direted_complete(m2)
+    bell2 = create_direted_complete(m1)
     G = nx.disjoint_union(bell1, bell2)
 
     # determine and add center node of the path
     if np.mod(m2, 2) == 0:
             m2 = m2 + 1
     centernode = int((m2-1)/2+1)
-    b4 = centernode + 2*m1 - 1
+    b4 = centernode + 2*m1 -1
     G.add_node(b4, attr1=attr1, attr2=attr2,  label="b4")
     path_lenght = centernode -1
 
@@ -101,8 +101,8 @@ def create_directed_barbell(m1, m2):
     G.nodes[b3_2]["label"] = 'b3'
 
     # create path
-    for i in range (path_lenght): 
-        if i == path_lenght-1:
+    for i in range (path_lenght+1): 
+        if i == path_lenght:
             target = [b3_1, b3_2]  # connect to the b3 nodes
         else :
             target = [b4-i-1, b4+i+1]

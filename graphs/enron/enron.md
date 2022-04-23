@@ -24,7 +24,7 @@ We have used the following edge attributes:
 
 ## label core group
 function category of the core group.
-These labels are available in de SEGK code.
+These labels are available in de SEGK [code(https://github.com/giannisnik/segk/blob/master/datasets/enron/employees.txt).
 
 ## labels extended
 Agarwal et all created an extended labeling of non core employees. These are on a [mongoDB](http://www.cs.columbia.edu/~rambow/enron/index.html) 

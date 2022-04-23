@@ -1,8 +1,11 @@
 from math import pi, cos, sin
 import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
 
-from  barbellgraphs.barbell_generator import *
+from  graphcase_experiments.graphs.barbellgraphs.barbell_generator import *
+
 
 def plot_directed_semi_complete(G):
     """plots the directed semi complete grpah with size n
@@ -65,10 +68,10 @@ def barbel_pos(G):
 
     return pos
 
-def plot_directed_barbell(G):
+def plot_directed_barbell(G, return_axes=False):
     """plots the barbell graph
     """
-    plt.subplot(111)
+    _, ax = plt.subplots()
     pos = barbel_pos(G)
     color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
     color = [float(i)/max(color) for i in color]
@@ -87,10 +90,58 @@ def plot_directed_barbell(G):
         'arrowsize': 20,
         'font_size': 8
     }
-    nx.draw_networkx(G, **options)
+    nx.draw(G, **options, ax=ax)
     plt.title("Barbell graph")
-    plt.show()
+    if return_axes:
+        return (ax, color)
+    else:
+        plt.show()
 
+def plot_embedding(G, embed):
+    _, ax = plt.subplots(1,2, figsize=(20,5))
+    #plot G
+    pos = barbel_pos(G)
+    color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
+    color = [float(i)/max(color) for i in color]
+    edges,weights = zip(*nx.get_edge_attributes(G,'weight').items())
+    options = {
+        'node_color': color,
+        'node_size': 200,
+        'edgelist':edges, 
+        'edge_color':weights,
+        'width': 1,
+        'with_labels': True,
+        'pos': pos,
+        'edge_cmap': plt.cm.prism,
+        # 'cmap': plt.cm.Wistia,
+        'cmap': plt.cm.Set3_r,
+        'arrowsize': 20,
+        'font_size': 8
+    }
+    nx.draw(G, **options, ax=ax[0])
+
+    # plot embeding
+    embed_df = pd.DataFrame(embed, columns=['id', 'embed1', 'embed2'])
+    lbl_df = pd.DataFrame(
+        [[i,x] for i,x in nx.get_node_attributes(G,'label').items()],
+        columns=['id', 'label']
+    )
+    embed_df = pd.merge(embed_df, lbl_df, on='id', how='inner')
+
+    color = [int(x[1][-1]) for x in embed_df['label'].items()]
+    color = [float(i)/max(color) for i in color]
+
+    ax[1].scatter(embed_df['embed1'], embed_df['embed2'], s=200., c=color, cmap=plt.cm.Set3_r)
+
+    # set labels
+    ids = embed_df.groupby(['label'])['id'].min()
+    for lbl, i in ids.items():
+        ax[1].annotate(lbl, (embed_df.loc[embed_df['id']==i]['embed1'], embed_df.loc[embed_df['id']==i]['embed2']))
+
+    ax[1].set_xlabel("dim1")
+    ax[1].set_ylabel("dim2")
+    plt.title("Barbel graph: node coler represents the node role, label = node id")
+    plt.show()
 
 
 def plot_directed_semi_complete_8():

@@ -2,5 +2,5 @@
 
 The following synthetic graphs are used
 
-- [directed attributed Barbell graph](barbellgraphs/barbell.md)
-- [ring with subgraphs](ring_graph/ring.md)
+- [directed attributed Barbell graph](graphs/barbellgraphs/barbell.md)
+- [ring with subgraphs](grapring_graph/ring.md)
