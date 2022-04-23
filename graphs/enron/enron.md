@@ -28,3 +28,11 @@ These labels are available in de SEGK [code(https://github.com/giannisnik/segk/b
 
 ## labels extended
 Agarwal et all created an extended labeling of non core employees. These are on a [mongoDB](http://www.cs.columbia.edu/~rambow/enron/index.html) 
+
+
+## additional resources
+(https://github.com/enrondata/enrondata/tree/master/data). 
+
+http://enrondata.org/en/latest/data/custodian-names-and-titles/. 
+
+https://new.pythonforengineers.com/blog/analysing-the-enron-email-corpus/
