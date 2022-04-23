@@ -15,7 +15,7 @@ The following subgraphs are attached to the ring
 
 The subgrahps are explained in more detail below.
 The figure below shows an example with p=3 and n=2.
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/ring.png?raw=true" alt="Graph ring" width="600"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/ring_graph/images/ring.png?raw=true" alt="Graph ring" width="600"/>
 
 ## Bell
 a directed semi-complete graph with n nodes (b1) having incoming egdes from the other n nodes (b2). And having both incoming and outgoing
@@ -33,7 +33,7 @@ edge between nodes in the same group (b1, b2) with the following properties:
 
 The first b1 node is relabel to b3 and used to attach to the ring
 The figure below shows an example with size = 10
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/bell.png?raw=true" alt="Graph bell" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/ring_graph/images/bell.png?raw=true" alt="Graph bell" width="400"/>
 
 ## star
 
@@ -48,7 +48,7 @@ creates a star of size n having one central node (s1) that is attached to two no
 
 The figure below shows an example with size = 9
 
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/star.png?raw=true" alt="Graph star" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/ring_graph/images/star.png?raw=true" alt="Graph star" width="400"/>
 
 
 ## tree
@@ -65,7 +65,7 @@ The graph has the following properties:
 
 The figure below shows an example with s=4 and depth =3
 
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/ring_graph/images/tree.png?raw=true" alt="Graph tree" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/ring_graph/images/tree.png?raw=true" alt="Graph tree" width="400"/>
 
 
 
