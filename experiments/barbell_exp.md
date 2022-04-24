@@ -11,8 +11,8 @@
 
 <img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/barbellgraphs/images/graphCase_embed_barbell.png?raw=true" alt="Barbell embeding GraphCASE" width="800"/>
 
-| id     | embed1 | embed2 | label |		| id     | embed1 | embed2 | label |
-|-------:|---------:|---------:|----|		|-------:|---------:|---------:|----|
+| id     | embed1 | embed2 | label |	_	| id     | embed1 | embed2 | label |
+|-------:|---------:|---------:|----| -	|-------:|---------:|---------:|----|
 |    0.0 | 0.540470 | 0.155461 | b1 |		|   15.0 | 0.419770 | 0.290855 | b2 |
 |    1.0 | 0.540470 | 0.155461 | b1 |		|   16.0 | 0.419770 | 0.290855 | b2 |
 |    2.0 | 0.540470 | 0.155461 | b1 |		|   17.0 | 0.419770 | 0.290855 | b2 |
@@ -27,7 +27,7 @@
 |   11.0 | 0.540470 | 0.155461 | b1 |		|   27.0 | 0.051959 | 0.755645 | b7 |
 |   12.0 | 0.540470 | 0.155461 | b1 |		|   20.0 | 0.197486 | 0.583612 | b8 |
 |   13.0 | 0.540470 | 0.155461 | b1 |		|   28.0 | 0.197486 | 0.583612 | b8 |
-|   14.0 | 0.540470 | 0.155461 | b1 |	
+|   14.0 | 0.540470 | 0.155461 | b1 |	  |.       |.         |.          |.  |
 
 Note that:
 - all nodes with the same label are plotted to the same embedding.
