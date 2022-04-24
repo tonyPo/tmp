@@ -27,7 +27,7 @@ def barbell_exp(execute_grid_search=False):
 
     # train model and calculate embeddings
     epochs = best_params.pop('epochs')
-    epochs = 10000
+    epochs = 1000
     gae = GraphAutoEncoder(G, **best_params)
     mlflow.autolog(silent=True) 
     hist = gae.fit(epochs=epochs, layer_wise=False)
