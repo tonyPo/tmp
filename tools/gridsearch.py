@@ -19,8 +19,8 @@ ACT_DICT  = {
             'identity': tf.identity
         }
 
-EPOCHS = 1000
-TRAILS = 200
+EPOCHS = 3 #1000
+TRAILS = 2 #200
 def objective(trial, G):
     # Define the search space
     params = {
@@ -82,25 +82,24 @@ def grid_search_graphCase(G):
 def grid_search_barbell_graphcase():
     G = create_directed_barbell(10, 9)
     plot_directed_barbell(G)
-    with mlflow.start_run():
-        mlflow.set_tag("type", "gridsearch") 
-        study = grid_search_graphCase(G)
+    mlflow.set_tag("type", "gridsearch") 
+    study = grid_search_graphCase(G)
 
-        # retrieve best parameters
-        best_params = {
-            **study.best_trial.user_attrs['fixed_params'],
-            **study.best_trial.params,
-            'epochs': len(study.best_trial.user_attrs['loss'])
-        }
-        best_params = optuna_to_model_params_converter(best_params)
+    # retrieve best parameters
+    best_params = {
+        **study.best_trial.user_attrs['fixed_params'],
+        **study.best_trial.params,
+        'epochs': len(study.best_trial.user_attrs['loss'])
+    }
+    best_params = optuna_to_model_params_converter(best_params)
 
+
+
+    with open(PATH + 'gridsearch_graphcase_barbell.pickle', 'wb') as handle:
+        pickle.dump(study, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open(PATH + 'best_params_graphcase_barbell.pickle', 'wb') as handle:
+        pickle.dump(best_params, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
-
-        with open(PATH + 'gridsearch_graphcase_barbell.pickle', 'wb') as handle:
-            pickle.dump(study, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        with open(PATH + 'best_params_graphcase_barbell.pickle', 'wb') as handle:
-            pickle.dump(best_params, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        mlflow.log_artifacts(PATH)
 
     return (study, best_params)
 

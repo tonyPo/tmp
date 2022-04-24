@@ -97,8 +97,8 @@ def plot_directed_barbell(G, return_axes=False):
     else:
         plt.show()
 
-def plot_embedding(G, embed):
-    _, ax = plt.subplots(1,2, figsize=(20,5))
+def plot_embedding(G, embed, path=None):
+    fig, ax = plt.subplots(1,2, figsize=(20,5))
     #plot G
     pos = barbel_pos(G)
     color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
@@ -141,6 +141,8 @@ def plot_embedding(G, embed):
     ax[1].set_xlabel("dim1")
     ax[1].set_ylabel("dim2")
     plt.title("Barbel graph: node coler represents the node role, label = node id")
+    if path:
+        fig.savefig(path + 'barbel_embed_plot_graphCASE.png', dpi=300, format='png')
     plt.show()
 
 
