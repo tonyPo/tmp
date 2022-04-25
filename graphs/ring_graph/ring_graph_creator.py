@@ -128,18 +128,38 @@ def create_ring(p, n):
     Returns: graph G having a ring with subgraphs.
 
     """
+    symbol_dic = {}
+    symbol_dic['star'] = create_star(11)
+    symbol_dic['tree'] = create_tree(s=4, depth=3)
+    symbol_dic['bell'] = create_bell(10)
+    return _create_ring_sub(p, n, symbol_dic)
+
+
+def _create_ring_sub(p, n, symbol_dic):
+    """
+    Creates a ring with all edge directed into the same direction.
+    A figure is attached on the ring every p nodes. In total, every
+    symbol is repeated n times. The nodes are labeled r1 to rp having the 
+    following properties:
 
     weight = 1
     attr1 = 0.9
     attr2 = 0.6
 
-    symbol_dic = {}
-    symbol_dic['star'] = create_star(11)
-    symbol_dic['tree'] = create_tree(s=4, depth=3)
-    symbol_dic['bell'] = create_bell(10)
+    Args:
+        p (int): path length between two sub-figures.
+        n (int): The number of times a sub-figure is repeated.
+
+    Returns: graph G having a ring with subgraphs.
+
+    """
+
+    weight = 1
+    attr1 = 0.9
+    attr2 = 0.6
+
     symbol_list = [s for s in symbol_dic.values()] * n
     random.Random(4).shuffle(symbol_list)
-
 
     ring_node_cnt = p * len(symbol_list)
 
@@ -156,5 +176,6 @@ def create_ring(p, n):
         src = i * p
         dst = "sym" + str(i) + "_" + str(s[1])
         G.add_edge(src, dst , weight=weight)
+    G2 = nx.convert_node_labels_to_integers(G, label_attribute="old_id")
 
-    return G
+    return G2
