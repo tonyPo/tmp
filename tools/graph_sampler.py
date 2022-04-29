@@ -70,6 +70,13 @@ def sample_graph(G, fraction, delta, seed=1):
             
         nx.set_edge_attributes(G, new_values, attr)
 
+    # remove isolared nodes
+    degrees = G.to_undirected(as_view=True).degree()
+    isolated_nodes = [n for n, d in degrees if d==0]
+    G.remove_nodes_from(isolated_nodes)
+    G = nx.convert_node_labels_to_integers(G)
+
+
     return G
 
 def create_sampled_ring_graphs():
@@ -85,11 +92,11 @@ def create_sampled_ring_graphs():
         fraction = f/10.
         for d in range(1, 11):
             delta = d/10.
-            for seed in range(5):
-                G = create_ring(n=2, p=3)
+            for seed in range(10):
+                G = create_ring(n=n, p=p)
                 G = sample_graph(G, fraction, delta, seed=seed)
-                filename = f'{path}fraction{fraction}_delta{delta}_seed{seed+10}.gml'
-                nx.write_gml(G, filename)
+                filename = f'{path}fraction{fraction}_delta{delta}_seed{seed+10}.pickle'
+                nx.write_gpickle(G, filename)
 
 
 

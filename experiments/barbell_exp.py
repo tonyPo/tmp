@@ -1,7 +1,10 @@
 import mlflow
+import pickle
+from mlflow.tracking import MlflowClient
 from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
 from graphcase_experiments.graphs.barbellgraphs.barbell_plotter import plot_directed_barbell, plot_embedding
 from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
+from graphcase_experiments.tools.gridsearch import grid_search_graphcase
 
 BEST_RUN_ID = '54d3e60cc3fc457c95218c29a561b0d6'
 PATH = 'graphcase_experiments/data/barbell/'
@@ -34,10 +37,15 @@ def barbell_exp(execute_grid_search=False):
         params = None
 
         if execute_grid_search:
-            params = [search_params, FIXED_PARAMS]
+            _, params = grid_search_graphcase(G, PATH, [search_params, FIXED_PARAMS])
+        else:
+            client = MlflowClient()
+            local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase.pickle")
+            with open(local_path, 'rb') as handle:
+                params = pickle.load(handle)
 
-        embed, G, tbl = calculate_graphcase_embedding(
-            G, PATH, grid=params, run_id=BEST_RUN_ID, epochs=EPOCHS
+        embed, tbl = calculate_graphcase_embedding(
+            G, PATH, params=params, epochs=EPOCHS
         )
 
         #plot 2-d embedding results
