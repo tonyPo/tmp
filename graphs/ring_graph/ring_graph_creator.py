@@ -179,3 +179,4 @@ def _create_ring_sub(p, n, symbol_dic):
     G2 = nx.convert_node_labels_to_integers(G, label_attribute="old_id")
 
     return G2
+    

@@ -3,8 +3,17 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
+import numpy as np
+from sklearn.manifold import MDS
 
 def plot_embedding(G, embed, path=None):
+    # reduce dimensions of embeding to two
+    if embed.shape[1] > 3:
+        mds = MDS(n_components=2)
+        ids = embed[:,0]
+        embed = mds.fit_transform(embed[:,1:])
+        embed = np.column_stack([ids, embed])
+
     fig, ax = plt.subplots(1,1)
     # plot embeding
     embed_df = pd.DataFrame(embed, columns=['id', 'embed1', 'embed2'])
