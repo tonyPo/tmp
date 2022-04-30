@@ -2,6 +2,7 @@ import mlflow
 import pickle
 import os
 import networkx as nx
+import pandas as pd
 from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
 from graphcase_experiments.graphs.ring_graph.ring_graph_plotter import plot_ring
 from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
@@ -18,16 +19,15 @@ from mlflow.tracking import MlflowClient
 BEST_RUN_ID = '54d3e60cc3fc457c95218c29a561b0d6'
 PATH = 'graphcase_experiments/data/ring/'
 SOURCE_PATH = 'graphcase_experiments/graphs/sampled_ring_graphs/'
-EPOCHS = 1000
+EPOCHS = 200
 def search_params(trial):
     return {
         'learning_rate': trial.suggest_float("learning_rate", 1e-6, 1e-2, log=True),
         'act': trial.suggest_categorical("act", ['relu', 'sigmoid', 'identity']),
-        'useBN': trial.suggest_categorical("useBN", [True, False]),
+        'useBN': trial.suggest_categorical("useBN", [True]),
         'dropout': trial.suggest_float("dropout", 0.0, 0.3),
-        # 'support_size': trial.suggest_int("support_size", 32, 128, log=True),
-        'support_size': trial.suggest_categorical("support_size", [32, 64, 128]),
-        'dims': trial.suggest_int("dims", 2, 10)
+        'support_size': trial.suggest_int("support_size", 2, 8),
+        'dims': trial.suggest_categorical("dims", [64, 128]),
     }
 FIXED_PARAMS = {
         'batch_size': 30,
@@ -35,7 +35,7 @@ FIXED_PARAMS = {
         'verbose': False,
         'seed': 1,
         'encoder_labels': ['attr1', 'attr2'],
-        'epochs': 1000,
+        'epochs': 200,
         'trials': 200
     }
 
@@ -47,7 +47,7 @@ def ring_exp(execute_grid_search=False, G=None):
         # create graph
         if not G:
             G = create_ring(5, 5)
-        plot_ring(G)
+        # plot_ring(G)
         res = {}
 
         if execute_grid_search:
@@ -81,7 +81,7 @@ def ring_exp(execute_grid_search=False, G=None):
         #log artifacts
         mlflow.log_artifacts(PATH)
 
-    return (embed, G, tbl, res)
+    return (embed, G, tbl, res, params)
 
 def cluster_test(tbl):
     """Performs a cluster analysis on the embedding dims and check the metrics
@@ -131,15 +131,16 @@ def classify_svm(tbl):
 
     return {'f1_macro': f1_macro, 'f1_micro': f1_micro, 'pred_labels': tbl['pred_label']}
 
-def ring_exp_all():
+def ring_exp_all(params):
     mlflow.set_experiment("ring_experiment_all_test")
     res={}
 
     #load graphCase parameters
-    client = MlflowClient()
-    local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase.pickle")
-    with open(local_path, 'rb') as handle:
-        params = pickle.load(handle)
+    if not params:
+        client = MlflowClient()
+        local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase.pickle")
+        with open(local_path, 'rb') as handle:
+            params = pickle.load(handle)
 
     with mlflow.start_run():
 
@@ -149,7 +150,8 @@ def ring_exp_all():
             if file.endswith('.pickle'):
                 factor, delta, seed = decode_name(file)
                 G = nx.read_gpickle(file)
-                res[factor][delta][seed] = proces_graph(graph=G, params=params)
+                if (seed ==1) and (delta==0.3):
+                    res[factor][delta][seed] = proces_graph(graph=G, params=params)
         
         #store result for logging
         with open(PATH + 'ring_downstream_results_all.pickle', 'wb') as handle:
@@ -157,6 +159,8 @@ def ring_exp_all():
 
         #log artifacts
         mlflow.log_artifact(PATH + 'ring_downstream_results_all.pickle')
+
+        return res
 
 
 def proces_graph(graph, params):
@@ -166,13 +170,16 @@ def proces_graph(graph, params):
         )
     
     #run clustering
-    res['clustering'] = cluster_test(tbl)
-    mlflow.log_metric('clustering_ami', res['clustering']['ami'])
+    cluster_res = cluster_test(tbl)
+    res['ami'] = cluster_res['ami']
+    mlflow.log_metric('clustering_ami', cluster_res['ami'])
 
     #run classification
-    res['classification'] = classify_svm(tbl)
-    mlflow.log_metric('svl_f1_macro', res['classification']['f1_macro'])
-    mlflow.log_metric('svl_f1_micro', res['classification']['f1_micro'])
+    svm_res = classify_svm(tbl)
+    res['f1_macro'] = svm_res['f1_macro']
+    res['f1_micro'] = svm_res['f1_micro']
+    mlflow.log_metric('svl_f1_macro', res['f1_macro'])
+    mlflow.log_metric('svl_f1_micro', res['f1_micro'])
  
     return res
 
@@ -181,3 +188,12 @@ def decode_name(file):
     delta = file.split('delta')[1].split('_')[0]
     seed = file.split('seed')[1].split('.')[0]
     return (factor, delta, seed)
+
+def plot_results(res, metric):
+    #check to pd.dataframe(Res) werkt
+    tbl = pd.DataFrame.from_dict(
+        {(i,j): res[i][j] 
+                           for i in res.keys() 
+                           for j in res[i].keys()},
+                       orient='index')
+    
