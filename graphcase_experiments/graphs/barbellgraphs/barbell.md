@@ -33,7 +33,7 @@ with a path of size m2 having alternating direction starting from the center nod
     attr1 : 0.25
     attr2 : 0.75
 
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/barbellgraphs/images/barbell.png?raw=true" alt="Barbell" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphcase_experiments/graphs/barbellgraphs/images/barbell.png?raw=true" alt="Barbell" width="400"/>
 
 
 
