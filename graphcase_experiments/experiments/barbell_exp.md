@@ -9,7 +9,7 @@
 
 ## results
 
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/barbellgraphs/images/graphCase_embed_barbell.png?raw=true" alt="Barbell embeding GraphCASE" width="800"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphcase_experiments/graphs/barbellgraphs/images/graphCase_embed_barbell.png?raw=true" alt="Barbell embeding GraphCASE" width="800"/>
 
 | id     | embed1 | embed2 | label |	_	| id     | embed1 | embed2 | label |
 |-------:|---------:|---------:|----| -	|-------:|---------:|---------:|----|
@@ -39,4 +39,4 @@ Note that the embedding is trained 2 hops deep, hence the relative big differenc
 
 ## training results
 
-<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphs/barbellgraphs/images/graphCASE_training_barbell.png?raw=true" alt="Barbell training GraphCASE" width="400"/>
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphcase_experiments/graphs/barbellgraphs/images/graphCASE_training_barbell.png?raw=true" alt="Barbell training GraphCASE" width="400"/>
