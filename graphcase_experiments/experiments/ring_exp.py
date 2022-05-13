@@ -192,7 +192,7 @@ def decode_name(file):
     return (factor, delta, seed)
 
 def plot_results(res):
-    fig, ax = plt.subplots(3,1)
+    fig, ax = plt.subplots(3,1, figsize=(10,30))
     metrics = ['ami', 'f1_macro', 'f1_micro']
     for i, m in enumerate(metrics):
         ax[i].set_title(m)
@@ -205,7 +205,7 @@ def plot_results(res):
         for i, m in enumerate(metrics):
             ax[i].plot(list(serie[m]), label=d )
 
-    plt.legend()
+    plt.legend(loc=(1.04,0), title = "max_delta")
     plt.show()
  
     

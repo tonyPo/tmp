@@ -699,3 +699,6 @@ plt.show()
 
 
 # %%
+from graphcase_experiments.experiments.ring_exp import plot_results
+plot_results(res)
+# %%
