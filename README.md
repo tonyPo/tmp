@@ -14,6 +14,6 @@ https://snap.stanford.edu/data/index.html
 
 ## experiment results
 
-- [results on the barbell graph](graphcase_experiments/experiments/barbell_exp.md)
-- 
+- [results on the barbell graph](graphcase_experiments/experiments/results/barbell_exp.md)
+- [results on the ring graph- noise variants](graphcase_experiments/experiments/results/ring_all.md)
 
