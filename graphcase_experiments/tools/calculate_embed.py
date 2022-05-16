@@ -9,10 +9,10 @@ from GAE.graph_case_controller import GraphAutoEncoder
 
 
 
-def calculate_graphcase_embedding(G, path, params, run_id=None, epochs=1000, verbose=True):       
+def calculate_graphcase_embedding(G, path, params, run_id=None, epochs=1000, verbose=True, algo=GraphAutoEncoder):       
     # train model and calculate embeddings
     params.pop('epochs', None)
-    gae = GraphAutoEncoder(G, **params)
+    gae = algo(G, **params)
     mlflow.autolog(silent=True) 
     hist = gae.fit(epochs=epochs, layer_wise=False)
     embed = gae.calculate_embeddings(G)

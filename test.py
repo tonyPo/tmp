@@ -702,3 +702,108 @@ plt.show()
 from graphcase_experiments.experiments.ring_exp import plot_results
 plot_results(res)
 # %%
+
+from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
+from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
+G = create_directed_barbell(10, 10)
+G = create_ring(10, 10)
+# %%
+G.number_of_nodes()
+print(f"0\t0\t31")
+# %%
+import networkx as nx
+import os
+import numpy as np
+class MultilensWrapper:
+    LOCATION = 'graphcase_experiments/algos/processing_files/multilens'
+    def __init__(self, **kwargs):
+        pass
+
+    def calculate_embedding(self, G):
+        # define locations
+        graph_file_path = MultilensWrapper.LOCATION + 'edge_list.tsv'
+        category_file_path = MultilensWrapper.LOCATION + "categories.tsv"
+        embedding_file_path = MultilensWrapper.LOCATION + 'multilens_embeddings.tsv'
+
+        nx.write_weighted_edgelist(G, graph_file_path, delimiter='\t')
+        with open(category_file_path, "w") as text_file:
+            text_file.write(f"0\t0\t{G.number_of_nodes()}")
+
+        # execute algoritm
+        exit_status = os.system(f'source ~/opt/anaconda3/etc/profile.d/conda.sh;conda activate py2;python ../../multilens/MultiLENS/src/main.py --input {graph_file_path} --cat {category_file_path} --output {embedding_file_path}')
+        print(f"MultiLENS process finished with status {exit_status}")
+        if exit_status!=0:
+            exit()
+
+        # load results
+        embedding = np.genfromtxt(embedding_file_path, skip_header=1)
+        return embedding
+
+
+       
+
+# %%
+multilens = MultilensWrapper()
+embed = multilens.calculate_embedding(G)
+embed
+# %%
+import mlflow
+import pickle
+from mlflow.tracking import MlflowClient
+from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
+from graphcase_experiments.graphs.barbellgraphs.barbell_plotter import plot_directed_barbell, plot_embedding
+from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
+from graphcase_experiments.tools.gridsearch import grid_search_graphcase
+from GAE.graph_case_controller import GraphAutoEncoder
+
+BEST_RUN_ID = 'e74faa6ce3384d8aa3cbd2744fc46bae'
+
+# client = MlflowClient()
+# local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase.pickle")
+local_path = "/Users/tonpoppe/workspace/graphcase_experiments/mlruns/2/e74faa6ce3384d8aa3cbd2744fc46bae/artifacts/best_params_graphcase_barbell.pickle"
+with open(local_path, 'rb') as handle:
+                    params = pickle.load(handle)
+param# %%
+
+# %%
+
+import tensorflow as tf
+from graphcase_experiments.experiments.barbell_exp import barbell_exp
+from GAE.graph_case_controller import GraphAutoEncoder
+
+params = {'batch_size': 9,
+ 'hub0_feature_with_neighb_dim': 2,
+ 'verbose': False,
+ 'seed': 2,
+ 'encoder_labels': ['attr1', 'attr2'],
+ 'learning_rate': 0.02189781523436639,
+ 'act': tf.nn.sigmoid,
+ 'useBN': True,
+ 'dropout': 0.0745080843250766,
+ 'support_size': [6, 6],
+ 'dims': [3, 16, 16, 16],
+ 'epochs': 10}  #20000
+
+embed, G, tbl = barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=params)
+# %%
+from graphcase_experiments.tools.embedding_plotter import plot_embedding
+plot_embedding(G, embed)
+
+
+# %%
+import networkx as nx
+color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
+color = [float(i)/max(color) for i in color]
+# %%
+color_dic = [(x, i) for i,x in nx.get_node_attributes(G,'label').items()]
+color_dic.sort()
+# tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
+# label_dic = {k:v/len(tmp.values()) for k,v in tmp.items()}
+# %%
+
+labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
+labels.sort()
+tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
+label_dic = {k:v/len(tmp.values()) for k,v in tmp.items()}
+color = [label_dic[x] for _, x in embed_df['label'].items()]
+# %%

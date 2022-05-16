@@ -1,0 +1,1 @@
+<img src="https://github.com/tonyPo/graphcase_experiments/blob/main/graphcase_experiments/experiments/images/ring_all.graphcase.png?raw=true" alt="Barbell training GraphCASE" width="400"/>

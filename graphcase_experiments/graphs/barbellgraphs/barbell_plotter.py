@@ -73,8 +73,13 @@ def plot_directed_barbell(G, return_axes=False):
     """
     _, ax = plt.subplots()
     pos = barbel_pos(G)
-    color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
-    color = [float(i)/max(color) for i in color]
+    labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
+    labels.sort()
+    tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
+    color_dic = {k:v/(len(tmp.values())-1) for k,v in tmp.items()}
+    color = [color_dic[x] for _,x in nx.get_node_attributes(G,'label').items()]
+    # color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
+    # color = [float(i)/max(color) for i in color]
     edges,weights = zip(*nx.get_edge_attributes(G,'weight').items())
     options = {
         'node_color': color,
@@ -101,8 +106,13 @@ def plot_embedding(G, embed, path=None):
     fig, ax = plt.subplots(1,2, figsize=(20,5))
     #plot G
     pos = barbel_pos(G)
-    color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
-    color = [float(i)/max(color) for i in color]
+    labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
+    labels.sort()
+    tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
+    color_dic = {k:v/len(tmp.values()) for k,v in tmp.items()}
+    color = [color_dic[x] for _,x in nx.get_node_attributes(G,'label').items()]
+    # color = [int(x[-1]) for _,x in nx.get_node_attributes(G,'label').items()]
+    # color = [float(i)/max(color) for i in color]
     edges,weights = zip(*nx.get_edge_attributes(G,'weight').items())
     options = {
         'node_color': color,

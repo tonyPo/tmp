@@ -8,6 +8,7 @@ __pycache__/
 
 # package
 graphcase_experiments/data/
+graphcase_experiments/algos/processing_files/
 mlruns/
 
 # Distribution / packaging

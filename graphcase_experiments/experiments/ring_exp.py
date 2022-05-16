@@ -199,6 +199,7 @@ def plot_results(res):
         ax[i].set_xlabel('fraction')
 
     deltas = res['delta'].unique()
+    deltas.sort()
     groupby_df = res.sort_values('fraction').groupby(['fraction', 'delta']).mean()
     for d in deltas:
         serie = groupby_df.loc[groupby_df.index.get_level_values('delta')==d]
