@@ -776,13 +776,13 @@ params = {'batch_size': 9,
  'verbose': False,
  'seed': 2,
  'encoder_labels': ['attr1', 'attr2'],
- 'learning_rate': 0.02189781523436639,
+ 'learning_rate': 0.004189781523436639,
  'act': tf.nn.sigmoid,
  'useBN': True,
  'dropout': 0.0745080843250766,
  'support_size': [6, 6],
  'dims': [3, 16, 16, 16],
- 'epochs': 10}  #20000
+ 'epochs': 100}  #20000
 
 embed, G, tbl = barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=params)
 # %%
@@ -806,4 +806,64 @@ labels.sort()
 tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
 label_dic = {k:v/len(tmp.values()) for k,v in tmp.items()}
 color = [label_dic[x] for _, x in embed_df['label'].items()]
+# %%
+
+from graphcase_experiments.experiments.ring_comp import ring_comp
+from GAE.graph_case_controller import GraphAutoEncoder
+
+import tensorflow as tf
+params = {
+    'batch_size': 30,
+    'hub0_feature_with_neighb_dim': 128,
+    'verbose': False,
+    'seed': 1,
+    'encoder_labels': ['attr1', 'attr2'],
+    'learning_rate': 0.0003668872396300966,
+    'act': tf.nn.sigmoid,
+    'useBN': True,
+    'dropout': 0.09859650451427784,
+    'support_size': [7, 7],
+    'dims': [3, 128, 128, 128],
+    'epochs': 5
+}
+
+res = ring_comp(GraphAutoEncoder, params)
+# %%
+from graphcase_experiments.experiments.ring_comp import ring_comp, ring_comp_all_algos
+
+res_df = ring_comp_all_algos()
+res_df
+# %%
+
+import os
+import sys
+import inspect
+
+currentdir = os.getcwd()
+parentdir = os.path.dirname(os.path.dirname(currentdir))
+parentdir = parentdir + '/xnetmf/REGAL'
+sys.path.insert(0, parentdir) 
+
+import config as xnet
+from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
+
+G = create_directed_barbell(10,9)
+import networkx as nx
+adj = nx.adjacency_matrix(G.to_undirected(), nodelist = range(G.number_of_nodes()) )
+
+nodes = G.nodes(data=True)
+attr = np.array([[n, a['attr1'], a['attr2']] for n,a in nodes])
+attr = attr[attr[:,0].argsort()]
+graph = xnet.Graph(adj, node_attributes = attr[:,1:])
+
+rep_method = xnet.RepMethod(max_layer = 2, 
+							alpha = 0.01, 
+							k = 10, 
+							num_buckets = 2, 
+							normalize = True, 
+							gammastruc = 1, 
+							gammaattr = 1)
+
+from xnetmf import get_representations
+embed = get_representations(graph, rep_method)
 # %%

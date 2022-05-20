@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
 from graphcase_experiments.graphs.ring_graph.ring_graph_plotter import plot_ring
 from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
+from GAE.graph_case_controller import GraphAutoEncoder
 from graphcase_experiments.tools.embedding_plotter import plot_embedding
 from graphcase_experiments.tools.gridsearch import grid_search_graphcase
 from sklearn.cluster import KMeans
@@ -165,10 +166,10 @@ def ring_exp_all(params):
         return res_df
 
 
-def proces_graph(graph, params):
+def proces_graph(graph, params, algo=GraphAutoEncoder):
     res = {}
     _, tbl = calculate_graphcase_embedding(
-            graph, PATH, params=params, epochs=EPOCHS, verbose=False
+            graph, PATH, params=params, verbose=False, algo=algo
         )
     
     #run clustering

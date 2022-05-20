@@ -9,19 +9,21 @@ from GAE.graph_case_controller import GraphAutoEncoder
 
 
 
-def calculate_graphcase_embedding(G, path, params, run_id=None, epochs=1000, verbose=True, algo=GraphAutoEncoder):       
+def calculate_graphcase_embedding(G, path, params, run_id=None, verbose=True, algo=GraphAutoEncoder):       
     # train model and calculate embeddings
-    params.pop('epochs', None)
-    gae = algo(G, **params)
+    params = params.copy()  
+    epochs = params.pop('epochs', None)
+    algo_instance = algo(G, **params)
     mlflow.autolog(silent=True) 
-    hist = gae.fit(epochs=epochs, layer_wise=False)
-    embed = gae.calculate_embeddings(G)
+    hist = algo_instance.fit(epochs=epochs, layer_wise=False)
+    embed = algo_instance.calculate_embeddings(G)
 
     #save model
-    gae.save_weights(path + "model/saved_weights")
+    if algo==GraphAutoEncoder:
+        algo_instance.save_weights(path + "model/saved_weights")
 
     #plot results training
-    if verbose:
+    if verbose and hist is not None:
       plot_loss(hist[None].history)
 
     #create table

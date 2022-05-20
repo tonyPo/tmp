@@ -74,6 +74,8 @@ def grid_search_graphcase(G, PATH, grid):
     return (study, best_params)
 
 def plot_loss(loss_dict):
+    if loss_dict is None:
+        return
     plt.plot(loss_dict['loss'], label='loss')
     plt.plot(loss_dict['val_loss'], label='val_loss')
     plt.yscale("log")

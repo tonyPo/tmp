@@ -26,8 +26,8 @@ FIXED_PARAMS = {
         'verbose': False,
         'seed': 1,
         'encoder_labels': ['attr1', 'attr2'],
-        'epochs': 1000,
-        'trials': 200
+        'epochs': 10,  #1000,
+        'trials': 3  #200
     }
 
 def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None):
@@ -41,14 +41,14 @@ def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None):
         if execute_grid_search:
             _, params = grid_search_graphcase(G, PATH, [search_params, FIXED_PARAMS])
         else:
-            if not params:
+            if not params and algo==GraphAutoEncoder:
                 client = MlflowClient()
                 local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase.pickle")
                 with open(local_path, 'rb') as handle:
                     params = pickle.load(handle)
 
         embed, tbl = calculate_graphcase_embedding(
-            G, PATH, params=params, epochs=params['epochs'], algo=algo
+            G, PATH, params=params, algo=algo
         )
 
         #plot 2-d embedding results
@@ -60,50 +60,3 @@ def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None):
         #log artifacts
         mlflow.log_artifacts(PATH)
     return (embed, G, tbl)
-
-
-
-# def __barbell_exp(execute_grid_search=False):
-#     mlflow.set_experiment("barbell_experiment_test")
-
-#     # create graph
-#     G = create_directed_barbell(10, 9)
-#     plot_directed_barbell(G)
-
-#     with mlflow.start_run():
-#         # execute gridsearch or load params
-#         if execute_grid_search:
-#             _, best_params = grid_search_graphcase(G, PATH)
-#         else:
-#             client = MlflowClient()
-#             local_path = client.download_artifacts(BEST_RUN_ID, "best_params_graphcase_barbell.pickle")
-#             with open(local_path, 'rb') as handle:
-#                 best_params = pickle.load(handle)
-        
-
-#         # train model and calculate embeddings
-#         epochs = best_params.pop('epochs')
-#         gae = GraphAutoEncoder(G, **best_params)
-#         mlflow.autolog(silent=True) 
-#         hist = gae.fit(epochs=EPOCHS, layer_wise=False)
-#         embed = gae.calculate_embeddings(G)
-
-#         #save model
-#         gae.save_weights(PATH + "model/saved_weights")
-
-#         #plot results training
-#         plot_loss(hist[None].history)
-
-#         #plot 2-d embedding results
-#         plot_embedding(G, embed[:G.number_of_nodes(),:], PATH)
-
-#         #plot table
-#         tbl = pd.DataFrame(embed[:29], columns=['id', 'embed1', ' embed2'])
-#         lbl_df = pd.DataFrame(
-#             [[i,x] for i,x in nx.get_node_attributes(G,'label').items()],
-#             columns=['id', 'label']
-#         )
-#         tbl = pd.merge(tbl, lbl_df, on='id', how='inner')
-#         tbl.to_csv(PATH + 'tabel.csv')
-#         mlflow.log_artifacts(PATH)
-#     return (embed, G, tbl)
