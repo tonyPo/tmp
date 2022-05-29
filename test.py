@@ -831,39 +831,112 @@ res = ring_comp(GraphAutoEncoder, params)
 # %%
 from graphcase_experiments.experiments.ring_comp import ring_comp, ring_comp_all_algos
 
-res_df = ring_comp_all_algos()
+res_df, smry_df = ring_comp_all_algos()
 res_df
 # %%
-
-import os
-import sys
-import inspect
-
-currentdir = os.getcwd()
-parentdir = os.path.dirname(os.path.dirname(currentdir))
-parentdir = parentdir + '/xnetmf/REGAL'
-sys.path.insert(0, parentdir) 
-
-import config as xnet
-from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
-
-G = create_directed_barbell(10,9)
+from graphcase_experiments.algos.dgiWrapper import DGIWrapper
+from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
+from stellargraph import StellarGraph, StellarDiGraph
 import networkx as nx
-adj = nx.adjacency_matrix(G.to_undirected(), nodelist = range(G.number_of_nodes()) )
+import numpy as np
+import pandas as pd
+
+G = create_ring(10, 10)
+kwargs = DGIWrapper.COMP_PARAMS
+algo = DGIWrapper(G, **kwargs)
+
+#%%
+import pandas as pd
+PATH = 'graphcase_experiments/data/comp/backup/'
+tmp = pd.read_csv(PATH + 'algo_res')
+tmp = pd.concat([tmp, res_df], ignore_index=True, axis=0)
+tmp.to_csv(PATH + 'algo_res_27may22', index=False)
+# %%
+smry_df2 = tmp.groupby(['algo','fraction','delta'])['ami','f1_macro', 'f1_micro'].agg(['mean', 'std'])
+smry_df2
+# %%
+
+
+
+from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
+from stellargraph import StellarGraph, StellarDiGraph
+import networkx as nx
+import numpy as np
+import pandas as pd
+
+G = create_ring(10, 10)
+G.nodes[0]
+
 
 nodes = G.nodes(data=True)
-attr = np.array([[n, a['attr1'], a['attr2']] for n,a in nodes])
+at = list(nodes[0].keys())
+at.remove('label')
+at.remove('old_id')
+attr = np.array([[n] + [a[k] for k in at] for n,a in nodes])
 attr = attr[attr[:,0].argsort()]
-graph = xnet.Graph(adj, node_attributes = attr[:,1:])
+features_df = pd.DataFrame(attr[:,1:], index=attr[:,0], columns=at)
 
-rep_method = xnet.RepMethod(max_layer = 2, 
-							alpha = 0.01, 
-							k = 10, 
-							num_buckets = 2, 
-							normalize = True, 
-							gammastruc = 1, 
-							gammaattr = 1)
+edges = G.edges(data=True)
+edges_df = pd.DataFrame([[s, d] + [v for v in a.values()] for s,d,a in edges], columns=['source', 'target', 'weight'])
 
-from xnetmf import get_representations
-embed = get_representations(graph, rep_method)
+G_stellar = StellarDiGraph(features_df, edges_df)
+print(G_stellar.info())
+
+# %%
+from stellargraph.mapper import (
+    CorruptedGenerator,
+    FullBatchNodeGenerator,
+    GraphSAGENodeGenerator,
+    HinSAGENodeGenerator,
+    ClusterNodeGenerator,
+)
+from stellargraph import StellarGraph
+from stellargraph.layer import GCN, DeepGraphInfomax, GraphSAGE, GAT, APPNP, HinSAGE
+
+from stellargraph import datasets
+from stellargraph.utils import plot_history
+
+import pandas as pd
+from matplotlib import pyplot as plt
+from sklearn import model_selection
+from sklearn.linear_model import LogisticRegression
+from sklearn.manifold import TSNE
+from IPython.display import display, HTML
+
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
+import tensorflow as tf
+from tensorflow.keras import Model
+# %%
+
+# base_generator = FullBatchNodeGenerator(G_stellar, sparse=False)
+# base_model = GCN(layer_sizes=[128], activations=["relu"], generator=base_generator)
+
+base_generator = GraphSAGENodeGenerator(G_stellar, batch_size=1000, num_samples=[5,5])
+base_model = GraphSAGE(
+    layer_sizes=[32,32], activations=["relu", "relu"], generator=base_generator
+)
+corrupted_generator = CorruptedGenerator(base_generator)
+gen = corrupted_generator.flow(G_stellar.nodes())
+
+infomax = DeepGraphInfomax(base_model, corrupted_generator)
+x_in, x_out = infomax.in_out_tensors()
+
+model = Model(inputs=x_in, outputs=x_out)
+model.compile(loss=tf.nn.sigmoid_cross_entropy_with_logits, optimizer=Adam(lr=1e-3))
+
+# %%
+
+epochs = 100
+es = EarlyStopping(monitor="loss", min_delta=0, patience=20)
+history = model.fit(gen, epochs=epochs, verbose=0, callbacks=[es])
+plot_history(history)
+#%%
+
+x_emb_in, x_emb_out = base_model.in_out_tensors()
+if base_generator.num_batch_dims() == 2:
+        x_emb_out = tf.squeeze(x_emb_out, axis=0)
+emb_model = Model(inputs=x_emb_in, outputs=x_emb_out)
+all_embeddings = emb_model.predict(base_generator.flow(G_stellar.nodes()))
+all_embeddings.shape
 # %%
