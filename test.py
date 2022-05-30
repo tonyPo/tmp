@@ -833,6 +833,7 @@ from graphcase_experiments.experiments.ring_comp import ring_comp, ring_comp_all
 
 res_df, smry_df = ring_comp_all_algos()
 res_df
+
 # %%
 from graphcase_experiments.algos.dgiWrapper import DGIWrapper
 from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
@@ -847,96 +848,114 @@ algo = DGIWrapper(G, **kwargs)
 
 #%%
 import pandas as pd
-PATH = 'graphcase_experiments/data/comp/backup/'
-tmp = pd.read_csv(PATH + 'algo_res')
+PATH_backup = 'graphcase_experiments/data/comp/backup/'
+PATH = 'graphcase_experiments/data/comp/'
+tmp = pd.read_csv(PATH_backup + 'algo_res_27may22')
+res_df = pd.read_csv(PATH + 'algo_res')
+#%%
 tmp = pd.concat([tmp, res_df], ignore_index=True, axis=0)
-tmp.to_csv(PATH + 'algo_res_27may22', index=False)
+tmp.to_csv(PATH + 'algo_res_29may22', index=False)
 # %%
 smry_df2 = tmp.groupby(['algo','fraction','delta'])['ami','f1_macro', 'f1_micro'].agg(['mean', 'std'])
 smry_df2
+
+
 # %%
-
-
-
 from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring
+from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_directed_barbell
+from graphcase_experiments.graphs.barbellgraphs.barbell_plotter import plot_directed_semi_complete
+from graphcase_experiments.tools.graph_transformer import to_undirected_node_attributes_only_graph
 from stellargraph import StellarGraph, StellarDiGraph
 import networkx as nx
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot  as plt
+import pydot
 
 G = create_ring(10, 10)
-G.nodes[0]
+G = create_directed_barbell(3, 3)
+G_new = to_undirected_node_attributes_only_graph(G, verbose=True)
 
 
-nodes = G.nodes(data=True)
-at = list(nodes[0].keys())
-at.remove('label')
-at.remove('old_id')
-attr = np.array([[n] + [a[k] for k in at] for n,a in nodes])
-attr = attr[attr[:,0].argsort()]
-features_df = pd.DataFrame(attr[:,1:], index=attr[:,0], columns=at)
+def plot_converted_graph(G):
+    """ plots G for visual inspection
+    """
+    plt.subplot(111)
+    #plot G
+    pos = nx.nx_pydot.graphviz_layout(G, prog='neato')
+    labels = [str(x) for _,x in nx.get_node_attributes(G,'label').items()]
+    labels.sort()
+    tmp = {n:i for i,n in enumerate(list(dict.fromkeys(labels)))}
+    color_dic = {k:v/len(tmp.values()) for k,v in tmp.items()}
+    color = [color_dic[str(x)] for _,x in nx.get_node_attributes(G,'label').items()]
+    options = {
+        'node_color': color,
+        'node_size': 20,
+        'width': 1,
+        'with_labels': True,
+        'pos': pos,
+        'edge_cmap': plt.cm.prism,
+        # 'cmap': plt.cm.Wistia,
+        'cmap': plt.cm.Set3_r,
+        'arrowsize': 20,
+        'font_size': 8
+    }
+    nx.draw(G, **options)
+    plt.show()
+plot_converted_graph(G_new)
 
-edges = G.edges(data=True)
-edges_df = pd.DataFrame([[s, d] + [v for v in a.values()] for s,d,a in edges], columns=['source', 'target', 'weight'])
 
-G_stellar = StellarDiGraph(features_df, edges_df)
-print(G_stellar.info())
-
-# %%
-from stellargraph.mapper import (
-    CorruptedGenerator,
-    FullBatchNodeGenerator,
-    GraphSAGENodeGenerator,
-    HinSAGENodeGenerator,
-    ClusterNodeGenerator,
-)
-from stellargraph import StellarGraph
-from stellargraph.layer import GCN, DeepGraphInfomax, GraphSAGE, GAT, APPNP, HinSAGE
-
-from stellargraph import datasets
-from stellargraph.utils import plot_history
-
-import pandas as pd
-from matplotlib import pyplot as plt
-from sklearn import model_selection
-from sklearn.linear_model import LogisticRegression
-from sklearn.manifold import TSNE
-from IPython.display import display, HTML
-
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping
-import tensorflow as tf
-from tensorflow.keras import Model
-# %%
-
-# base_generator = FullBatchNodeGenerator(G_stellar, sparse=False)
-# base_model = GCN(layer_sizes=[128], activations=["relu"], generator=base_generator)
-
-base_generator = GraphSAGENodeGenerator(G_stellar, batch_size=1000, num_samples=[5,5])
-base_model = GraphSAGE(
-    layer_sizes=[32,32], activations=["relu", "relu"], generator=base_generator
-)
-corrupted_generator = CorruptedGenerator(base_generator)
-gen = corrupted_generator.flow(G_stellar.nodes())
-
-infomax = DeepGraphInfomax(base_model, corrupted_generator)
-x_in, x_out = infomax.in_out_tensors()
-
-model = Model(inputs=x_in, outputs=x_out)
-model.compile(loss=tf.nn.sigmoid_cross_entropy_with_logits, optimizer=Adam(lr=1e-3))
-
-# %%
-
-epochs = 100
-es = EarlyStopping(monitor="loss", min_delta=0, patience=20)
-history = model.fit(gen, epochs=epochs, verbose=0, callbacks=[es])
-plot_history(history)
 #%%
+# nx.create_empty_copy(G, with_data=True)
 
-x_emb_in, x_emb_out = base_model.in_out_tensors()
-if base_generator.num_batch_dims() == 2:
-        x_emb_out = tf.squeeze(x_emb_out, axis=0)
-emb_model = Model(inputs=x_emb_in, outputs=x_emb_out)
-all_embeddings = emb_model.predict(base_generator.flow(G_stellar.nodes()))
-all_embeddings.shape
+# retrieve the names of the node and edge attributes.
+verbose=True
+node_attributes = list(G.nodes(data=True)[0].keys())
+edge_attributes = list(list(G.edges(data=True))[0][-1].keys())
+if verbose:
+    print(f"found the following node features {node_attributes}")
+    print(f"found the following edge features {edge_attributes}")
+
+# add the edge attributes with zero values to the current nodes.
+for _, features in G_new.nodes(data=True):
+    for e in edge_attributes:
+        print()
+        features['edge_' + e] = 0
+
+
+# loop throught edges and convert to nodes.
+counter = G_new.number_of_nodes()
+node_attr_dict = dict(zip(node_attributes,[0]*len(node_attributes)))
+for s,d,e in G.edges(data=True):
+    attributes = {**e, **node_attr_dict}
+    G_new.add_node(counter, **attributes)
+    G_new.add_edge(s, counter)
+    counter = counter + 1 
+    G_new.add_node(counter, **attributes)
+    G_new.add_edge(counter - 1, counter)
+    G_new.add_edge(counter, d)
+    counter = counter + 1
+
+if verbose:
+    ns = G.number_of_nodes()
+    es = G.number_of_edges()
+    print(f"original graph: {ns} nodes en {es} edges")
+    print(f"new graph: {G_new.number_of_nodes()} nodes en {G_new.number_of_edges()} edges")
+    print(f"expected {ns + 2 * es} nodes and {es * 3} edges")
+
+
+# %%
+
+my_dict = {
+    'max_layer': 2, 
+        'alpha': 0.01, 
+        'k': 10}
+         
+class TestClass():
+    def __init__(self, **kwargs):
+        print(kwargs)
+        self.params = kwargs
+
+tmp = TestClass(**my_dict)
+
 # %%

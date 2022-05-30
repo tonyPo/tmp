@@ -9,7 +9,7 @@ from GAE.graph_case_controller import GraphAutoEncoder
 
 
 
-def calculate_graphcase_embedding(G, path, params, run_id=None, verbose=True, algo=GraphAutoEncoder):       
+def calculate_graphcase_embedding(G, path, params, verbose=True, algo=GraphAutoEncoder):       
     # train model and calculate embeddings
     params = params.copy()  
     epochs = params.pop('epochs', None)

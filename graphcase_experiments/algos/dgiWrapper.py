@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 import pandas as pd
 from graphcase_experiments.algos.baseWrapper import BaseWrapper
+from graphcase_experiments.tools.graph_transformer import to_undirected_node_attributes_only_graph
 from stellargraph import StellarDiGraph
 from stellargraph.layer import DeepGraphInfomax, GraphSAGE
 from stellargraph.mapper import (
@@ -20,7 +21,7 @@ class DGIWrapper(BaseWrapper):
         'num_samples': [7, 7],
         'layer_sizes': [128, 128],
         'activations': ["relu", "relu"],
-        'epochs': 100
+        'epochs': 200
     }
     def __init__(self, G, **kwargs):
         self.G_stellar = self.__constructor_stellargraph(G)
@@ -79,3 +80,20 @@ class DGIWrapper(BaseWrapper):
 
         G_stellar = StellarDiGraph(features_df, edges_df)
         return G_stellar
+
+
+class DGIWrapperWithGraphTransformation(DGIWrapper):
+    NAME = 'DGI_with_transformation'
+    COMP_PARAMS ={
+        'batch_size': 128,
+        'num_samples': [7, 7, 7, 7, 7, 7],
+        'layer_sizes': [128, 128, 128, 128, 128, 128],
+        'activations': ["relu", "relu", "relu", "relu", "relu", "relu"],
+        'epochs': 200
+    }
+
+    def __init__(self, G, **kwargs):
+        G_undirected = to_undirected_node_attributes_only_graph(G, verbose=False)
+        super().__init__(G, **kwargs)
+
+

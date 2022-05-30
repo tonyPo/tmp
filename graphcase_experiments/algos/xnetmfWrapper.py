@@ -5,7 +5,7 @@ import numpy as np
 import networkx as nx
 from abc import ABC
 from graphcase_experiments.algos.baseWrapper import BaseWrapper
-
+from graphcase_experiments.tools.graph_transformer import to_undirected_node_attributes_only_graph
 
 currentdir = os.getcwd()
 parentdir = os.path.dirname(os.path.dirname(currentdir))
@@ -20,11 +20,16 @@ class XnetmfWrapper(BaseWrapper):
     NAME = 'xnetmf'
     LOCATION = 'graphcase_experiments/algos/processing_files/xnetmf/'
     COMP_PARAMS ={
+        'max_layer': 2, 
+        'alpha': 0.01, 
+        'k': 10, 
+        'num_buckets': 2, 
+        'normalize': True, 
+        'gammastruc': 1, 
+        'gammaattr': 1
     }
     def __init__(self, G, **kwargs):
-        self.params = {}
-        for k, v in kwargs.items():
-            self.params[k] = v
+        self.params = kwargs
 
     def fit(self, **kwargs):
         return None
@@ -45,16 +50,27 @@ class XnetmfWrapper(BaseWrapper):
         graph = xnet.Graph(adj, node_attributes = attr[:,1:])
 
         # create rep_method
-        rep_method = xnet.RepMethod(max_layer = 2, 
-							alpha = 0.01, 
-							k = 10, 
-							num_buckets = 2, 
-							normalize = True, 
-							gammastruc = 1, 
-							gammaattr = 1)
+        rep_method = xnet.RepMethod(**self.params)
 
         # create embedding
         embed = get_representations(graph, rep_method)
         ids = np.array(range(embed.shape[0]))
 
         return np.hstack([ids[:, None], embed])
+
+class XnetmfWrapperWithGraphTransformation(XnetmfWrapper):
+    NAME = 'xnetmf_with_transformation'
+    LOCATION = 'graphcase_experiments/algos/processing_files/xnetmf/'
+    COMP_PARAMS ={
+        'max_layer': 6, 
+        'alpha': 0.01, 
+        'k': 10, 
+        'num_buckets': 2, 
+        'normalize': True, 
+        'gammastruc': 1, 
+        'gammaattr': 1
+    }
+
+    def calculate_embeddings(self, G):
+        G_undirected = to_undirected_node_attributes_only_graph(G, verbose=False)
+        return super().calculate_embeddings(G_undirected)
