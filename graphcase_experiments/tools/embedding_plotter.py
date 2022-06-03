@@ -29,10 +29,10 @@ def plot_embedding(G, embed, path=None):
     label_dic = {k:v/(len(tmp.values())-1) for k,v in tmp.items()}
     color = [label_dic[x] for _, x in embed_df['label'].items()]
   
-    ax.scatter(embed_df['embed1'], embed_df['embed2'], s=20., c=color, cmap=plt.cm.Set3_r)
+    ax.scatter(embed_df['embed1'], embed_df['embed2'], s=20., c=color, cmap=plt.cm.rainbow)
 
     # add legend and title 
-    markers = [plt.Line2D([0,0],[0,0], color=plt.cm.Set3_r(c), marker='o', linestyle='') for c in label_dic.values()]
+    markers = [plt.Line2D([0,0],[0,0], color=plt.cm.rainbow(c), marker='o', linestyle='') for c in label_dic.values()]
     plt.legend(markers, label_dic.keys(), numpoints=1, loc=(1.04,0))
     ax.set_xlabel("dim1")
     ax.set_ylabel("dim2")

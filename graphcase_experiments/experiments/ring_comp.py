@@ -15,19 +15,20 @@ from graphcase_experiments.algos.dgiWrapper import DGIWrapper, DGIWrapperWithGra
 
 PATH = 'graphcase_experiments/data/comp/'
 SOURCE_PATH = 'graphcase_experiments/graphs/sampled_ring_graphs/'
+SOURCE_PATH_DIM5 = 'graphcase_experiments/graphs/sampled_ring_graphs_dim5/'
 
 graphs = {
     'fractions': ['0.5'],
     'delta': ['0.3', '0.5', '0.7'],
-    # 'delta': ['0.3']
+    # 'delta': ['0.5']
 }
 
 
-def ring_comp(algo=GraphAutoEncoder, params=None, logging=False):
+def ring_comp(algo=GraphAutoEncoder, params=None, logging=False, source_path=SOURCE_PATH):
     res_df = pd.DataFrame(columns=['fraction','delta','seed','ami','f1_macro', 'f1_micro'])
 
     # create graph
-    root_path = os.fsdecode(SOURCE_PATH)
+    root_path = os.fsdecode(source_path)
     for file in os.listdir(root_path):
         if file.endswith('.pickle'):
             fraction, delta, seed = decode_name(file)
@@ -44,22 +45,22 @@ def ring_comp(algo=GraphAutoEncoder, params=None, logging=False):
     return res_df
 
 ALGO = [
-    # GraphCaseWrapper, 
+    GraphCaseWrapper, 
     # MultilensWrapper,
     # DrneWrapper,
-    XnetmfWrapper,
-    XnetmfWrapperWithGraphTransformation,
+    # XnetmfWrapper,
+    # XnetmfWrapperWithGraphTransformation,
     # Role2VecWrapper,
     # DGIWrapper,
     # DGIWrapperWithGraphTransformation
     ]
-def ring_comp_all_algos(algos=ALGO):
+def ring_comp_all_algos(algos=ALGO, source_path=SOURCE_PATH):
     mlflow.set_experiment("ring_comp_all")
     with mlflow.start_run():
         mlflow.log_param('algos', algos)
         res_df = pd.DataFrame(columns=['algo', 'fraction','delta','seed','ami','f1_macro', 'f1_micro'])
         for algo in algos:
-            algo_res = ring_comp(algo, algo.COMP_PARAMS)
+            algo_res = ring_comp(algo, algo.COMP_PARAMS, source_path=source_path)
             algo_res['algo'] = algo.NAME
             res_df = res_df.append(algo_res, ignore_index=True)
         

@@ -105,7 +105,7 @@ def cluster_test(tbl):
 
 def classify_svm(tbl):
     # set parameters for grid search
-    test_size = 0.5
+    test_size = 0.75
     param_grid = {
         'C': [1, 10], 'kernel': ('linear', 'rbf')
     }

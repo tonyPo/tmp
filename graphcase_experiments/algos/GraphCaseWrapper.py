@@ -4,6 +4,7 @@ from GAE.graph_case_controller import GraphAutoEncoder
 
 class GraphCaseWrapper(GraphAutoEncoder):
     NAME = 'GraphCASE'
+    LOCATION = 'graphcase_experiments/algos/processing_files/other'
     COMP_PARAMS ={
         'batch_size': 30,
         'hub0_feature_with_neighb_dim': 128,
@@ -18,3 +19,8 @@ class GraphCaseWrapper(GraphAutoEncoder):
         'dims': [3, 128, 128, 128],
         'epochs': 200,
     }
+
+    def __init__(self, G, **kwargs):
+        node_attributes = [a for a in G.nodes[0].keys() if a.startswith("attr")]
+        kwargs['encoder_labels'] = node_attributes
+        super().__init__(G, **kwargs)

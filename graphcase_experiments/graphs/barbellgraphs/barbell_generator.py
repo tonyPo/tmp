@@ -5,7 +5,7 @@ import itertools
 import numpy as np
 
 
-def create_direted_complete(n):
+def create_direted_complete(n, dim_node=2, dim_edge=1):
     """
     Return a directed semi-complete graph with n nodes (b1) having incoming 
     egdes from the other n nodes (b2). And having both incoming and outgoing
@@ -26,37 +26,49 @@ def create_direted_complete(n):
     :returns:   a directed semi-complete labeled/attributed graph 
                 with 2 node roles.
     """
-    w_b1b2 = 1
-    w_b1 = 0.8
-    w_b2 = 0.6
+    ## [b1, b2]
+    attr1 = [0.3, 0.5]
+    attr2 = [0.7, 0.3]
 
-    b1_attr1 = 0.3
-    b1_attr2 = 0.7
-    b2_attr1 = 0.5
-    b2_attr2 = 0.3
+    # [b1_to_b2, inter b1, inter b2]
+    weights = [1, 0.8, 0.6]
+
+    np.random.seed(4)
+    node_attributes = np.random.uniform(0.0, 1.0, (len(attr1), dim_node))
+    node_attributes[:,0] = attr1
+    node_attributes[:,1] = attr2
+    node_attributes = [{"attr"+str(n+1):v for n,v in enumerate(row)} for row in node_attributes]
+    
+    edge_attributes = np.random.uniform(0.0, 1.0, (len(weights), dim_edge))
+    edge_attributes[:,0] = weights
+    edge_attributes = [{"weight" if n==0 else "e_attr"+str(n):v for n,v in enumerate(row)} for row in edge_attributes]
 
     b1 = int(n/2)
 
     G = nx.DiGraph()  # create empty graph
     # add nodes with labels and attributes
     G.add_nodes_from(
-        [(n, {"attr1": b1_attr1, "attr2": b1_attr2, "label": 'b1'}) for n in range(b1)]
+        [(n, {**node_attributes[0], "label": 'b1'}) for n in range(b1)]
         )
     G.add_nodes_from(
-        [(n, {"attr1": b2_attr1, "attr2": b2_attr2, "label": 'b2'}) for n in range(b1, n)]
+        [(n, {**node_attributes[1], "label": 'b2'}) for n in range(b1, n)]
         )
 
     # add edges between b1 and b2
     for inc_n in range(b1):
-        G.add_weighted_edges_from([(n, inc_n, w_b1b2) for n in range(b1, n)])
+        for out_n in range(b1, n):
+                G.add_edge(out_n, inc_n, **edge_attributes[0])
 
     # add edges within b1
     b1_combinations = itertools.permutations(range(b1), 2)
-    G.add_weighted_edges_from([(l, r, w_b1) for l,r in b1_combinations])
+    for l,r in b1_combinations:
+        G.add_edge(l, r, **edge_attributes[1])
+        
 
     # add edges within b2
     b2_combinations = itertools.permutations(range(b1, n), 2)
-    G.add_weighted_edges_from([(l, r, w_b2) for l,r in b2_combinations])
+    for l,r in b2_combinations:
+        G.add_edge(l, r, **edge_attributes[2])
 
     return G
 

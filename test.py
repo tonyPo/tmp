@@ -958,4 +958,124 @@ class TestClass():
 
 tmp = TestClass(**my_dict)
 
+
+# %%
+import networkx as nx
+from graphcase_experiments.algos.GraphCaseWrapper import GraphCaseWrapper
+from graphcase_experiments.tools.embedding_plotter import plot_embedding
+from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
+from graphcase_experiments.algos.MultiLENSwrapper import MultilensWrapper
+
+SOURCE_PATH = 'graphcase_experiments/graphs/sampled_ring_graphs/'
+G = nx.read_gpickle(SOURCE_PATH + 'fraction0.5_delta0.7_seed10.pickle')
+
+algo = GraphCaseWrapper
+embed_gc, tbl_gc = calculate_graphcase_embedding(
+    G, algo.LOCATION, params=algo.COMP_PARAMS, verbose=False, algo=algo
+)
+
+plot_embedding(G, embed_gc)
+# %%
+
+from sklearn.cluster import KMeans
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics.cluster import adjusted_mutual_info_score
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import f1_score, classification_report
+
+def classify_svm(tbl):
+    # set parameters for grid search
+    test_size = 0.75
+    param_grid = {
+        'C': [1, 3, 5, 7, 9], 'kernel': ['linear']
+    }
+    scoring = ['f1_macro', 'f1_micro']
+
+    # prepaire data
+    columns = [x for x in tbl.columns if x.startswith('embed')]
+    X = tbl[columns].to_numpy()
+    y = tbl['label_id'].to_numpy()
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=42, stratify=y
+    )
+
+    # execute gridsearch and train classifier
+    clf = GridSearchCV(SVC(random_state=42), param_grid, scoring=scoring, cv=3, refit='f1_macro', n_jobs=-1)
+    # clf = LogisticRegression()
+    # clf = SVC(random_state=42, kernel='rbf', C=10.)
+    clf.fit(X_train, y_train)
+
+    # calculate f1 score on test set
+    y_pred = clf.predict(X_test)
+    f1_macro = f1_score(y_test, y_pred, average='macro')
+    f1_micro = f1_score(y_test, y_pred, average='micro')
+
+    #create table
+    tbl['pred_label'] = clf.predict(X)
+    str = classification_report(y_test, y_pred)
+    print(str)
+
+    return {'f1_macro': f1_macro, 'f1_micro': f1_micro, 'pred_labels': tbl['pred_label']}, clf
+
+clas_res, clf = classify_svm(tbl_gc)
+clas_res
+# %%
+class_res, clf = classify_svm(tbl)
+class_res
+# %%
+from graphcase_experiments.tools.graph_sampler import create_sampled_ring_graphs_dim5
+create_sampled_ring_graphs_dim5()
+
+# %%
+
+from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring, create_ring2
+G = create_ring2(n=2, p=5, dim_node=5, dim_edge=5)
+
+
+# %%
+import os
+import networkx as nx
+import matplotlib.pyplot as plt
+root_path = 'graphcase_experiments/graphs/sampled_ring_graphs_dim5/'
+
+def checks(path):
+    cnt = []
+    e_cnt = []
+    for file in os.listdir(root_path):
+            if file.endswith('.pickle'):
+                G = nx.read_gpickle(root_path + file)
+                cnt.append(G.number_of_nodes())
+                e_cnt.append(G.number_of_edges())
+
+    print(f"max nodes cnt {max(cnt)}, min node cnt {min(cnt)}")
+    print(f"max edge cnt {max(e_cnt)}, min edge cnt {min(e_cnt)}")
+
+    plt.hist(cnt)
+
+checks(root_path)
+#%%
+from graphcase_experiments.graphs.ring_graph.ring_graph_plotter import plot_ring
+file = 'fraction0.1_delta0.9_seed15.pickle'
+G = nx.read_gpickle(root_path + file)
+plot_ring(G)
+
+# %%
+from graphcase_experiments.graphs.ring_graph.ring_graph_creator import create_ring, create_ring2
+from graphcase_experiments.tools.graph_sampler import sample_graph
+G = create_ring2(n=10, p=5, dim_node=5, dim_edge=5)
+print(f" before {G.number_of_nodes()}")
+G = sample_graph(G, 0, 0, seed=1)
+print(f" after {G.number_of_nodes()}")
+
+# %%
+
+################
+from graphcase_experiments.experiments.ring_comp import ring_comp, ring_comp_all_algos, SOURCE_PATH_DIM5
+SOURCE_PATH_DIM5
+res_df, smry_df = ring_comp_all_algos(source_path=SOURCE_PATH_DIM5)
+smry_df
+
+###################
 # %%
