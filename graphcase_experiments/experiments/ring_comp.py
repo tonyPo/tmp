@@ -46,12 +46,12 @@ def ring_comp(algo=GraphAutoEncoder, params=None, logging=False, source_path=SOU
 
 ALGO = [
     GraphCaseWrapper, 
-    # MultilensWrapper,
-    # DrneWrapper,
-    # XnetmfWrapper,
-    # XnetmfWrapperWithGraphTransformation,
-    # Role2VecWrapper,
-    # DGIWrapper,
+    MultilensWrapper,
+    DrneWrapper,
+    XnetmfWrapper,
+    XnetmfWrapperWithGraphTransformation,
+    Role2VecWrapper,
+    DGIWrapper,
     # DGIWrapperWithGraphTransformation
     ]
 def ring_comp_all_algos(algos=ALGO, source_path=SOURCE_PATH):

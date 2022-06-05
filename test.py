@@ -1075,6 +1075,7 @@ print(f" after {G.number_of_nodes()}")
 from graphcase_experiments.experiments.ring_comp import ring_comp, ring_comp_all_algos, SOURCE_PATH_DIM5
 SOURCE_PATH_DIM5
 res_df, smry_df = ring_comp_all_algos(source_path=SOURCE_PATH_DIM5)
+
 smry_df
 
 ###################
