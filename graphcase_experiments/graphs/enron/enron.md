@@ -21,6 +21,8 @@ We have used the following edge attributes:
 - total_received_to
 - total_recevied_cc
 - total_received_bcc
+- is_enron
+- is_core
 
 ## label core group
 function category of the core group.
