@@ -1,9 +1,14 @@
 import os, email, re, dateutil
+import time
+import pickle
+from multiprocessing import Pool
 from dateutil.parser import parse as parsedate
 from collections import defaultdict
 from email.parser import BytesParser
 from email import policy
 import pandas as pd
+from itertools import cycle
+
 
 STOPWORDS = set(['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'])
 
@@ -17,12 +22,16 @@ class EmailInfo(object):
 
     def __init__(self, fname, folder):
         self.folder = folder
+        self.fname = fname
         with open(fname, 'rb') as fp:
             msg = BytesParser(policy=policy.default).parse(fp)
         self.load(msg)
 
     def to_dict(self):
         return vars(self)
+
+    def to_pdf(self):
+        return pd.DataFrame.from_dict(self.to_dict(), orient='index').transpose()
 
     def load(self, msg):
         self.message_id = msg.get('message-id')
@@ -51,8 +60,13 @@ class EmailInfo(object):
         self.x_folder = msg.get('X-Folder')
 
      
-  
 
+def get_pdf(f):
+    try:
+        tmp = EmailInfo(os.path.join(f[2], f[0]), f[1]).to_pdf()
+    except Exception as e:
+        tmp = None
+    return tmp
 
 
 class EmailWalker(object):
@@ -67,7 +81,7 @@ class EmailWalker(object):
         pdf = None
         for root, _, files in os.walk(self.root):
             folder = os.path.relpath(root, self.root)
-            print('root')
+            print(f'folder: {root}')
             for fname in files:
                 try:
                     if verbose:
@@ -85,7 +99,45 @@ class EmailWalker(object):
         print(f'{self.parsed} E-mails parsed and {self.skipped} files skipped')
         return pdf
 
+class EmailWalker2(object):
 
+    def __init__(self, root):
+        self.root = root
+        self.curdir = None
+        self.skipped = 0
+        self.parsed = 0
+
+    def parse_mails(self, verbose=False):
+        pdf = []
+        total_cnt = 0
+        cnt = 0
+        for root, _, files in os.walk(self.root):
+            total_cnt = total_cnt + 1
+        for root, _, files in os.walk(self.root):
+            folder = os.path.relpath(root, self.root)
+            cnt = cnt + 1
+            print(f'{cnt} of {total_cnt} / folder: {root}')
+            filelist = [(f, folder, root) for f in files]
+            with Pool() as p:
+                pool_res = p.map(get_pdf, filelist)
+            pdf = pdf + (pool_res)
+
+        pdf = pd.concat(pdf, axis = 0, ignore_index=True)
+        print(f'{pdf.shape[0]} E-mails parsed')
+        return pdf
+
+
+if __name__ == '__main__':
+    root = '/Users/tonpoppe/Downloads/testenron/king-j'
+    # root = '/Users/tonpoppe/Downloads/testenron/'
+    # root = '/Users/tonpoppe/Downloads/maildir/'
+    emailWalker = EmailWalker2(root)
+    tic = time.process_time()
+    pdf = emailWalker.parse_mails(verbose=False)
+    toc = time.process_time()
+    print(f"processing time is {toc-tic}")
+    pdf.to_pickle('/Users/tonpoppe/Downloads/enron_parsed_test')
+   
 
 
         
