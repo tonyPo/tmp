@@ -18,9 +18,12 @@ We have used the following edge attributes:
 - is_bcc
 
 ## node atributes
-- total_received_to
-- total_recevied_cc
-- total_received_bcc
+- cnt_received_to
+- cnt_recevied_cc
+- cnt_received_bcc
+- cnt_sent
+- total_size_received
+- total_size_sent
 - is_enron
 - is_core
 
