@@ -128,15 +128,15 @@ class EmailWalker2(object):
 
 
 if __name__ == '__main__':
-    root = '/Users/tonpoppe/Downloads/testenron/king-j'
+    # root = '/Users/tonpoppe/Downloads/testenron/king-j'
     # root = '/Users/tonpoppe/Downloads/testenron/'
-    # root = '/Users/tonpoppe/Downloads/maildir/'
+    root = '/Users/tonpoppe/Downloads/maildir/'
     emailWalker = EmailWalker2(root)
     tic = time.process_time()
     pdf = emailWalker.parse_mails(verbose=False)
     toc = time.process_time()
     print(f"processing time is {toc-tic}")
-    pdf.to_pickle('/Users/tonpoppe/Downloads/enron_parsed_test')
+    pdf.to_parquet('/Users/tonpoppe/Downloads/enron_parsed_all')
    
 
 

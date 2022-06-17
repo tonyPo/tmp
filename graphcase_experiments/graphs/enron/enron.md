@@ -27,9 +27,17 @@ We have used the following edge attributes:
 - is_enron
 - is_core
 
+## data
+The E-mail corpus is taken from (https://www.cs.cmu.edu/~enron/) distributed by the CALO Project
 ## label core group
-function category of the core group.
+functions and labels are taken from: 
+"Discovering Organizational Hierarchy through a Corporate Ranking Algorithm: The Enron Case"
+by G. Creamer et al.
+
+
+
 These labels are available in de SEGK [code(https://github.com/giannisnik/segk/blob/master/datasets/enron/employees.txt).
+labels (https://github.com/enrondata/enrondata/blob/master/data/misc/edo_enron-custodians-data.html)
 
 ## labels extended
 Agarwal et all created an extended labeling of non core employees. These are on a [mongoDB](http://www.cs.columbia.edu/~rambow/enron/index.html) 
