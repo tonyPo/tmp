@@ -1082,6 +1082,10 @@ smry_df
 # %%
 
 from graphcase_experiments.experiments.enron_comp import calc_enron_performance
+import os
+os.getcwd()
+
+#%%
 
 res_df, smry_df = calc_enron_performance()
 smry_df

@@ -19,11 +19,11 @@ from graphcase_experiments.algos.dgiWrapper import DGIWrapper, DGIWrapperWithGra
 
 
 PATH = 'graphcase_experiments/data/enron/'  #for the results
-SOURCE_PATH = 'graphcase_experiments/graphs/enron/data/enron_graph.pickle/'  #input graph
+SOURCE_PATH = 'graphcase_experiments/graphs/enron/data/enron_graph.pickle'  #input graph
 
 ALGO = [
-    GraphCaseWrapper, 
-    # MultilensWrapper,
+    # GraphCaseWrapper, 
+    MultilensWrapper,
     # DrneWrapper,
     # XnetmfWrapper,
     # XnetmfWrapperWithGraphTransformation,

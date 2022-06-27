@@ -1,230 +1,163 @@
-#%%
-file = '/Users/tonpoppe/Downloads/maildir/keiser-k/inbox/2.'
-# %%
-
-from email.parser import BytesParser
-from email import policy
-with open(file, 'rb') as fp:
-    name = fp.name  # Get file name
-    msg = BytesParser(policy=policy.default).parse(fp)
-
-    msg.get('CC')
-# %%
-msg.get_all('to')
-# %%
-msg.get_all('from')
-# %%
+#%% set up
 import os
-os.getcwd()
-# %%
-
-from graphcase_experiments.graphs.enron.email_util import EmailInfo, EmailWalker
-file = "/Users/tonpoppe/Downloads/testenron/king-j/inbox/33."
-res = EmailInfo(file, "test")
-res
-#%%
-root = '/Users/tonpoppe/Downloads/maildir/keiser-k/inbox'
-emailWalker = EmailWalker(root)
-pdf = emailWalker.parse_mails(verbose=False)
-
-# %%
-
-import os
-os.chdir("../../..")
-
-#%% load parsed emials
-
-import pandas as pd
-pdf = pd.read_pickle('/Users/tonpoppe/Downloads/enron_parsed_test')
-pdf.shape
-#%%
-import pickle
-with open("/Users/tonpoppe/Downloads/enron_parsed_test", "rb") as fp:
-    b = pickle.load(fp)
-
-#%% check if there are duplicate idee
-
-pdf['message_id'].describe()
-# %%
-from pyspark import SparkContext, SparkConf
-from pyspark.sql import SparkSession
-from pyspark.sql.window import Window
-from pyspark.sql import functions as F
-
-conf = SparkConf().setAppName('appName').setMaster('local')
-sc = SparkContext(conf=conf)
-spark = SparkSession(sc)
-
-# %%
-
-#%%
-from_file
-file ="/Users/tonpoppe/Downloads/enron_parsed.parquet"
-# pdf.to_parquet(file)
-df = spark.read.format('parquet').load(file)
-
-#%%
-def extract_individual_edges(df):
-    #explode to_adress
-    cols =df.columns
-    # explode from
-    df = (df.select(F.explode("from_address"), *cols)
-                .withColumn('from_address', F.col('col'))
-                .filter("from_address is not null")
-                .drop('col')
-           )
-    # explode to
-    to_row = (df.filter("cnt_to > 0")
-                .select(F.explode("to_address"), *cols)
-                .withColumn("is_to", F.lit(1))
-                .withColumn('recipient', F.col('col'))
-                .drop('col')
-           )
-    # explode cc
-    cc_row = (df.filter("cnt_cc > 0")
-                .select(F.explode("cc_address"), *cols)
-                .withColumn("is_cc", F.lit(1))
-                .withColumn('recipient', F.col('col'))
-                .drop('col')
-           )
-    res = to_row.unionByName(cc_row, allowMissingColumns=True)
-
-    # explode bcc
-    bcc_row = (df.filter("cnt_bcc > 0")
-                .select(F.explode("bcc_address"), *cols)
-                .withColumn("is_bcc", F.lit(1))
-                .withColumn('recipient', F.col('col'))
-                .drop('col')
-           )
-
-    # sometimes the same names appear in the BCC as in the to for some reason, need to remove these duplicate entries.
-    bcc_row = (bcc_row.join(cc_row.select('message_id','from_address', 'recipient', 'is_cc'), 
-                            ['message_id','from_address', 'recipient'], 
-                            'left')
-                .filter("is_cc is null")         
-                )
-
-    res = (res.unionByName(bcc_row, allowMissingColumns=True)    
-                .fillna(0)
-    )
-
-    return res
-
-#%%
-tmp = extract_individual_edges(df)
-tmp.count()
-
-    
-# %%
-
-def extract_nodes(df):
-    # recipient side
-    to_nodes = (df.groupBy('recipient').agg(
-                F.sum('email_size').alias("received_size"), 
-                F.sum('is_to').alias("cnt_to"), 
-                F.sum('is_cc').alias("cnt_cc"), 
-                F.sum('is_bcc').alias("cnt_bcc")
-                )
-                .withColumnRenamed('recipient', 'email_address')
-            )
-    # from side
-    from_nodes = (df.select('message_id', 'email_size', 'from_address')
-                .dropDuplicates()
-                .groupBy('from_address').agg(
-                F.sum('email_size').alias("sent_size"), 
-                F.count('message_id').alias("cnt_send"), 
-                )
-                .withColumnRenamed('from_address', 'email_address')
-            )
-    
-    nodes = (to_nodes.join(from_nodes, 'email_address', 'outer')
-                    .withColumn('organisation', F.split(F.col("email_address"),'@').getItem(1))
-                    .withColumn('is_enron', F.when(F.col('organisation')=='enron.com', 1).otherwise(0))
-                    .fillna(0)
-    )
-    
-    return nodes
-
-#%%
-tmp2 = extract_nodes(tmp)
-# %%
-
-def extract_edges(df):
-    edges = (df
-            .withColumnRenamed('from_address', 'src')
-            .withColumnRenamed('recipient', 'dst')
-            .groupBy(['src', 'dst']).agg(
-                F.sum('is_to').alias('cnt_to'),
-                F.sum('is_cc').alias('cnt_cc'),
-                F.sum('is_bcc').alias('cnt_bcc'),
-                F.sum(F.when(F.col('is_to')==1, F.col('email_size'))).alias('size_to'),
-                F.sum('email_size').alias('weight')
-            )
-            .filter("src != dst")
-    )
-    return edges
-#%%
-edges = extract_edges(tmp)
-    
-
-# %%
-import os
-os.getcwd()
-# %%
-import pandas as pd
-# path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data'
-email_file = 'graphcase_experiments/graphs/enron/data/employees.txt'
-job_lbl = (spark.read.csv(email_file, sep='\t')
-            .withColumn('name', F.split(F.col('_c1'),"\s{4,}").getItem(0))
-            .withColumn('function', F.split(F.col('_c1'),"\s{4,}", 2).getItem(1))
-            .withColumn('function_type', F.split(F.col('_c1'),"\s{2,}").getItem(1))
-            .withColumn('function_type2', F.split(F.col('_c1'),"\s{2,}").getItem(2))
-            .withColumn('function_type', F.when(F.col('function_type2').contains('Chief Operating Officer'), F.lit('board member'))
-                                                .otherwise(F.col('function_type'))
-                        )
-            .withColumn('name', F.when(F.col('name')=='xxx', F.regexp_replace('_c0', "\.", " "))
-                                                .otherwise(F.col('name'))
-            )
-                        
-)
-job_lbl.groupBy('function_type').count().show(20, truncate=False)
-
-# %%
-
-import pandas as pd
-lbl_path = 'graphcase_experiments/graphs/enron/data/jobtitles_creamer.txt'
-lbls = pd.read_csv(lbl_path, sep='\t')
-# %%
-import os
-os.chdir("../../..")
-from graphcase_experiments.graphs.enron.mail_reader import spark, Enron_to_graph
-
-
-# %%
-enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
-# enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all.parquet"  #all
-enron = Enron_to_graph(enron_path)
-# %%
 import pyspark.sql.functions as F
 import networkx as nx
 import pandas as pd
+os.chdir("../../..")
 
-nodes = enron.nodes.toPandas()
-edges = enron.edges.toPandas()
-node_tuples = [(r['email_address'], {c: r[c] for c in r.index}) for i,r in nodes.iterrows()]
+from graphcase_experiments.graphs.enron.mail_reader import spark, Enron_to_graph
 
-edge_attr = [c for c in edges.columns if c not in ['source', 'target']]
-edge_tuples = [(r['source'], r['target'], {c: r[c] for c in edge_attr}) for i,r in edges.iterrows()]
-G = nx.DiGraph()
-G.add_nodes_from(node_tuples)
-G.add_edges_from(edge_tuples)
+
+
+# %%
+# enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
+enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3"  #all
+enron = Enron_to_graph(enron_path)
 # %%
 # check for duplicate nodes
 enron.nodes.groupBy('email_address').count().filter("count > 1").join(enron.nodes, 'email_address', 'inner').show(10, truncate=False)
 # %% check duplicate edges
 enron.edges.groupBy(['source', 'target']).count().filter("count > 1").show(5)
 # %% get core group
-core = [r for r in list(enron.G.nodes(data=True)) if r[1]['attr_is_core']==1]
+core = [{'id':r[0], **r[1]} for r in list(enron.G.nodes(data=True)) if r[1]['attr_is_core']==1]
+core_group = pd.DataFrame.from_dict(core)
+core.shape
 
 
+# %%
+mails = enron.df
+lbl = enron.lbl.filter("label is not null")
+
+mails.groupBy('message_id').count().filter("count > 1").join(mails, 'message_id', 'inner').orderBy('message_id').show(5, truncate=False)
+# %%
+email = enron.email
+email = (email
+        .join(lbl.select('email_address'), email.from_address==lbl.email_address, 'inner')
+        .withColumnRenamed('email_address', 'from_email_address')
+        .join(lbl.select('email_address'), email.recipient == lbl.email_address, 'inner')
+        .withColumnRenamed('email_address', 'to_email_address')
+)
+email.show(4)
+
+# %% mailbox mapping stats
+
+cnt_mapped = enron.lbl.filter("label is not null").count()
+cnt_missing = enron.lbl.filter("label is null").count()
+print(f"{cnt_mapped} mailbox have a label and {cnt_missing} mailboxes are not mapped")
+#%%
+# enron.lbl.filter("label is null").show(10, truncate=False)
+
+lbls = pd.read_csv(Enron_to_graph.LBL_PATH, sep='\t')
+lbls['shortname'] = lbls['shortname'].astype(str)
+lbl_df = (spark.createDataFrame(lbls[['shortname', 'group']])
+                    .withColumnRenamed('shortname', 'mailbox')
+        )
+
+        # extract mailbox name and join with label from sent mail
+df = (enron.email.filter("folder like '%sent%'")
+            .select("from_address", 'fname')
+            .withColumn("fname_last", F.regexp_extract(F.col('fname'), '(?<=Downloads/)(.)*', 0))
+            .withColumn("mailbox", F.lower(F.split(F.col('fname_last'), '/').getItem(1)))
+            .dropDuplicates()
+            .join(lbl_df, 'mailbox', 'left')
+            .withColumnRenamed("from_address", 'email_address')
+            .withColumnRenamed('group', 'label')
+            .withColumn('attr_is_core', F.lit(1))
+        ) 
+df.filter("label is null").show(10, truncate=False)       
+
+
+# %% print list of email address mapped to the same mailbox
+
+df2 = (df.select('mailbox', 'email_address')
+            .dropDuplicates()
+            .groupBy('mailbox').count()
+            .filter("count > 2")
+            .join(df.select('mailbox', 'email_address').dropDuplicates(),
+                    'mailbox', 'inner')
+)
+
+df2.show(10, truncate=False)
+# %%
+
+emails = (enron.nodes
+            .select('email_address', 'attr_cnt_send')
+            .join(df2, 'email_address', 'inner')
+)
+emails.orderBy('mailbox').show(10)
+# %% create mapping from E-mail address to label
+
+# load mapping from mailbox to label (group)
+lbls = pd.read_csv(Enron_to_graph.LBL_PATH, sep='\t')
+lbls['shortname'] = lbls['shortname'].astype(str)
+lbl_df = (spark.createDataFrame(lbls[['shortname', 'group']])
+                    .withColumnRenamed('shortname', 'mailbox')
+        )
+
+# retrieve the email addresses + count used in the sent folders
+lbl_adj = (enron.email.filter("folder like '%sent%'")
+            .select("from_address", 'fname')
+            .withColumn("fname_last", F.regexp_extract(F.col('fname'), '(?<=Downloads/)(.)*', 0))
+            .withColumn("mailbox", F.lower(F.split(F.col('fname_last'), '/').getItem(1)))
+            .join(lbl_df, 'mailbox', 'left')
+            .withColumnRenamed("from_address", 'email_address')
+            .withColumnRenamed('group', 'label')
+        ) 
+
+# retrieve count and total count
+lbl_adj_cnt_per_mailbox = lbl_adj.groupBy('mailbox').agg(
+                        F.count('mailbox').alias('total_count'),
+                        F.countDistinct('email_address').alias("email_count")
+                        )
+lbl_adj_cnt_per_email = lbl_adj.groupBy('email_address', 'mailbox', 'label').count()
+email_to_lbl = (lbl_adj_cnt_per_email
+                .join(lbl_adj_cnt_per_mailbox, 'mailbox', 'inner')
+                .withColumn('fraction', F.col('count')/F.col('total_count'))
+                .orderBy(['mailbox', 'fraction'], ascending=False)
+                )
+
+email_to_lbl.filter("email_count > 1").show(20)
+# %%
+email_to_lbl.write.csv("/Users/tonpoppe/Downloads/email_to_lbl.csv", sep='\t')
+
+# %%
+LBL_PATH = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/email_to_lbl.csv'
+email_lbls = pd.read_csv(LBL_PATH, sep=',')
+email_lbls_df = (spark.createDataFrame(email_lbls)
+                .filter("isCorrect = 1")
+)
+# %% internal edges
+
+edges = enron.edges
+nodes = enron.nodes
+tmp = (edges
+        .join(nodes.select(F.col('email_address').alias('source')), 'source', 'inner')
+        .join(nodes.select(F.col('email_address').alias('target')), 'target', 'inner')
+)
+
+tmp.show(20, truncate=False)
+# %%
+emails = enron.email
+res = emails.filter("from_address = 'anita.fam@enron.com' and recipient = 'janice.moore@enron.com'")
+
+#%% print distribution
+nodes = enron.nodes.filter("isCore = 1").toPandas()
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(10,70))
+attr = [c for c in nodes.columns if c.startswith("attr")]
+
+for i, a in enumerate(attr):
+        ax = fig.add_subplot(len(attr), 1, i+1)
+        ax.hist(nodes[a])
+        ax.set_title(f"attr {a}")
+
+plt.xscale('log') 
+#%%
+
+G = enron.G_sub
+
+G.nodes[0]
+# %%
+list(G.edges(data=True))[0]
 # %%

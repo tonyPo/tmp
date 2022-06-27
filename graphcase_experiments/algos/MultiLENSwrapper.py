@@ -12,6 +12,11 @@ class MultilensWrapper(BaseWrapper):
         '--L': 2,
         '--base': 2
     }
+    ENRON_PARAMS = {
+        '--dim': 128,
+        '--L': 2,
+        '--base': 2
+    }
     def __init__(self, G, **kwargs):
         self.params = {}
         for k, v in kwargs.items():

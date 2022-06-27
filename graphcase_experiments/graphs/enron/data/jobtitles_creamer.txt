@@ -1,5 +1,5 @@
 name	lower	position	group	shortname	email	avg_time	response_cnt	cliques	RCS	WCS	Degree	Btw	Hubs	avg_dist	CC	Score
-Liz Taylor	liz taylor	Assistant  to president & COO	Manager	#N/A	40.99	27.92	2.58	100	89.73	70.16	100	100	100	0	12.15	63.12
+Liz Taylor	liz taylor	Assistant  to president & COO	Manager	whalley-l	40.99	27.92	2.58	100	89.73	70.16	100	100	100	0	12.15	63.12
 Louise Kitchen	louise kitchen	"President, Enron online"	CEOs-President	kitchen-l	59.2	27.74	21.02	99.17	100	77.86	71.64	28.68	86.31	11.65	20.82	60.35
 Sally Beck	sally beck	Chief operating officer	CEOs-President	beck-s	26.12	37.4	4.66	78.51	77.14	61.9	88.06	56.99	90.43	7.63	13.93	52.17
 Kenneth Lay	kenneth lay	"CEO, chairman"	CEOs-President	lay-k	11.73	53.9	0.69	80.17	91.72	74.32	74.63	38.82	88.04	10.04	18.7	50.65
@@ -32,7 +32,7 @@ Rosalee Fleming	rosalee fleming	Employee	Employee	#N/A	19.13	33.14	1.89	8.26	35.
 Phillip Allen	phillip allen	Managing director trading	Managing Director	allen-p	13.11	6.32	0.44	32.23	30.33	21.85	23.88	1.69	44.88	28.51	50.98	24.14
 Stanley Horton	stanley horton	"President, Enron gas pipeline"	CEOs-President	horton-s	9.33	29.32	1.01	7.44	39.89	39.72	23.88	7.03	33.12	30.52	50.98	23.69
 Tracy Geaccone	tracy geaccone	Sr. Director Consolidations ETS	Director	geaccone-t	14.24	13.77	11.71	3.31	23.76	23.83	14.93	0.23	9.76	74.7	83.33	23.61
-Stephanie Panus	stephanie panus	Employee	Employee	panus-s	43.37	36.02	28.51	23.97	9.37	5.77	22.39	3.96	17.1	47.79	38.24	23.59
+Stephanie Panus	stephanie panus	Employee	Employee	phanis-s	43.37	36.02	28.51	23.97	9.37	5.77	22.39	3.96	17.1	47.79	38.24	23.59
 Mark McConnell	mark mcconnell	"Manager, TW_"	Manager	mcconnell-m	16.12	29.14	7.3	2.48	23.76	23.9	14.93	0.18	7.11	77.51	87.88	23.58
 Mark Haedicke	mark haedicke	"Managing director, legal"	Managing Director	haedicke-m	9.42	21.91	1.83	23.97	30.96	28.47	31.34	10.52	37.91	25.3	35.97	23.29
 Jeffrey Skilling	jeffrey skilling	Enron President & COO	CEOs-President	skilling-j	3.49	15.85	0.57	9.09	39.27	38.18	17.91	0.6	34.72	32.93	63.74	23.04
@@ -95,7 +95,7 @@ Chris Dorland	chris dorland	Manager	Manager	dorland-c	4.31	11.92	0.76	22.31	5.71
 Doug Gilbert- smith	doug gilbert- smith	Director	Director	gilbertsmith-d	5.45	26.98	1.26	10.74	2.92	1.31	14.93	0.87	28.19	38.55	46.97	13.71
 Theresa Staab	theresa staab	Employee	Employee	staab-t	3.95	42.65	2.01	0.83	0.31	0.15	4.48	0.06	5.14	69.48	80	13.7
 Dan Hyvl	dan hyvl	Employee	Employee	hyvl-d	9.37	26.89	5.41	4.96	1.36	0.77	10.45	1.13	9.32	60.64	52.78	13.64
-Bill Williams	bill williams	Trader analyst	Trader	#N/A	8.17	40.95	1.38	7.44	2.67	1.32	17.91	5.23	4.71	68.27	32.97	13.36
+Bill Williams	bill williams	Trader analyst	Trader	williams-w3	8.17	40.95	1.38	7.44	2.67	1.32	17.91	5.23	4.71	68.27	32.97	13.36
 Michelle Cash	michelle cash	Gen counsel assistant	attorney-legal asst.	cash-m	2.77	34.06	0.82	5.79	3.41	2.13	10.45	0.34	14.94	54.22	58.33	13.27
 Paul Lucci	paul lucci	Director	Director	lucci-p	5.57	20.98	3.02	3.31	1.8	1.1	10.45	0.43	13.72	49.8	63.89	13.19
 Dutch Quigley	dutch quigley	Trader	Trader	quigley-d	10.05	21.56	2.52	7.44	2.23	1.2	14.93	1.23	23.73	37.75	42.42	13.08
@@ -116,7 +116,7 @@ Andrew Lewis	andrew lewis	"Director, trader"	Director	lewis-a	1.23	NA	0	1.65	0.4
 John Zufferli	john zufferli	VP	vice president	zufferli-j	3.93	14.93	0.25	9.09	1.67	0.68	8.96	0.35	19.68	40.96	53.57	12.15
 Vladi Pimenov	vladi pimenov	Trading associate	Trader	pimenov-v	1.49	31.33	0.19	4.13	2.42	1.25	5.97	0.12	15.92	44.58	66.67	12.1
 Jim Schwieger	jim schwieger	VP	vice president	schwieger-j	3.81	36.44	0.63	10.74	5.33	3.13	11.94	0.72	18.47	42.17	35.56	12.04
-Sean Crandall	sean crandall	"Director, trader"	Director	crandall-s	4.6	32.22	0.38	9.09	2.85	1.32	10.45	2.25	8.69	44.58	52.78	11.91
+Sean Crandall	sean crandall	"Director, trader"	Director	crandell-s	4.6	32.22	0.38	9.09	2.85	1.32	10.45	2.25	8.69	44.58	52.78	11.91
 Holden Salisbury	holden salisbury	Cash analyst	specialist	salisbury-h	2.63	17.94	0.25	3.31	1.05	0.52	8.96	3.68	6.79	49.8	64.29	11.82
 Scott Hendrickson	scott hendrickson	Trader _	Trader	hendrickson-s	4.02	27.61	0.38	1.65	0.31	0.09	2.99	0.12	9.12	56.63	66.67	11.75
 Larry Campbell	larry campbell	Senior specialist	specialist	campbell-l	0.22	NA	0	0	0.06	0.01	1.49	0.03	2.83	74.7	66.67	11.73
@@ -125,7 +125,7 @@ Mike Carson	mike carson	Employee	Employee	carson-m	2.14	10.62	0.06	6.61	1.67	0.7
 Judy Townsend	judy townsend	Trader	Trader	townsend-j	7.23	19.73	0.31	0.83	0.56	0.34	2.99	0.24	9.77	49	66.67	11.49
 John Hodge	john hodge	Managing director	Managing Director	hodge-j	2.22	37.51	0.38	1.65	0.5	0.2	4.48	0.36	6.81	61.85	60	11.48
 Mike Swerzbin	mike swerzbin	VP trading	vice president	swerzbin-m	3.2	22.23	0.06	8.26	2.17	0.94	13.43	4.22	22.09	34.14	38.18	11.39
-Robin Rodrigue	robin rodrigue	Analyst_	specialist	rodrigue-r	0.65	35.86	0.13	0.83	0.25	0.12	4.48	0.18	10.52	51	70	11.37
+Robin Rodrigue	robin rodrigue	Analyst_	specialist	rodrique-r	0.65	35.86	0.13	0.83	0.25	0.12	4.48	0.18	10.52	51	70	11.37
 Matt Motley	matt motley	Director	Director	motley-m	1.61	NA	0	4.13	1.24	0.49	5.97	0.7	7.32	60.24	53.33	11.34
 Juan Hernandez	juan hernandez	Senior specialist logistics	specialist	hernandez-j	2.29	40.86	0.5	3.31	0.56	0.15	5.97	0.17	12.35	48.59	60	11.3
 Benjamin Rogers	benjamin rogers	Associate	attorney-legal asst.	rogers-b	1.42	5.31	0.5	2.48	0.56	0.22	4.48	0.12	11.43	52.61	60	11.11
@@ -150,3 +150,6 @@ Tom Donohoe	tom donohoe	Employee	Employee	donohoe-t	0.19	23.12	0.13	0.83	0.03	0.
 Monika Causholli	monika causholli	Analyst risk management	Manager	causholli-m	0.17	NA	0	0.83	0.03	0	0	0.16	4.51	59.44	0	5.55
 Joe Quenet	joe quenet	Trader	Trader	quenet-j	0.34	NA	0	1.65	0.09	0.01	0	0.02	5.56	55.42	0	5.43
 Albert Meyers	albert meyers	"Specialist, trader"	Trader	meyers-a	0.34	14.55	0.13	0.83	0	0	0	0.27	4.75	55.42	0	5.25
+		Director	Director	fischer-m	26.52											
+Stephanie Panus	stephanie panus	Employee	Employee	panus-s												
+steven merris	steven merris	Employee	Employee	merriss-s												

@@ -58,6 +58,7 @@ class EmailInfo(object):
         self.content_type = msg.get_content_type()
         self.x_origin = msg.get('X-Origin')
         self.x_folder = msg.get('X-Folder')
+        self.mail_id = msg.get('date') + msg.get('from') + msg.get('to') + msg.get('cc') + msg.get('subject')
 
      
 
@@ -130,13 +131,13 @@ class EmailWalker2(object):
 if __name__ == '__main__':
     # root = '/Users/tonpoppe/Downloads/testenron/king-j'
     # root = '/Users/tonpoppe/Downloads/testenron/'
-    root = '/Users/tonpoppe/Downloads/maildir/'
+    root = '/Users/tonpoppe/Downloads/maildir3/'
     emailWalker = EmailWalker2(root)
     tic = time.process_time()
     pdf = emailWalker.parse_mails(verbose=False)
     toc = time.process_time()
     print(f"processing time is {toc-tic}")
-    pdf.to_parquet('/Users/tonpoppe/Downloads/enron_parsed_all')
+    pdf.to_parquet('/Users/tonpoppe/Downloads/enron_parsed_all3')
    
 
 
