@@ -23,6 +23,9 @@ class EmailInfo(object):
     def __init__(self, fname, folder):
         self.folder = folder
         self.fname = fname
+        if fname == '/Users/tonpoppe/Downloads/maildir3/hernandez-j/sent_items/1.':
+            print("check")
+
         with open(fname, 'rb') as fp:
             msg = BytesParser(policy=policy.default).parse(fp)
         self.load(msg)
@@ -58,7 +61,7 @@ class EmailInfo(object):
         self.content_type = msg.get_content_type()
         self.x_origin = msg.get('X-Origin')
         self.x_folder = msg.get('X-Folder')
-        self.mail_id = msg.get('date') + msg.get('from') + msg.get('to') + msg.get('cc') + msg.get('subject')
+        self.mail_id = str(msg.get('date') or "") + str(msg.get('from') or '') + str(msg.get('to') or '') + str(msg.get('cc') or '') + str(msg.get('subject') or '')
 
      
 
@@ -129,8 +132,7 @@ class EmailWalker2(object):
 
 
 if __name__ == '__main__':
-    # root = '/Users/tonpoppe/Downloads/testenron/king-j'
-    # root = '/Users/tonpoppe/Downloads/testenron/'
+    # root = '/Users/tonpoppe/Downloads/maildir3/hernandez-j/'
     root = '/Users/tonpoppe/Downloads/maildir3/'
     emailWalker = EmailWalker2(root)
     tic = time.process_time()

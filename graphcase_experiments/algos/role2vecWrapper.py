@@ -20,6 +20,8 @@ class Role2VecWrapper(BaseWrapper):
     LOCATION = 'graphcase_experiments/algos/processing_files/role2vec/'
     COMP_PARAMS ={
     }
+    ENRON_PARAMS = COMP_PARAMS
+    
     def __init__(self, G, **kwargs):
         self.params = {}
         for k, v in kwargs.items():

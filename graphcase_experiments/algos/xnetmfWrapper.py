@@ -28,6 +28,7 @@ class XnetmfWrapper(BaseWrapper):
         'gammastruc': 1, 
         'gammaattr': 1
     }
+    ENRON_PARAMS = COMP_PARAMS
     def __init__(self, G, **kwargs):
         self.params = kwargs
 
@@ -70,7 +71,7 @@ class XnetmfWrapperWithGraphTransformation(XnetmfWrapper):
         'gammastruc': 1, 
         'gammaattr': 1
     }
-
+    ENRON_PARAMS = COMP_PARAMS
     def calculate_embeddings(self, G):
         G_undirected = to_undirected_node_attributes_only_graph(G, verbose=False)
         return super().calculate_embeddings(G_undirected)

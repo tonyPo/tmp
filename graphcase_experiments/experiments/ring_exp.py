@@ -103,7 +103,7 @@ def cluster_test(tbl):
     return {'ami': res, 'clusters': tbl['label_id']}
 
 
-def classify_svm(tbl):
+def classify_svm(tbl, test_size = 0.75):
     # set parameters for grid search
     test_size = 0.75
     param_grid = {
@@ -166,7 +166,7 @@ def ring_exp_all(params):
         return res_df
 
 
-def proces_graph(graph, params, algo=GraphAutoEncoder):
+def proces_graph(graph, params, algo=GraphAutoEncoder, test_size = 0.75):
     res = {}
     _, tbl = calculate_graphcase_embedding(
             graph, PATH, params=params, verbose=False, algo=algo

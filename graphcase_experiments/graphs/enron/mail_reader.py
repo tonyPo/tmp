@@ -7,9 +7,11 @@ from pyspark.ml.functions import vector_to_array
 from pyspark.sql import functions as F
 import networkx as nx
 
+
 conf = SparkConf().setAppName('appName').setMaster('local')
 sc = SparkContext(conf=conf)
 spark = SparkSession(sc)
+spark.conf.set("spark.sql.debug.maxToStringFields", 1000)
 
 
 class Enron_to_graph:
@@ -17,9 +19,10 @@ class Enron_to_graph:
     def __init__(self, path):
         self.df = spark.read.format('parquet').load(path)  # load emails
         self.lbl = self.get_labels()  # load label and mailbox info
-        self.email = self.extract_individual_edges(self.df) 
-        self.email = self.update_email_address(self.email)
-        self.nodes = self.extract_nodes(self.email)
+        self.email_raw= self.extract_individual_edges(self.df) 
+        self.email = self.update_email_address(self.email_raw)
+        self.email = self.dedup_email(self.email)
+        self.nodes_raw = self.extract_nodes(self.email)
         self.add_labels()
         self.edges = self.extract_edges(self.email)
         self.nodes_norm = self.normalise_nodes()
@@ -27,7 +30,9 @@ class Enron_to_graph:
         self.G, self.G_sub = self.create_graph()
 
     def extract_individual_edges(self, df):
-        df = df.dropDuplicates(['mail_id'])
+        df = (df
+            .withColumn('mail_id', F.regexp_replace(F.col("mail_id"), "[^A-Z0-9_]", ""))
+        )
         cols =df.columns
         # explode from
         df = (df.select(F.explode("from_address"), *cols)
@@ -83,11 +88,11 @@ class Enron_to_graph:
                     .withColumnRenamed('recipient', 'email_address')
                 )
         # from side
-        from_nodes = (df.select('message_id', 'email_size', 'from_address')
+        from_nodes = (df.select('mail_id', 'email_size', 'from_address')
                     .dropDuplicates()
                     .groupBy('from_address').agg(
                     F.sum('email_size').alias("attr_sent_size"), 
-                    F.count('message_id').alias("attr_cnt_send"), 
+                    F.count('mail_id').alias("attr_cnt_send"), 
                     )
                     .withColumnRenamed('from_address', 'email_address')
                 )
@@ -98,6 +103,27 @@ class Enron_to_graph:
                         .fillna(0)
         )
         return nodes
+
+    def dedup_email(self, df):
+        df = (df
+            .select('recipient', 
+                    'from_address', 
+                    'email_size', 
+                    'to_address',
+                    'cnt_to',
+                    'cc_address',
+                    'cnt_cc',
+                    'bcc_address',
+                    'cnt_bcc',
+                    'content_type',
+                    'mail_id',
+                    'is_to',
+                    'is_cc',
+                    'is_bcc')
+            .dropDuplicates()
+        )
+        return df
+
 
     def update_email_address(self, df):
         ''' combine multiple email address related to same mail box'''   
@@ -127,7 +153,7 @@ class Enron_to_graph:
             .dropDuplicates() 
             .withColumnRenamed("node_level", 'email_address')
         )
-        self.nodes = (self.nodes.join(lbls, 'email_address', 'left')
+        self.nodes = (self.nodes_raw.join(lbls, 'email_address', 'left')
             .fillna("no_label", subset='label')
             .withColumnRenamed('isCorrect', 'isCore')
             .fillna(0, subset='isCore')
@@ -152,6 +178,7 @@ class Enron_to_graph:
         email_lbls = pd.read_csv(Enron_to_graph.LBL_PATH, sep=',')
         email_lbls_df = (spark.createDataFrame(email_lbls)
                         .filter("isCorrect = 1")
+                        .withColumn("label", F.lower('label'))
         )
         return email_lbls_df
 
@@ -229,6 +256,7 @@ if __name__ == '__main__':
     enron = Enron_to_graph(enron_path)
     nx.write_gpickle(enron.G, graph_path)
     nx.write_gpickle(enron.G_sub, sub_graph_path)
+    print("finished")
 
 
 def create_email_to_lbl_mapping():
@@ -241,23 +269,25 @@ def create_email_to_lbl_mapping():
     we have done a manual check on feasibility by looking at the fraction and name information.
     Below the code for creating this mapping
     """
-    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all2"  #all
+    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3"  #all
     enron = Enron_to_graph(enron_path)
 
     # load mapping from mailbox to label (group)
-    lbls = pd.read_csv(Enron_to_graph.LBL_PATH, sep='\t')
+    LBL_PATH = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/jobtitles_creamer.txt'
+    lbls = pd.read_csv(LBL_PATH, sep='\t')
     lbls['shortname'] = lbls['shortname'].astype(str)
     lbl_df = (spark.createDataFrame(lbls[['shortname', 'group']])
-                        .withColumnRenamed('shortname', 'mailbox')
+                        .withColumn('mailbox', F.lower('shortname'))
             )
 
     # retrieve the email addresses + count used in the sent folders
-    lbl_adj = (enron.email.filter("folder like '%sent%'")
+    lbl_adj = (enron.df.filter("folder like '%sent%'")
                 .select("from_address", 'fname')
+                .dropDuplicates()
                 .withColumn("fname_last", F.regexp_extract(F.col('fname'), '(?<=Downloads/)(.)*', 0))
                 .withColumn("mailbox", F.lower(F.split(F.col('fname_last'), '/').getItem(1)))
-                .join(lbl_df, 'mailbox', 'left')
-                .withColumnRenamed("from_address", 'email_address')
+                .join(lbl_df, 'mailbox', 'outer')
+                .withColumn('email_address', F.col('from_address').getItem(0))
                 .withColumnRenamed('group', 'label')
             ) 
 
@@ -273,6 +303,4 @@ def create_email_to_lbl_mapping():
                     .orderBy(['mailbox', 'fraction'], ascending=False)
                     )
 
-    # email_to_lbl.filter("email_count > 1").show(20)
-    # %%
-    email_to_lbl.write.csv("/Users/tonpoppe/Downloads/email_to_lbl.csv", sep='\t')
+    email_to_lbl.write.csv("/Users/tonpoppe/Downloads/email_to_lbl.csv", sep='\t', mode='overwrite')

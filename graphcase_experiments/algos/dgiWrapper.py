@@ -23,6 +23,7 @@ class DGIWrapper(BaseWrapper):
         'activations': ["relu", "relu"],
         'epochs': 200
     }
+    ENRON_PARAMS = COMP_PARAMS
     def __init__(self, G, **kwargs):
         self.G_stellar = self.__constructor_stellargraph(G)
 
@@ -92,6 +93,7 @@ class DGIWrapperWithGraphTransformation(DGIWrapper):
         'epochs': 200
     }
 
+    ENRON_PARAMS = COMP_PARAMS
     def __init__(self, G, **kwargs):
         G_undirected = to_undirected_node_attributes_only_graph(G, verbose=False)
         super().__init__(G, **kwargs)

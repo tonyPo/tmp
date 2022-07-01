@@ -13,6 +13,7 @@ class DrneWrapper(BaseWrapper):
         '-s': '16',
         '--undirected': 'False'
     }
+    ENRON_PARAMS = COMP_PARAMS
     def __init__(self, G, **kwargs):
         self.params = {}
         for k, v in kwargs.items():

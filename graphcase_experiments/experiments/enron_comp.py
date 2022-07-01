@@ -22,23 +22,24 @@ PATH = 'graphcase_experiments/data/enron/'  #for the results
 SOURCE_PATH = 'graphcase_experiments/graphs/enron/data/enron_graph.pickle'  #input graph
 
 ALGO = [
-    # GraphCaseWrapper, 
+    GraphCaseWrapper, 
     MultilensWrapper,
-    # DrneWrapper,
-    # XnetmfWrapper,
-    # XnetmfWrapperWithGraphTransformation,
-    # Role2VecWrapper,
-    # DGIWrapper,
+    DrneWrapper,
+    XnetmfWrapper,
+    XnetmfWrapperWithGraphTransformation,
+    Role2VecWrapper,
+    DGIWrapper,
     # DGIWrapperWithGraphTransformation
     ]
-def calc_enron_performance(algos=ALGO, source_path=SOURCE_PATH):
+def calc_enron_performance(algos=ALGO, G=None, source_path=SOURCE_PATH, test_size = 0.75):
     mlflow.set_experiment("ring_comp_all")
-    G = nx.read_gpickle(source_path)
+    if G is None:
+        G = nx.read_gpickle(source_path)
     with mlflow.start_run():
         mlflow.log_param('algos', algos)
         res_df = pd.DataFrame(columns=['algo', 'ami','f1_macro', 'f1_micro'])
         for algo in algos:
-            algo_res = proces_graph(graph=G, params=algo.ENRON_PARAMS, algo=algo)
+            algo_res = proces_graph(graph=G, params=algo.ENRON_PARAMS, algo=algo, test_size = 0.75)
             algo_res['algo'] = algo.NAME
             res_df = res_df.append(algo_res, ignore_index=True)
         
