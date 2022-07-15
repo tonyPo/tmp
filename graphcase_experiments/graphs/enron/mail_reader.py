@@ -18,15 +18,16 @@ class Enron_to_graph:
     LBL_PATH = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/email_to_lbl.csv'
     def __init__(self, path):
         self.df = spark.read.format('parquet').load(path)  # load emails
+
         self.lbl = self.get_labels()  # load label and mailbox info
         self.email_raw= self.extract_individual_edges(self.df) 
         self.email = self.update_email_address(self.email_raw)
-        self.email = self.dedup_email(self.email)
-        self.nodes_raw = self.extract_nodes(self.email)
-        self.add_labels()
+        # self.email = self.dedup_email(self.email)
+        self.nodes = self.extract_nodes(self.email)
+        self.nodes = self.add_labels(self.nodes)
         self.edges = self.extract_edges(self.email)
-        self.nodes_norm = self.normalise_nodes()
-        self.edges_norm = self.normalise_edges()  
+        self.nodes_norm = self.normalise_nodes(self.nodes)
+        self.edges_norm = self.normalise_edges(self.edges)  
         self.G, self.G_sub = self.create_graph()
 
     def extract_individual_edges(self, df):
@@ -146,18 +147,20 @@ class Enron_to_graph:
         )
         return df
 
-    def add_labels(self): 
+    def add_labels(self, df): 
         ''' add labels to nodes  '''  
         lbls = (self.lbl
             .select('node_level', 'label', 'isCorrect')
             .dropDuplicates() 
             .withColumnRenamed("node_level", 'email_address')
         )
-        self.nodes = (self.nodes_raw.join(lbls, 'email_address', 'left')
+        df = (df.join(lbls, 'email_address', 'left')
             .fillna("no_label", subset='label')
             .withColumnRenamed('isCorrect', 'isCore')
             .fillna(0, subset='isCore')
         )
+
+        return df
 
     def extract_edges(self, df):
         edges = (df
@@ -182,11 +185,12 @@ class Enron_to_graph:
         )
         return email_lbls_df
 
-    def normalise_nodes(self):
+    def normalise_nodes(self, node_df):
         # get attribute names to normalise
-        attr = [c for c in self.nodes.columns if c.startswith("attr")]
+        df = node_df
+        attr = [c for c in df.columns if c.startswith("attr")]
         for a in attr:  # apply log scaling
-            df = self.nodes.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+            df = df.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
 
         assembler = VectorAssembler().setInputCols(attr).setOutputCol("features")
         transformed = assembler.transform(df)
@@ -199,10 +203,11 @@ class Enron_to_graph:
         scaledData = scaledData.select(["email_address", 'isCore', 'label']+[F.col('tmp')[i].alias(names[c]) for i,c in enumerate(names.keys())])
         return scaledData
 
-    def normalise_edges(self):
-        attr = [c for c in self.edges.columns if c not in ['target', 'source']]
+    def normalise_edges(self, edge_df):
+        df = edge_df
+        attr = [c for c in df.columns if c not in ['target', 'source']]
         for a in attr:  # apply log scaling
-            df = self.edges.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+            df = df.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
 
         nodes = self.nodes.filter('isCore=1')
         internals = (self.edges
@@ -250,13 +255,22 @@ if __name__ == '__main__':
     import os
     print(os.getcwd())
     # enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
-    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3"  #all 
+    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3_dedup"  #all 
     graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_graph.pickle'
     sub_graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_sub_graph.pickle'
     enron = Enron_to_graph(enron_path)
     nx.write_gpickle(enron.G, graph_path)
     nx.write_gpickle(enron.G_sub, sub_graph_path)
     print("finished")
+
+def de_duplicate_mail_ids(path):
+    df = spark.read.format('parquet').load(path)
+    df = (df
+            .withColumn('mail_id', F.regexp_replace(F.col("mail_id"), "[^A-Z0-9_]", ""))
+            .dropDuplicates(subset=False)
+            .write.format('parquet').save(path + '_dedup')
+        )
+
 
 
 def create_email_to_lbl_mapping():

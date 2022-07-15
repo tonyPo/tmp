@@ -8,16 +8,35 @@ os.chdir("../../..")
 from graphcase_experiments.graphs.enron.mail_reader import spark, Enron_to_graph
 
 
-
+#%% deduplicate mails
+# path = "/Users/tonpoppe/Downloads/enron_parsed_all3"
+# def de_duplicate_mail_ids(path):
+#     df = spark.read.format('parquet').load(path)
+#     df = (df
+#             .withColumn('mail_id', F.regexp_replace(F.col("mail_id"), "[^A-Z0-9_]", ""))
+#             .dropDuplicates(subset=['mail_id'])
+#             .write.format('parquet').save(path + '_dedup')
+#         )
+# de_duplicate_mail_ids(path)
 
 # %%
 # enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
-enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3"  #all
+enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3_dedup"  #all
 enron = Enron_to_graph(enron_path)
 #%%
 tmp_path = '/Users/tonpoppe/Downloads/'
 # enron.email.write.format('parquet').save(tmp_path + 'enron_email')
 email = spark.read.format('parquet').load(tmp_path + 'enron_email')
+#%%
+
+tmp_path = '/Users/tonpoppe/Downloads/'
+enron.nodes.write.format('parquet').save(tmp_path + 'nodes', mode='overwrite')
+nodes = spark.read.format('parquet').load(tmp_path + 'nodes')
+#%%
+tmp_path = '/Users/tonpoppe/Downloads/'
+enron.edges.write.format('parquet').save(tmp_path + 'edges', mode='overwrite')
+eedges = spark.read.format('parquet').load(tmp_path + 'edges')
+
 
 # %%
 # check for duplicate nodes
@@ -240,4 +259,86 @@ res = to_row.unionByName(cc_row, allowMissingColumns=True)
 res.filter(f"mail_id = '{mind}'").groupBy('fname').count().show(12, truncate=False)
 # %%
 
+# %%
+nodes = enodes.filter("email_address in ('scott-s', 'bass-e')").show(5, truncate=False)
+
+# %%
+
+eedges = enron.edges
+# %%
+n_bass = enodes.filter("email_address in ('bass-e')")
+counter_nodes = (enodes
+        .withColumnRenamed('email_address', 'target')
+        .withColumnRenamed('label', 'counter_label')
+)
+
+n_bass = (n_bass.join(eedges, n.email_address==eedges.source, 'inner')
+        .orderBy('weight', ascending=False)
+        # .limit(15)
+)
+
+n_bass.filter("target not like '%@%'").show(7)
+# %%
+n_scott = enodes.filter("email_address in ('scott-s')")
+counter_nodes = (enodes
+        .withColumnRenamed('email_address', 'target')
+        .withColumnRenamed('label', 'counter_label')
+)
+
+n_scott = (n_scott.join(eedges, n.email_address==eedges.source, 'inner')
+        .join(counter_nodes, 'target', 'left')
+        .orderBy('weight', ascending=False)
+
+        # .limit(15)
+)
+
+n_scott.filter("target not like '%@%'").show(7)
+#%% slecht 33 dezelfde target, met verschillende weights
+
+res = (n_bass
+    .select('target', F.col('weight').alias('bass_weight'))
+    .join(n_scott.select('target', F.col('weight').alias('scott_weight')), 'target', 'inner')
+)
+res.show(20)
+# %%
+n_trader = enodes.filter("label = 'trader'")
+counter_nodes = (enodes
+        .withColumnRenamed('email_address', 'target')
+        .withColumnRenamed('label', 'counter_label')
+)
+
+n_trader = (n_trader.join(eedges, n.email_address==eedges.source, 'inner')
+        .join(counter_nodes, 'target', 'left')
+        .select('email_address', 'label', 'counter_label', 'weight')
+
+        # .limit(15)
+)
+
+n_trader = n_trader.groupBy('email_address').pivot('counter_label').agg(
+        F.sum('weight').alias('weight'),
+        # F.count('email_address').alias('count')
+).fillna(0)
+n_trader.show(35)
+# n_trader.filter("target not like '%@%'")
+
+
+# %%
+n_trader_in = enodes.filter("label = 'trader'")
+counter_nodes = (enodes
+        .withColumnRenamed('email_address', 'source')
+        .withColumnRenamed('label', 'counter_label')
+)
+
+n_trader_in = (n_trader_in.join(eedges, n.email_address==eedges.target, 'inner')
+        .join(counter_nodes, 'source', 'left')
+        .select('email_address', 'label', 'counter_label', 'weight')
+
+        # .limit(15)
+)
+
+n_trader_in = n_trader_in.groupBy('email_address').pivot('counter_label').agg(
+        F.sum('weight').alias('weight'),
+        # F.count('email_address').alias('count')
+).fillna(0)
+n_trader_in.show(35)
 # %%

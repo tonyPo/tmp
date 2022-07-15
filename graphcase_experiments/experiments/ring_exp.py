@@ -85,14 +85,14 @@ def ring_exp(execute_grid_search=False, G=None):
 
     return (embed, G, tbl, res, params)
 
-def cluster_test(tbl):
+def cluster_test(tbl, seed=1):
     """Performs a cluster analysis on the embedding dims and check the metrics
     with 
     """
     # perfrom clustering
     n_clusters = tbl['label'].nunique()
     columns = [x for x in tbl.columns if x.startswith('embed')]
-    kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(tbl[columns].to_numpy())
+    kmeans = KMeans(n_clusters=n_clusters, random_state=seed).fit(tbl[columns].to_numpy())
     tbl['cluster'] = kmeans.labels_
 
     # calculate the adjusted_mutual_info_score
@@ -103,9 +103,8 @@ def cluster_test(tbl):
     return {'ami': res, 'clusters': tbl['label_id']}
 
 
-def classify_svm(tbl, test_size = 0.75):
+def classify_svm(tbl, test_size = 0.75, seed=1):
     # set parameters for grid search
-    test_size = 0.75
     param_grid = {
         'C': [1, 10], 'kernel': ('linear', 'rbf')
     }
@@ -116,7 +115,7 @@ def classify_svm(tbl, test_size = 0.75):
     X = tbl[columns].to_numpy()
     y = tbl['label_id'].to_numpy()
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=42, stratify=y
+        X, y, test_size=test_size, random_state=seed, stratify=y
     )
 
     # execute gridsearch and train classifier
@@ -166,19 +165,19 @@ def ring_exp_all(params):
         return res_df
 
 
-def proces_graph(graph, params, algo=GraphAutoEncoder, test_size = 0.75):
+def proces_graph(graph, params, algo=GraphAutoEncoder, test_size = 0.75, seed=1):
     res = {}
     _, tbl = calculate_graphcase_embedding(
             graph, PATH, params=params, verbose=False, algo=algo
         )
     
     #run clustering
-    cluster_res = cluster_test(tbl)
+    cluster_res = cluster_test(tbl, seed=seed)
     res['ami'] = cluster_res['ami']
     mlflow.log_metric('clustering_ami', cluster_res['ami'])
 
     #run classification
-    svm_res = classify_svm(tbl)
+    svm_res = classify_svm(tbl, seed=seed, test_size=test_size)
     res['f1_macro'] = svm_res['f1_macro']
     res['f1_micro'] = svm_res['f1_micro']
     mlflow.log_metric('svm_f1_macro', res['f1_macro'])

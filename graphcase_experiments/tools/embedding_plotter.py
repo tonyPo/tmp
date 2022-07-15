@@ -94,7 +94,7 @@ def plotly_embedding(pdf, path=None):
     color_cnt = color_tbl.shape[0]
 
     # plot embeding
-    fig = px.scatter(embed_df, x="embed1", y="embed2", color="label", hover_data=['id', 'label'])
+    fig = px.scatter(embed_df, x="embed1", y="embed2", color="label", hover_data=['id', 'label', 'label_id'])
 
 
     # add legend and title 
@@ -105,3 +105,29 @@ def plotly_embedding(pdf, path=None):
     # ax.set_ylabel("dim2")
     # plt.title("Barbel graph: node coler represents the node role, label = node id")
     fig.show()
+
+
+def plot_graph(G):
+    # plt.subplot(111)
+    plt.figure(figsize=(20,20))
+    # pos = nx.kamada_kawai_layout(G)
+    pos = nx.nx_pydot.graphviz_layout(G, prog='neato')
+    labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
+    label_dic = {n:i for i,n in enumerate(set(labels))}
+    color = [label_dic[x] for _,x in nx.get_node_attributes(G,'label').items()]
+    edges,edge_weights = zip(*nx.get_edge_attributes(G,'weight').items())
+    options = {
+        'node_color': color,
+        'node_size': 100,
+        'edgelist':edges, 
+        'edge_color':edge_weights,
+        'width': 1,
+        'with_labels': False,
+        'pos': pos,
+        'edge_cmap': plt.cm.prism,
+        'cmap': plt.cm.tab20,
+        'arrowsize': 10
+    }
+    nx.draw_networkx(G, **options)
+    # 
+    plt.show()
