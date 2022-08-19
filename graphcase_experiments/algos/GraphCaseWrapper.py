@@ -30,8 +30,8 @@ class GraphCaseWrapper(GraphAutoEncoder):
         'useBN': True,
         'dropout': 0.09859650451427784,
         'support_size': [7, 7],
-        'dims': [3, 128, 128, 128],
-        'epochs': 200,
+        'dims': [5, 128, 128, 128],
+        'epochs': 300,
     }
 
     def __init__(self, G, **kwargs):

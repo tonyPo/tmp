@@ -1,0 +1,351 @@
+mailbox,node_level,email_address,label,count,tot_count,nr_of_email_add, fraction ,isCorrect,remarks,isinferred
+zufferli-j,zufferli-j,john.zufferli@enron.com,vice president,405,405,1,1,1,0,0
+zipper-a,zipper-a,andy.zipper@enron.com,vice president,428,428,1,1,1,0,0
+kean-s,kean-s,steven.kean@enron.com,Vice President,2318,4480,36,0.52,1,overschrijven op bases van labels bestand,0
+kean-s,kean-s,maureen.mcvicker@enron.com,Vice President,853,4480,36,0.19,0,overschrijven op bases van labels bestand,0
+wolfe-j,wolfe-j,jason.wolfe@enron.com,Trader,221,221,1,1,1,0,1
+williams-w3,williams-w3,bill.williams@enron.com,Trader,1977,1977,1,1,1,0,1
+kean-s,kean-s,j..kean@enron.com,Vice President,724,4480,36,0.16,1,overschrijven op bases van labels bestand,0
+kean-s,kean-s,ginger.dernehl@enron.com,Vice President,226,4480,36,0.05,0,overschrijven op bases van labels bestand,0
+whitt-m,whitt-m,mark.whitt@enron.com,vice president,467,467,1,1,1,0,1
+kean-s,kean-s,janet.butler@enron.com,Vice President,105,4480,36,0.02,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,vanessa.groscrand@enron.com,Vice President,41,4480,36,0.01,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,rob.bradley@enron.com,Vice President,29,4480,36,0.01,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,ursula.brenner@enron.com,Vice President,27,4480,36,0.01,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,miyung.buster@enron.com,Vice President,22,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,mark.schroeder@enron.com,Vice President,14,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,andrew.miles@enron.com,Vice President,13,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,simon.shih@enron.com,Vice President,13,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,jeff.dasovich@enron.com,Vice President,13,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,mark.palmer@enron.com,Vice President,10,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,maureen.raymond@enron.com,Vice President,9,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,alhamd.alkhayat@enron.com,Vice President,6,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,lexi.elliott@enron.com,Vice President,6,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,james.steffes@enron.com,Vice President,6,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,richard.shapiro@enron.com,Vice President,6,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,jeffrey.keeler@enron.com,Vice President,5,4480,36,0,0,overschrijven op bases van labels bestand,0
+watson-k,watson-k,kimberly.watson@enron.com,Director,1580,1580,1,1,1,0,1
+kean-s,kean-s,sergai.daigre@enron.com,Vice President,5,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,lysa.tracy@enron.com,Vice President,3,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,linda.robertson@enron.com,Vice President,3,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,sgaines1@swbell.net,Vice President,3,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,katrina.burton@enron.com,Vice President,3,4480,36,0,0,overschrijven op bases van labels bestand,0
+townsend-j,townsend-j,judy.townsend@enron.com,Employee,92,92,1,1,1,overschrijven op bases van labels bestand,0
+kean-s,kean-s,elizabeth.linnell@enron.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,lora.sullivan@enron.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,terry.west@enron.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,jeff.gray@enron.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,yorleni.mendez@enron.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,llaidlaw@cera.com,Vice President,2,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,carolyn.cooney@enron.com,Vice President,1,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,michael.grimes@enron.com,Vice President,1,4480,36,0,0,overschrijven op bases van labels bestand,0
+symes-k,symes-k,kate.symes@enron.com,Employee,3804,3804,1,1,1,overschrijven op bases van labels bestand,0
+swerzbin-m,swerzbin-m,mike.swerzbin@enron.com,Trader,114,114,1,1,1,overschrijven op bases van labels bestand,0
+kean-s,kean-s,gwyn.koepke@enron.com,Vice President,1,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,pges@dynegy.com,Vice President,1,4480,36,0,0,overschrijven op bases van labels bestand,0
+kean-s,kean-s,margaret.carson@enron.com,Vice President,1,4480,36,0,0,overschrijven op bases van labels bestand,0
+kaminski-v,kaminski-v,vince.kaminski@enron.com,Manager,12331,14312,19,0.86,1,0,0
+kaminski-v,kaminski-v,j.kaminski@enron.com,Manager,1602,14312,19,0.11,0,0,0
+kaminski-v,kaminski-v,kaminski@enron.com,Manager,336,14312,19,0.02,1,0,0
+kaminski-v,kaminski-v,stinson.gibner@enron.com,Manager,6,14312,19,0,0,0,0
+kaminski-v,kaminski-v,maureen.raymond@enron.com,Manager,6,14312,19,0,0,0,0
+kaminski-v,kaminski-v,j..kaminski@enron.com,Manager,4,14312,19,0,1,0,0
+stepenovitch-j,stepenovitch-j,joe.stepenovitch@enron.com,vice president,83,83,1,1,1,overschrijven op bases van labels bestand,0
+kaminski-v,kaminski-v,alhamd.alkhayat@enron.com,Manager,4,14312,19,0,0,0,0
+kaminski-v,kaminski-v,steven.kean@enron.com,Manager,4,14312,19,0,0,0,0
+stclair-c,stclair-c,carol.clair@enron.com,attorney-legal asst.,2261,2261,1,1,1,0,0
+staab-t,staab-t,theresa.staab@enron.com,Employee,144,144,1,1,1,0,0
+south-s,south-s,steven.south@enron.com,Trader,42,42,1,1,1,0,1
+solberg-g,solberg-g,geir.solberg@enron.com,Employee,73,73,1,1,1,overschrijven op bases van labels bestand,0
+smith-m,smith-m,matt.smith@enron.com,Trader,825,825,1,1,1,0,1
+slinger-r,slinger-r,ryan.slinger@enron.com,Trader,97,97,1,1,1,0,0
+kaminski-v,kaminski-v,vasant.shanbhogue@enron.com,Manager,3,14312,19,0,0,0,0
+kaminski-v,kaminski-v,anita.dupont@enron.com,Manager,3,14312,19,0,0,0,0
+kaminski-v,kaminski-v,rob.bradley@enron.com,Manager,3,14312,19,0,0,0,0
+kaminski-v,kaminski-v,alla.gil@ssmb.com,Manager,2,14312,19,0,0,0,0
+kaminski-v,kaminski-v,sevil.yaman@enron.com,Manager,2,14312,19,0,0,0,0
+kaminski-v,kaminski-v,grant.masson@enron.com,Manager,1,14312,19,0,0,0,0
+kaminski-v,kaminski-v,pinnamaneni.krishnarao@enron.com,Manager,1,14312,19,0,0,0,0
+kaminski-v,kaminski-v,benjamin.rogers@enron.com,Manager,1,14312,19,0,0,0,0
+kaminski-v,kaminski-v,rob.wilson@enron.com,Manager,1,14312,19,0,0,0,0
+kaminski-v,kaminski-v,shirley.crenshaw@enron.com,Manager,1,14312,19,0,0,0,0
+kaminski-v,kaminski-v,vkaminski@aol.com,Manager,1,14312,19,0,0,0,0
+mcconnell-m,mcconnell-m,mike.mcconnell@enron.com,Manager,2783,3311,11,0.84,1,0,1
+mcconnell-m,mcconnell-m,cathy.phillips@enron.com,Manager,307,3311,11,0.09,0,0,1
+mcconnell-m,mcconnell-m,mark.mcconnell@enron.com,Manager,163,3311,11,0.05,0,0,1
+mcconnell-m,mcconnell-m,brenda.johnston@enron.com,Manager,31,3311,11,0.01,0,0,1
+mcconnell-m,mcconnell-m,julie.ferrara@enron.com,Manager,10,3311,11,0,0,0,1
+mcconnell-m,mcconnell-m,jason.rios@enron.com,Manager,7,3311,11,0,0,0,1
+mcconnell-m,mcconnell-m,jonathon.pielop@enron.com,Manager,5,3311,11,0,0,0,1
+mcconnell-m,mcconnell-m,louise.kitchen@enron.com,Manager,2,3311,11,0,0,0,1
+mcconnell-m,mcconnell-m,alhamd.alkhayat@enron.com,Manager,1,3311,11,0,0,0,1
+schwieger-j,schwieger-j,jim.schwieger@enron.com,Trader,218,218,1,1,1,overschrijven op bases van labels bestand,0
+schoolcraft-d,schoolcraft-d,darrell.schoolcraft@enron.com,Manager,2239,2239,1,1,1,0,1
+scholtes-d,scholtes-d,diana.scholtes@enron.com,Trader,421,421,1,1,1,0,0
+mcconnell-m,mcconnell-m,rick.bergsieker@enron.com,Manager,1,3311,11,0,0,0,1
+mcconnell-m,mcconnell-m,mark.koenig@enron.com,Manager,1,3311,11,0,0,0,1
+white-s,white-s,w..white@enron.com,Director,901,909,9,0.99,1,0,1
+sanchez-m,sanchez-m,monique.sanchez@enron.com,Trader,177,177,1,1,1,0,1
+salisbury-h,salisbury-h,holden.salisbury@enron.com,specialist,192,192,1,1,1,0,0
+saibi-e,saibi-e,eric.saibi@enron.com,Trader,43,43,1,1,1,0,0
+white-s,white-s,terry.sanvido@enron.com,Director,1,909,9,0,0,0,1
+white-s,white-s,scotty.gilbert@enron.com,Director,1,909,9,0,0,0,1
+ruscitti-k,ruscitti-k,kevin.ruscitti@enron.com,Trader,407,407,1,1,1,0,0
+white-s,white-s,c..gossett@enron.com,Director,1,909,9,0,0,0,1
+white-s,white-s,no.address@enron.com,Director,1,909,9,0,0,0,1
+rodrique-r,rodrique-r,robin.rodrigue@enron.com,specialist,1904,1904,1,1,1,0,1
+ring-r,ring-r,richard.ring@enron.com,Employee,71,71,1,1,1,0,0
+ring-a,ring-a,andrea.ring@enron.com,Trader,308,308,1,1,1,0,1
+richey-c,richey-c,cooper.richey@enron.com,Manager,379,379,1,1,1,0,0
+reitmeyer-j,reitmeyer-j,jay.reitmeyer@enron.com,Employee,63,63,1,1,1,overschrijven op bases van labels bestand,0
+rapp-b,rapp-b,bill.rapp@enron.com,Attorney-legal asst.,307,307,1,1,1,0,1
+white-s,white-s,sonia.hennessy@enron.com,Director,1,909,9,0,0,0,1
+white-s,white-s,greg.couch@enron.com,Director,1,909,9,0,0,0,1
+quenet-j,quenet-j,joe.quenet@enron.com,Trader,146,146,1,1,1,0,0
+white-s,white-s,torrey.moorer@enron.com,Director,1,909,9,0,0,0,1
+white-s,white-s,carl.tricoli@enron.com,Director,1,909,9,0,0,0,1
+presto-k,presto-k,m..presto@enron.com,vice president,1219,1558,9,0.78,1,0,0
+presto-k,presto-k,kevin.presto@enron.com,vice president,332,1558,9,0.21,1,0,0
+presto-k,presto-k,david.forster@enron.com,vice president,1,1558,9,0,0,0,0
+presto-k,presto-k,debra.bailey@enron.com,vice president,1,1558,9,0,0,0,0
+presto-k,presto-k,louise.kitchen@enron.com,vice president,1,1558,9,0,0,0,0
+presto-k,presto-k,rogers.herndon@enron.com,vice president,1,1558,9,0,0,0,0
+presto-k,presto-k,no.address@enron.com,vice president,1,1558,9,0,0,0,0
+platter-p,platter-p,phillip.platter@enron.com,specialist,143,143,1,1,1,0,0
+pimenov-v,pimenov-v,vladi.pimenov@enron.com,Trader,99,99,1,1,1,0,1
+phanis-s,panus-s,stephanie.panus@enron.com,Employee,11,11,1,1,1,0,0
+perlingiere-d,perlingiere-d,debra.perlingiere@enron.com,attorney-legal asst.,2893,2893,1,1,1,0,1
+presto-k,presto-k,madhup.kumar@enron.com,vice president,1,1558,9,0,0,0,0
+presto-k,presto-k,40enron@enron.com,vice president,1,1558,9,0,0,0,0
+skilling-j,skilling-j,jeff.skilling@enron.com,CEOs-President,1464,2949,7,0.5,1,0,0
+parks-j,parks-j,joe.parks@enron.com,Trader,850,850,1,1,1,0,1
+panus-s,panus-s,stephanie.panus@enron.com,Employee,59,59,1,1,1,0,0
+nemec-g,nemec-g,gerald.nemec@enron.com,Attorney-legal asst.,3607,3607,1,1,1,0,1
+skilling-j,skilling-j,sherri.sera@enron.com,CEOs-President,1294,2949,7,0.44,1,0,0
+skilling-j,skilling-j,joannie.williamson@enron.com,CEOs-President,106,2949,7,0.04,0,0,0
+skilling-j,skilling-j,katherine.brown@enron.com,CEOs-President,42,2949,7,0.01,0,0,0
+motley-m,motley-m,matt.motley@enron.com,Director,14,14,1,1,1,0,0
+skilling-j,skilling-j,sherri.reinartz@enron.com,CEOs-President,41,2949,7,0.01,0,0,0
+skilling-j,skilling-j,enron.announcements@enron.com,CEOs-President,1,2949,7,0,0,0,0
+meyers-a,meyers-a,albert.meyers@enron.com,Employee,14,14,1,1,1,overschrijven op bases van labels bestand,0
+merriss-s,merriss-s,steven.merris@enron.com,Employee,3,3,1,1,1,0,1
+mclaughlin-e,mclaughlin-e,errol.mclaughlin@enron.com,Employee,1110,1110,1,1,1,overschrijven op bases van labels bestand,0
+skilling-j,skilling-j,amelia.alder@enron.com,CEOs-President,1,2949,7,0,0,0,0
+hodge-j,hodge-j,t..hodge@enron.com,Managing Director,77,238,7,0.32,1,0,0
+hodge-j,hodge-j,jeffrey.hodge@enron.com,Managing Director,76,238,7,0.32,1,0,0
+mckay-b,mckay-b,brad.mckay@enron.com,employee,145,145,1,1,1,0,0
+hodge-j,hodge-j,john.hodge@enron.com,Managing Director,51,238,7,0.21,1,0,0
+hodge-j,hodge-j,jenny.helton@enron.com,Managing Director,31,238,7,0.13,0,0,0
+hodge-j,hodge-j,suzanne.adams@enron.com,Managing Director,1,238,7,0,0,0,0
+hodge-j,hodge-j,no.address@enron.com,Managing Director,1,238,7,0,0,0,0
+hodge-j,hodge-j,cheryl.johnson@enron.com,Managing Director,1,238,7,0,0,0,0
+blair-l,blair-l,lynn.blair@enron.com,Director,4118,4168,7,0.99,1,0,1
+blair-l,blair-l,shelley.corman@enron.com,Director,20,4168,7,0,0,0,1
+blair-l,blair-l,toby.kuehl@enron.com,Director,15,4168,7,0,0,0,1
+blair-l,blair-l,maggie.matheson@enron.com,Director,7,4168,7,0,0,0,1
+blair-l,blair-l,john.buchanan@enron.com,Director,4,4168,7,0,0,0,1
+blair-l,blair-l,bradley.holmes@enron.com,Director,3,4168,7,0,0,0,1
+blair-l,blair-l,terry.kowalke@enron.com,Director,1,4168,7,0,0,0,1
+haedicke-m,haedicke-m,janette.elbertson@enron.com,Managing Director,1489,2871,6,0.52,1,0,0
+haedicke-m,haedicke-m,mark.haedicke@enron.com,Managing Director,1212,2871,6,0.42,1,0,0
+haedicke-m,haedicke-m,e..haedicke@enron.com,Managing Director,163,2871,6,0.06,1,0,0
+haedicke-m,haedicke-m,mark.e.haedicke@enron.com,Managing Director,5,2871,6,0,0,0,0
+haedicke-m,haedicke-m,sylvia.sauseda@enron.com,Managing Director,1,2871,6,0,0,0,0
+haedicke-m,haedicke-m,carol.kincannon@enron.com,Managing Director,1,2871,6,0,0,0,0
+mann-k,mann-k,kay.mann@enron.com,Employee,15202,15202,1,1,1,0,0
+sturm-f,sturm-f,fletcher.sturm@enron.com,vice president,276,471,5,0.59,1,0,0
+sturm-f,sturm-f,j..sturm@enron.com,vice president,191,471,5,0.41,1,0,0
+lucci-p,lucci-p,t..lucci@enron.com,Employee,341,341,1,1,1,overschrijven op bases van labels bestand,0
+sturm-f,sturm-f,tamara.black@enron.com,vice president,2,471,5,0,0,0,0
+sturm-f,sturm-f,casey.evans@enron.com,vice president,1,471,5,0,0,0,0
+sturm-f,sturm-f,david.forster@enron.com,vice president,1,471,5,0,0,0,0
+lavorato-j,lavorato-j,john.lavorato@enron.com,CEOs-President,1778,2799,5,0.64,1,0,0
+lavorato-j,lavorato-j,lavorato@enron.com,CEOs-President,782,2799,5,0.28,1,0,0
+lavorato-j,lavorato-j,kimberly.hillis@enron.com,CEOs-President,168,2799,5,0.06,0,0,0
+lavorato-j,lavorato-j,darin.talley@enron.com,CEOs-President,55,2799,5,0.02,0,0,0
+lavorato-j,lavorato-j,angela.mcculloch@enron.com,CEOs-President,16,2799,5,0.01,0,0,0
+linder-e,linder-e,eric.linder@enron.com,Trader,6,6,1,1,1,0,1
+lokey-t,lokey-t,teb.lokey@enron.com,Manager,372,375,4,0.99,1,0,0
+lokey-t,lokey-t,gaby.adamek@enron.com,Manager,1,375,4,0,0,0,0
+lokey-t,lokey-t,d..martin@enron.com,Manager,1,375,4,0,0,0,0
+lokey-t,lokey-t,sheila.nacey@enron.com,Manager,1,375,4,0,0,0,0
+delainey-d,delainey-d,kay.chapman@enron.com,CEOs-President,4744,9488,4,0.5,1,0,0
+delainey-d,delainey-d,david.delainey@enron.com,CEOs-President,3538,9488,4,0.37,1,0,0
+delainey-d,delainey-d,beverly.stephens@enron.com,CEOs-President,1072,9488,4,0.11,0,0,0
+delainey-d,delainey-d,w..delainey@enron.com,CEOs-President,134,9488,4,0.01,1,0,0
+allen-p,allen-p,phillip.allen@enron.com,Managing Director,1485,1837,4,0.81,1,0,1
+allen-p,allen-p,k..allen@enron.com,Managing Director,342,1837,4,0.19,1,0,1
+allen-p,allen-p,ina.rangel@enron.com,Managing Director,8,1837,4,0,0,0,1
+allen-p,allen-p,pam.butler@enron.com,Managing Director,2,1837,4,0,0,0,1
+kuykendall-t,kuykendall-t,tori.kuykendall@enron.com,Trader,641,641,1,1,1,0,0
+kitchen-l,kitchen-l,louise.kitchen@enron.com,CEOs-President,2385,2385,1,1,1,0,0
+king-j,king-j,jeff.king@enron.com,Manager,21,21,1,1,1,0,0
+weldon-c,weldon-c,v.weldon@enron.com,Trader,454,629,3,0.72,1,0,1
+weldon-c,weldon-c,charles.weldon@enron.com,Trader,174,629,3,0.28,1,0,1
+weldon-c,weldon-c,no.address@enron.com,Trader,1,629,3,0,0,0,1
+ward-k,ward-k,houston <.ward@enron.com>,Trader,918,1373,3,0.67,1,0,1
+ward-k,ward-k,kim.ward@enron.com,Trader,402,1373,3,0.29,1,0,1
+ward-k,ward-k,s..ward@enron.com,Trader,53,1373,3,0.04,1,0,1
+tholt-j,tholt-j,jane.tholt@enron.com,Vice President,528,834,3,0.63,1,overschrijven op bases van labels bestand,0
+tholt-j,tholt-j,m..tholt@enron.com,Vice President,305,834,3,0.37,1,overschrijven op bases van labels bestand,0
+tholt-j,tholt-j,no.address@enron.com,Vice President,1,834,3,0,0,overschrijven op bases van labels bestand,0
+taylor-m,taylor-m,mark.taylor@enron.com,Employee,3330,4167,3,0.8,1,overschrijven op bases van labels bestand,0
+taylor-m,taylor-m,legal <.taylor@enron.com>,Employee,781,4167,3,0.19,1,overschrijven op bases van labels bestand,0
+taylor-m,taylor-m,e.taylor@enron.com,Employee,56,4167,3,0.01,0,overschrijven op bases van labels bestand,0
+scott-s,scott-s,susan.scott@enron.com,Trader,5009,5742,3,0.87,1,0,1
+scott-s,scott-s,m..scott@enron.com,Trader,732,5742,3,0.13,1,0,1
+scott-s,scott-s,no.address@enron.com,Trader,1,5742,3,0,0,0,1
+sanders-r,sanders-r,richard.sanders@enron.com,vice president,2440,3614,3,0.68,1,0,0
+sanders-r,sanders-r,twanda.sweet@enron.com,vice president,727,3614,3,0.2,1,0,0
+sanders-r,sanders-r,b..sanders@enron.com,vice president,447,3614,3,0.12,1,0,0
+pereira-s,pereira-s,susan.pereira@enron.com,Employee,250,343,3,0.73,1,overschrijven op bases van labels bestand,0
+pereira-s,pereira-s,w..pereira@enron.com,Employee,92,343,3,0.27,1,overschrijven op bases van labels bestand,0
+pereira-s,pereira-s,click.home@enron.com,Employee,1,343,3,0,1,overschrijven op bases van labels bestand,0
+neal-s,neal-s,scott.neal@enron.com,vice president,1967,2014,3,0.98,1,0,0
+neal-s,neal-s,kimberly.brown@enron.com,vice president,46,2014,3,0.02,0,0,0
+neal-s,neal-s,pam.butler@enron.com,vice president,1,2014,3,0,0,0,0
+mckay-j,mckay-j,jonathan.mckay@enron.com,Director,394,398,3,0.99,1,0,0
+mckay-j,mckay-j,peggy.hedstrom@enron.com,Director,3,398,3,0.01,0,0,0
+mckay-j,mckay-j,no.address@enron.com,Director,1,398,3,0,0,0,0
+mccarty-d,mccarty-d,danny.mccarty@enron.com,Vice President,244,373,3,0.65,1,overschrijven op bases van labels bestand,0
+mccarty-d,mccarty-d,michael.norden@enron.com,Vice President,126,373,3,0.34,1,overschrijven op bases van labels bestand,0
+mccarty-d,mccarty-d,jane.joyce@enron.com,Vice President,3,373,3,0.01,0,overschrijven op bases van labels bestand,0
+lay-k,lay-k,kenneth.lay@enron.com,CEOs-President,1224,1977,3,0.62,1,0,0
+lay-k,lay-k,rosalee.fleming@enron.com,CEOs-President,721,1977,3,0.36,1,0,0
+lay-k,lay-k,tori.wells@enron.com,CEOs-President,32,1977,3,0.02,0,0,0
+keavey-p,keavey-p,peter.keavey@enron.com,Employee,171,207,3,0.83,1,0,0
+keavey-p,keavey-p,f..keavey@enron.com,Employee,35,207,3,0.17,1,0,0
+keavey-p,keavey-p,brian.hoskins@enron.com,Employee,1,207,3,0,0,0,0
+horton-s,horton-s,stanley.horton@enron.com,CEOs-President,1079,1917,3,0.56,1,0,0
+horton-s,horton-s,cindy.stark@enron.com,CEOs-President,810,1917,3,0.42,1,0,0
+horton-s,horton-s,horton@enron.com,CEOs-President,28,1917,3,0.01,0,0,0
+giron-d,giron-d,darron.giron@enron.com,employee,2802,3241,3,0.86,1,overschrijven op bases van labels bestand,0
+giron-d,giron-d,c..giron@enron.com,employee,436,3241,3,0.13,1,overschrijven op bases van labels bestand,0
+giron-d,giron-d,elena.chilkina@enron.com,employee,3,3241,3,0,0,overschrijven op bases van labels bestand,0
+germany-c,germany-c,chris.germany@enron.com,employee,14351,14353,3,1,1,overschrijven op bases van labels bestand,0
+germany-c,germany-c,no.address@enron.com,employee,1,14353,3,0,0,overschrijven op bases van labels bestand,0
+germany-c,germany-c,dkinney@columbiaenergygroup.com,employee,1,14353,3,0,0,overschrijven op bases van labels bestand,0
+gay-r,gay-randall,randall.gay@enron.com,attorney-legal asst.,730,1348,3,0.54,1,0,0
+gay-r,gay-rob,rob.gay@enron.com,attorney-legal asst.,602,1348,3,0.45,1,0,0
+gay-r,gay-rob,l..gay@enron.com,attorney-legal asst.,16,1348,3,0.01,1,0,0
+forney-j,forney-j,m..forney@enron.com,Manager,913,943,3,0.97,1,0,0
+forney-j,forney-j,john.forney@enron.com,Manager,29,943,3,0.03,1,0,0
+forney-j,forney-j,no.address@enron.com,Manager,1,943,3,0,0,0,0
+cash-m,cash-m,michelle.cash@enron.com,attorney-legal asst.,1823,1879,3,0.97,1,0,1
+cash-m,cash-m,twanda.sweet@enron.com,attorney-legal asst.,55,1879,3,0.03,0,0,1
+cash-m,cash-m,carol.coats@enron.com,attorney-legal asst.,1,1879,3,0,0,0,1
+campbell-l,campbell-l,larry.campbell@enron.com,specialist,2216,2285,3,0.97,1,0,1
+campbell-l,campbell-l,f..campbell@enron.com,specialist,64,2285,3,0.03,1,0,1
+campbell-l,campbell-l,rjbaker@ttu.edu,specialist,5,2285,3,0,0,0,1
+brawner-s,brawner-s,sandra.brawner@enron.com,Director,295,362,3,0.81,1,0,0
+brawner-s,brawner-s,f..brawner@enron.com,Director,66,362,3,0.18,1,0,0
+brawner-s,brawner-s,no.address@enron.com,Director,1,362,3,0,0,0,0
+jones-t,jones-t,tana.jones@enron.com,attorney-legal asst.,14767,14767,1,1,1,0,1
+hyvl-d,hyvl-d,dan.hyvl@enron.com,Employee,1068,1068,1,1,1,0,0
+hyatt-k,hyatt-k,kevin.hyatt@enron.com,Director,555,555,1,1,1,0,0
+beck-s,beck-s,sally.beck@enron.com,CEOs-President,8169,9365,3,0.87,1,0,0
+beck-s,beck-s,patti.thompson@enron.com,CEOs-President,1192,9365,3,0.13,1,0,0
+beck-s,beck-s,gretel.smith@enron.com,CEOs-President,4,9365,3,0,0,0,0
+holst-k,holst-k,keith.holst@enron.com,Director,41,41,1,1,1,0,0
+ybarbo-p,ybarbo-p,paul.y'barbo@enron.com,attorney-legal asst.,223,224,2,1,1,0,1
+ybarbo-p,ybarbo-p,no.address@enron.com,attorney-legal asst.,1,224,2,0,0,0,1
+williams-j,williams-j,trading <.williams@enron.com>,specialist,84,166,2,0.51,1,0,1
+williams-j,williams-j,jason.williams@enron.com,specialist,82,166,2,0.49,1,0,1
+whalley-l,whalley-l,liz.taylor@enron.com,Manager,1248,1460,2,0.85,1,liz is assistant to Greg whally,1
+whalley-l,whalley-l,greg.whalley@enron.com,Manager,212,1460,2,0.15,0,liz is assistant to Greg whally,1
+whalley-g,whalley-g,liz.taylor@enron.com,CEOs-President,164,304,2,0.54,0,0,0
+whalley-g,whalley-g,greg.whalley@enron.com,CEOs-President,140,304,2,0.46,1,0,0
+tycholiz-b,tycholiz-b,barry.tycholiz@enron.com,vice president,601,602,2,1,1,0,0
+hendrickson-s,hendrickson-s,scott.hendrickson@enron.com,Trader,154,154,1,1,1,0,1
+heard-m,heard-m,marie.heard@enron.com,attorney-legal asst.,2837,2837,1,1,1,0,1
+tycholiz-b,tycholiz-b,eric.moon@enron.com,vice president,1,602,2,0,0,0,0
+thomas-p,thomas-p,d..thomas@enron.com,Trader,184,197,2,0.93,1,0,1
+thomas-p,thomas-p,paul.thomas@enron.com,Trader,13,197,2,0.07,0,0,1
+storey-g,storey-g,geoff.storey@enron.com,Director,163,164,2,0.99,1,0,0
+storey-g,storey-g,s..shively@enron.com,Director,1,164,2,0.01,0,0,0
+stokley-c,stokley-c,chris.stokley@enron.com,Employee,675,676,2,1,1,0,1
+stokley-c,stokley-c,paige.grumulaitis@enron.com,Employee,1,676,2,0,0,0,1
+steffes-j,steffes-j,d..steffes@enron.com,vice president,3518,3519,2,1,1,0,0
+steffes-j,steffes-j,elizabeth.sager@enron.com,vice president,1,3519,2,0,0,0,0
+shively-h,shively-h,hunter.shively@enron.com,vice president,626,758,2,0.83,1,0,0
+guzman-m,guzman-m,mark.guzman@enron.com,Trader,407,407,1,1,1,0,0
+grigsby-m,grigsby-m,mike.grigsby@enron.com,manager,1773,1773,1,1,1,overschrijven op bases van labels bestand,0
+griffith-j,griffith-j,john.griffith@enron.com,Managing Director,56,56,1,1,1,0,0
+shively-h,shively-h,s..shively@enron.com,vice president,132,758,2,0.17,1,0,0
+shapiro-r,shapiro-r,richard.shapiro@enron.com,Vice President,25,26,2,0.96,1,overschrijven op bases van labels bestand,0
+shapiro-r,shapiro-r,james.steffes@enron.com,Vice President,1,26,2,0.04,0,overschrijven op bases van labels bestand,0
+gilbertsmith-d,gilbertsmith-d,doug.gilbert-smith@enron.com,manager,17,17,1,1,1,overschrijven op bases van labels bestand,0
+shankman-j,shankman-j,jeffrey.shankman@enron.com,CEOs-President,1327,1424,2,0.93,1,0,0
+shankman-j,shankman-j,a..shankman@enron.com,CEOs-President,97,1424,2,0.07,1,0,0
+shackleton-s,shackleton-s,sara.shackleton@enron.com,vice president,7098,7213,2,0.98,1,0,1
+geaccone-t,geaccone-t,tracy.geaccone@enron.com,employee,1129,1129,1,1,1,overschrijven op bases van labels bestand,0
+shackleton-s,shackleton-s,kaye.ellis@enron.com,vice president,115,7213,2,0.02,0,0,1
+semperger-c,semperger-c,cara.semperger@enron.com,specialist,543,544,2,1,1,0,0
+semperger-c,semperger-c,skennedy@houston.rr.com,specialist,1,544,2,0,0,0,0
+gang-l,gang-l,lisa.gang@enron.com,Director,104,104,1,1,1,0,1
+sager-e,sager-e,elizabeth.sager@enron.com,Employee,2106,2194,2,0.96,1,overschrijven op bases van labels bestand,0
+sager-e,sager-e,brenda.whitehead@enron.com,Employee,88,2194,2,0.04,0,overschrijven op bases van labels bestand,0
+rogers-b,rogers-b,benjamin.rogers@enron.com,attorney-legal asst.,2534,2535,2,1,1,0,1
+rogers-b,rogers-b,derek.r.ahmann@chase.com,attorney-legal asst.,1,2535,2,0,0,0,1
+quigley-d,quigley-d,dutch.quigley@enron.com,Trader,844,845,2,1,1,0,1
+quigley-d,quigley-d,no.address@enron.com,Trader,1,845,2,0,0,0,1
+mims-thurston-p,mims-thurston-p,patrice.mims@enron.com,Employee,499,721,2,0.69,1,0,1
+mims-thurston-p,mims-thurston-p,l..mims@enron.com,Employee,222,721,2,0.31,1,0,1
+may-l,may-l,larry.may@enron.com,Director,157,158,2,0.99,1,0,0
+ermis-f,ermis-f,frank.ermis@enron.com,Director,38,38,1,1,1,0,0
+may-l,may-l,no.address@enron.com,Director,1,158,2,0.01,0,0,0
+martin-t,martin-t,a..martin@enron.com,vice president,245,305,2,0.8,1,0,0
+donohoe-t,donohoe-t,tom.donohoe@enron.com,Employee,60,60,1,1,1,0,1
+donoho-l,donoho-l,lindy.donoho@enron.com,Employee,490,490,1,1,1,0,0
+dickson-s,dickson-s,stacy.dickson@enron.com,Employee,266,266,1,1,1,0,0
+martin-t,martin-t,thomas.martin@enron.com,vice president,60,305,2,0.2,1,0,0
+maggi-m,maggi-m,mike.maggi@enron.com,Director,146,147,2,0.99,1,0,0
+maggi-m,maggi-m,no.address@enron.com,Director,1,147,2,0.01,0,0,0
+love-p,love-p,phillip.love@enron.com,Manager,3946,5337,2,0.74,1,0,1
+love-p,love-p,m..love@enron.com,Manager,1391,5337,2,0.26,1,0,1
+lokay-m,lokay-m,michelle.lokay@enron.com,Employee,616,617,2,1,1,overschrijven op bases van labels bestand,0
+lokay-m,lokay-m,michele.lokay@enron.com,Employee,1,617,2,0,0,overschrijven op bases van labels bestand,0
+lewis-a,lewis-a,andrew.lewis@enron.com,Director,81,102,2,0.79,1,0,0
+lewis-a,lewis-a,h..lewis@enron.com,Director,21,102,2,0.21,1,0,0
+lenhart-m,lenhart-m,matthew.lenhart@enron.com,Employee,5023,5024,2,1,1,overschrijven op bases van labels bestand,0
+lenhart-m,lenhart-m,no.address@enron.com,Employee,1,5024,2,0,0,overschrijven op bases van labels bestand,0
+keiser-k,keiser-k,kam.keiser@enron.com,Employee,607,608,2,1,1,overschrijven op bases van labels bestand,0
+cuilla-m,cuilla-m,martin.cuilla@enron.com,Manager,319,319,1,1,1,0,0
+crandell-s,crandell-s,sean.crandall@enron.com,Director,240,240,1,1,1,0,0
+corman-s,corman-s,shelley.corman@enron.com,vice president,1121,1121,1,1,1,0,0
+causholli-m,causholli-m,monika.causholli@enron.com,employee,919,919,1,1,1,overschrijven op bases van labels bestand,0
+keiser-k,keiser-k,m..smith@enron.com,Employee,1,608,2,0,1,overschrijven op bases van labels bestand,0
+hernandez-j,hernandez-j,judy.hernandez@enron.com,specialist,2164,2482,2,0.87,1,0,1
+hernandez-j,hernandez-j,juan.hernandez@enron.com,specialist,318,2482,2,0.13,0,0,1
+carson-m,carson-m,mike.carson@enron.com,Employee,739,739,1,1,1,0,0
+hayslett-r,hayslett-r,rod.hayslett@enron.com,Vice President,1460,1462,2,1,1,overschrijven op bases van labels bestand,0
+hayslett-r,hayslett-r,a..howard@enron.com,Vice President,2,1462,2,0,1,overschrijven op bases van labels bestand,0
+hain-m,hain-m,mary.hain@enron.com,attorney-legal asst.,2654,2728,2,0.97,1,0,0
+hain-m,hain-m,lysa.akin@enron.com,attorney-legal asst.,74,2728,2,0.03,0,0,0
+fossum-d,fossum-d,drew.fossum@enron.com,vice president,5098,5134,2,0.99,1,0,0
+fossum-d,fossum-d,martha.benner@enron.com,vice president,36,5134,2,0.01,0,0,0
+fischer-m,fischer-mary,mary.fischer@enron.com,Employee,106,186,2,0.57,1,0,0
+fischer-m,fischer-mark,mark.fisher@enron.com,Director,80,186,2,0.43,1,0,0
+farmer-d,farmer-d,daren.farmer@enron.com,Manager,2241,2512,2,0.89,1,0,0
+farmer-d,farmer-d,j..farmer@enron.com,Manager,271,2512,2,0.11,1,0,0
+dorland-c,dorland-c,chris.dorland@enron.com,Manager,1403,1404,2,1,1,0,0
+dorland-c,dorland-c,liz.prior@enron.com,Manager,1,1404,2,0,0,0,0
+derrick-j,derrick-j,james.derrick@enron.com,attorney-legal asst.,877,878,2,1,1,overschrijven op bases van labels bestand,0
+derrick-j,derrick-j,j.harris@enron.com,attorney-legal asst.,1,878,2,0,0,overschrijven op bases van labels bestand,0
+dean-c,dean-c,clint.dean@enron.com,Trader,27,51,2,0.53,0,0,0
+benson-r,benson-r,robert.benson@enron.com,Director,32,32,1,1,1,0,0
+dean-c,dean-c,craig.dean@enron.com,Trader,24,51,2,0.47,1,0,0
+davis-d,davis-d,dana.davis@enron.com,vice president,765,766,2,1,1,0,1
+davis-d,davis-d,bjackson@sswpc.com,vice president,1,766,2,0,0,0,1
+baughman-d,baughman-d,don.baughman@enron.com,Trader,550,550,1,1,1,0,0
+bass-e,bass-e,eric.bass@enron.com,Trader,6512,6512,1,1,1,0,0
+bailey-s,bailey-s,susan.bailey@enron.com,attorney-legal asst.,101,101,1,1,1,0,1
+badeer-r,badeer-r,robert.badeer@enron.com,Director,73,73,1,1,1,0,0
+dasovich-j,dasovich-j,jeff.dasovich@enron.com,employee,35507,35516,2,1,1,overschrijven op bases van labels bestand,0
+dasovich-j,dasovich-j,joseph.alamo@enron.com,employee,9,35516,2,0,0,overschrijven op bases van labels bestand,0
+buy-r,buy-r,rick.buy@enron.com,Executive VP,1374,1426,2,0.96,1,0,0
+buy-r,buy-r,karen.heathman@enron.com,Executive VP,52,1426,2,0.04,1,0,0
+arora-h,arora-h,harry.arora@enron.com,vice president,85,96,2,0.89,1,0,0
+arora-h,arora-h,suresh.raghavan@enron.com,vice president,11,96,2,0.11,0,0,0
+arnold-j,arnold-j,john.arnold@enron.com,vice president,2525,2526,2,1,1,0,0
+arnold-j,arnold-j,melissa.dozier@enron.com,vice president,1,2526,2,0,0,0,0

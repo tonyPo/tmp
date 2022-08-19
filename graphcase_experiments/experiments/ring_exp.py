@@ -171,6 +171,9 @@ def proces_graph(graph, params, algo=GraphAutoEncoder, test_size = 0.75, seed=1)
             graph, PATH, params=params, verbose=False, algo=algo
         )
     
+    # remove no labels
+    tbl = tbl.drop(tbl[tbl['label']=='no_label'].index)
+    
     #run clustering
     cluster_res = cluster_test(tbl, seed=seed)
     res['ami'] = cluster_res['ami']

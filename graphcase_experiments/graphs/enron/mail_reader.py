@@ -33,6 +33,10 @@ class Enron_to_graph:
     def extract_individual_edges(self, df):
         df = (df
             .withColumn('mail_id', F.regexp_replace(F.col("mail_id"), "[^A-Z0-9_]", ""))
+            .withColumn("is_fw", F.when(F.col('subject').startswith("FW:"), 1).otherwise(0))
+            .withColumn("is_re", F.when(F.col('subject').startswith("RE"), 1).otherwise(0))
+            .withColumn('date', F.to_timestamp(F.substring('send_date', 6,20), format='dd MMM yyyy HH:mm:ss'))
+            .withColumn('weekday', F.substring('send_date', 0,3))
         )
         cols =df.columns
         # explode from
@@ -171,7 +175,12 @@ class Enron_to_graph:
                     F.sum('is_cc').alias('cnt_cc'),
                     # F.sum('is_bcc').alias('cnt_bcc'),
                     F.sum(F.when(F.col('is_to')==1, F.col('email_size'))).alias('size_to'),
-                    F.sum('email_size').alias('size')
+                    F.sum('email_size').alias('size'),
+                    F.avg('cnt_to').alias('avg_to_addressees'),
+                    F.avg('cnt_cc').alias('avg_cc_addressees'),
+                    F.sum('is_fw').alias('cnt_forward'),
+                    F.sum('is_re').alias('cnt_reply'),
+                    # F.sum()
                 )
                 .filter("source != target")
         )
@@ -255,9 +264,9 @@ if __name__ == '__main__':
     import os
     print(os.getcwd())
     # enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
-    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3_dedup"  #all 
-    graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_graph.pickle'
-    sub_graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_sub_graph.pickle'
+    enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all4_dedup"  #all 
+    graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_graph3.pickle'
+    sub_graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_sub_graph3.pickle'
     enron = Enron_to_graph(enron_path)
     nx.write_gpickle(enron.G, graph_path)
     nx.write_gpickle(enron.G_sub, sub_graph_path)

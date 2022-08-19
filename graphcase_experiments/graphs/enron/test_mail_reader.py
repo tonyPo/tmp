@@ -9,7 +9,7 @@ from graphcase_experiments.graphs.enron.mail_reader import spark, Enron_to_graph
 
 
 #%% deduplicate mails
-# path = "/Users/tonpoppe/Downloads/enron_parsed_all3"
+# path = "/Users/tonpoppe/Downloads/enron_parsed_all4"
 # def de_duplicate_mail_ids(path):
 #     df = spark.read.format('parquet').load(path)
 #     df = (df
@@ -19,13 +19,14 @@ from graphcase_experiments.graphs.enron.mail_reader import spark, Enron_to_graph
 #         )
 # de_duplicate_mail_ids(path)
 
+
 # %%
 # enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
-enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all3_dedup"  #all
+enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all4_dedup"  #all
 enron = Enron_to_graph(enron_path)
 #%%
 tmp_path = '/Users/tonpoppe/Downloads/'
-# enron.email.write.format('parquet').save(tmp_path + 'enron_email')
+enron.email.write.format('parquet').save(tmp_path + 'enron_email', mode='overWrite')
 email = spark.read.format('parquet').load(tmp_path + 'enron_email')
 #%%
 
@@ -342,3 +343,22 @@ n_trader_in = n_trader_in.groupBy('email_address').pivot('counter_label').agg(
 ).fillna(0)
 n_trader_in.show(35)
 # %%
+
+###################################
+## check date distribution of emails
+##################################
+ref_date = F.to_date(F.lit("01-01-2000"), 'dd-MM-yyyy')
+    
+
+df = (email
+        .withColumn('date_dif', F.datediff(F.col('date'), ref_date))
+        .filter("isCore = 1")
+        # .groupBy('from_address')
+)
+
+
+#%%
+path = 'graphcase_experiments/graphs/enron/data/labels.parquet'
+lbls = spark.read.format('parquet').load(path)
+# %%
+path2 = 'graphcase_experiments/graphs/enron/data/labels.txt'

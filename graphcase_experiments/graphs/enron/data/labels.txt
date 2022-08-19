@@ -1,0 +1,149 @@
+,id,short_name,name,job_title,job_title2
+0,1,allen-p,Phillip Allen,,
+1,2,arnold-j,John Arnold,Vice President,
+2,3,arora-h,Harry Arora,Vice President,
+3,4,badeer-r,Robert Badeer,Director,
+4,5,bailey-s,Susan Bailey,,
+5,6,bass-e,Eric Bass,Trader,
+6,7,baughman-d,Don Baughman,Trader,
+7,8,beck-s,Sally Beck,Employee,Chief Operating Officer
+8,9,benson-r,Robert Benson,Director,
+9,10,blair-l,Lynn Blair,,
+10,11,brawner-s,Sandra Brawner,Director,
+11,12,buy-r,Rick Buy,Manager,Chief Risk Management Officer
+12,13,campbell-l,Larry Campbell,,
+13,14,carson-m,Mike Carson,Employee,
+14,15,cash-m,Michelle Cash,,
+15,16,causholli-m,Monika Causholli,Employee,Analyst Risk Management
+16,17,corman-s,Shelley Corman,Vice President,Regulatory Affairs
+17,18,crandall-s,Sean Crandall,Director,
+18,19,cuilla-m,Martin Cuilla,Manager,
+19,20,dasovich-j,Jeff Dasovich,Employee,Government Relation Executive
+20,21,davis-d,Dana Davis,,
+21,22,dean-c,Craig Dean,Trader,
+22,23,delainey-d,David Delainey,CEO,Enron North America and Enron Energy Services
+23,24,derrick-j,James Derrick,In House Lawyer,
+24,25,dickson-s,Stacy Dickson,Employee,
+25,26,donoho-l,Lindy Donoho,Employee,
+26,27,donohoe-t,Tom Donohoe,,
+27,28,dorland-c,Chris Dorland,Employee,
+28,29,ermis-f,Frank Ermis,Director,
+29,30,farmer-d,Daren Farmer,Manager,Logistics Manager
+30,31,fischer-m,Mary Fischer,Employee,
+31,32,forney-j,John Forney,Manager,Real time Trading Desk
+32,33,fossum-d,Drew Fossum,Vice President,
+33,34,gang-l,Lisa Gang,,Senior Specialist
+34,35,gay-r,Randall Gay,,
+35,36,geaccone-t,Tracy Geaccone,Employee,
+36,37,germany-c,Chris Germany,Employee,
+37,38,gilbertsmith-d,Douglas Gilberth-Smith,Manager,
+38,39,giron-d,Darron Giron,Employee,
+39,40,griffith-j,John Giffith,Managing Director,MD of UK
+40,41,grigsby-m,Mike Grigsby,Manager,
+41,42,guzman-m,Mark Guzman,Trader,
+42,43,haedicke-m,Mark Haedicke,Managing Director,Legal Department
+43,44,hain-m,Mary Hain,In House Lawyer,
+44,45,harris-s,Steven Harris,,
+45,46,hayslett-r,Rod Hayslett,Vice President,Also Chief Financial Officer and Treasurer
+46,47,heard-m,Marie Heard,,
+47,48,hendrickson-s,Scott Hendrickson,,
+48,49,hernandez-j,Juan Hernandez,,
+49,50,hodge-j,John Hodge,Managing Director,
+50,51,holst-k,Keith Holst,Director,
+51,52,horton-s,Stanley Horton,President,Enron Gas Pipeline
+52,53,hyatt-k,Kevin Hyatt,Director,Pipeline Business
+53,54,hyvl-d,Dan Hyvl,Employee,
+54,55,jones-t,Tana Jones,,
+55,56,kaminski-v,Vince Kaminski,Manager,Risk Management Head
+56,57,kean-s,Steven Kean,Vice President,Vice President & Chief of Staff
+57,58,keavey-p,Peter Keavey,Employee,
+58,59,keiser-k,Kam Keiser,Employee,
+59,60,king-j,Jeff King,Manager,
+60,61,kitchen-l,Louise Kitchen,President,Enron Online
+61,62,kuykendall-t,Tori Kuykendall,Trader,
+62,63,lavorato-j,John Lavorato,CEO,Enron America
+63,64,lay-k,Kenneth Lay,CEO,
+64,65,lenhart-m,Matthew Lenhart,Employee,
+65,66,lewis-a,Andrew Lewis,Director,
+66,67,linder-e,Eric Linder,,Specialist
+67,68,lokay-m,Michelle Lokay,Employee,Administrative Assistant
+68,69,lokey-t,Teb Lokey,Manager,Regulatory Affairs
+69,70,love-p,Phillip Love,,
+70,71,lucci-p,Paul Lucci,Employee,
+71,72,maggi-m,Mike Maggi,Director,
+72,73,mann-k,Kay Mann,Employee,
+73,74,martin-t,Thomas Martin,Vice President,
+74,75,may-l,Larry May,Director,
+75,76,mccarty-d,Danny McCarty,Vice President,
+76,77,mcconnell-m,Mike McConnell,,
+77,78,mckay-b,Brad Mckay,Employee,
+78,79,mckay-j,Jonathan Mckay,Director,
+79,80,mclaughlin-e,Errol McLaughlin,Employee,
+80,81,merriss-s,Steven Merriss,,Specialist
+81,82,meyers-a,Albert Meyers,Employee,
+82,83,mims-thurston-p,Patrice Mims,,
+83,84,motley-m,Matt Motley,Director,
+84,85,neal-s,Scott Neal,Vice President,
+85,86,nemec-g,Gerald Nemec,,
+86,87,panus-s,Stephanie Panus,Employee,
+87,88,parks-j,Joe Parks,,
+88,89,pereira-s,Susan Pereira,Employee,
+89,90,perlingiere-d,Debra Perlingiere,,
+90,91,pimenov-v,Vladi Pimenov,,
+91,92,platter-p,Phillip Platter,Employee,Sr.Specialist
+92,93,presto-k,Kevin Presto,Vice President,
+93,94,quenet-j,Joe Quenet,Trader,
+94,95,quigley-d,Dutch Quigley,,
+95,96,rapp-b,Bill Rapp,,
+96,97,reitmeyer-j,Jay Reitmeyer,Employee,
+97,98,richey-c,Cooper Richey,Manager,
+98,99,ring-a,Andrea Ring,,
+99,100,ring-r,Richard Ring,Employee,
+100,101,rodrigue-r,Robin Rodrigue,,
+101,102,rogers-b,Benjamin Rogers,,
+102,103,ruscitti-k,Kevin Ruscitti,Trader,
+103,104,sager-e,Elizabeth Sager,Employee,
+104,105,saibi-e,Eric Saibi,Trader,
+105,106,salisbury-h,Holden Salisbury,Employee,Cash Analyst
+106,107,sanchez-m,Monique Sanchez,,
+107,108,sanders-r,Richard Sanders,Vice President,Enron WholeSale Services
+108,109,scholtes-d,Diana Scholtes,Trader,
+109,110,schoolcraft-d,Darrell Schoolcraft,,
+110,111,schwieger-j,Jim Schwieger,Trader,
+111,112,scott-s,Susan Scott,,
+112,113,semperger-c,Cara Semperger,Employee,Senior Analyst Cash
+113,114,shackleton-s,Sara Shackleton,,
+114,115,shankman-j,Jeffrey Shankman,President,Enron Global Mkts
+115,116,shapiro-r,Richard Shapiro,Vice President,Regulatory Affairs
+116,117,shively-h,Hunter Shively,Vice President,
+117,118,skilling-j,Jeff Skilling,CEO,
+118,119,slinger-r,Ryan Slinger,Trader,
+119,120,smith-m,Matt Smith,,
+120,121,solberg-g,Geir Solberg,Employee,
+121,122,south-s,Steven P. South,,
+122,123,staab-t,Theresa Staab,Employee,
+123,124,stclair-c,Carol St. Clair,In House Lawyer,
+124,125,steffes-j,James Steffes,Vice President,Government Affairs
+125,126,stepenovitch-j,Joe Stepenovitch,Vice President,Energy marketing and trading Florida
+126,127,stokley-c,Chris Stokley,,
+127,128,storey-g,Geoff Storey,Director,
+128,129,sturm-f,Fletcher Sturm,Vice President,
+129,130,swerzbin-m,Mike Swerzbin,Trader,
+130,131,symes-k,Kate Symes,Employee,
+131,132,taylor-m,Mark Taylor,Employee,
+132,133,tholt-j,Jane Tholt,Vice President,
+133,134,thomas-p,Paul Thomas,,
+134,135,townsend-j,Judy Townsend,Employee,
+135,136,tycholiz-b,Barry Tycholiz,Vice President,
+136,137,ward-k,Kim Ward,,
+137,138,watson-k,Kimberly Watson,,
+138,139,weldon-c,V Weldon,,
+139,140,whalley-g,Greg Whalley,President,
+140,141,white-s,Stacey White,,
+141,142,whitt-m,Mark Whitt,,
+142,143,williams-j,Jason Williams,,Trading
+143,144,williams-w3,William Williams III,,Senior Analyst
+144,145,wolfe-j,Jason Wolfe,,
+145,146,ybarbo-p,Paul Y'Barbo,,
+146,147,zipper-a,Andy Zipper,Vice President,Enron Online
+147,148,zufferli-j,John Zufferli,Employee,
