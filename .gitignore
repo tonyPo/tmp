@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+#data
+graphcase_experiments/graphs/enron/data/enron_graph3.pickle
+graphcase_experiments/graphs/enron/data/enron_graph2.pickle
+graphcase_experiments/graphs/enron/data/enron_graph.pickle
+
 # package
 graphcase_experiments/data/
 graphcase_experiments/algos/processing_files/
