@@ -9,7 +9,7 @@ from GAE.graph_case_controller import GraphAutoEncoder
 
 
 
-def calculate_graphcase_embedding(G, path, params, verbose=True, algo=GraphAutoEncoder):       
+def calculate_graphcase_embedding(G, path, params, verbose=True, algo=GraphAutoEncoder, return_model=False):       
     # train model and calculate embeddings
     params = params.copy()  
     epochs = params.pop('epochs', None)
@@ -29,8 +29,10 @@ def calculate_graphcase_embedding(G, path, params, verbose=True, algo=GraphAutoE
     #create table
     tbl = create_table(embed, G)
     tbl.to_csv(path + 'tabel.csv')
-        
-    return (embed, tbl)
+    if return_model:
+        return (embed, tbl, algo_instance)
+    else:
+        return (embed, tbl)
 
 def create_table(embed, G):
     columns = ['id'] + ['embed' + str(i) for i in range(embed.shape[1] -1)]
@@ -39,6 +41,7 @@ def create_table(embed, G):
         [[i,x] for i,x in nx.get_node_attributes(G,'label').items()],
         columns=['id', 'label']
     )
+    
     tbl = pd.merge(tbl, lbl_df, on='id', how='inner')
 
     # create numeric label id

@@ -6,6 +6,8 @@ def to_undirected_node_attributes_only_graph(G, verbose=True):
     as the original edge attibutes concatenated with the original node attributes set to zero.
     The nodes of the new graph have the original node attributes concatenated with the new 
     edge attributes set to zero.
+    Two new attrbiutes 'is_in_node', 'is_out_node' are introduce to identify whether the node
+    represent the incoming repsectively outvoming part of an edge.
 
     @params: directed graph with edge attributes.
 
@@ -16,26 +18,30 @@ def to_undirected_node_attributes_only_graph(G, verbose=True):
     # retrieve the names of the node and edge attributes.
     node_attributes = list(G.nodes(data=True)[0].keys())
     edge_attributes = list(list(G.edges(data=True))[0][-1].keys())
+    direction_attributes = ['is_in_node', 'is_out_node']
     if verbose:
         print(f"found the following node features {node_attributes}")
         print(f"found the following edge features {edge_attributes}")
 
     # add the edge attributes with zero values to the current nodes.
     for _, features in G_new.nodes(data=True):
-        for e in edge_attributes:
+        for e in edge_attributes + direction_attributes:
             print()
             features['edge_' + e] = 0
 
 
     # loop throught edges and convert to nodes.
-    counter = G_new.number_of_nodes()
-    node_attr_dict = dict(zip(node_attributes,[0]*len(node_attributes)))
+    counter = G_new.number_of_nodes()  #number of nodes in the graph sofar
+    node_attr_dict = dict(zip(node_attributes,[0]*len(node_attributes))) #dict with the node attr set to zero
     for s,d,e in G.edges(data=True):
         new_edge_attr_dict = {'edge_'+k: v for k,v in e.items()}
-        attributes = {**new_edge_attr_dict, **node_attr_dict}
+        direction = {'edge_is_in_node': 1, 'edge_is_out_node': 0}
+        attributes = {**new_edge_attr_dict, **node_attr_dict, **direction}
         G_new.add_node(counter, **attributes)
         G_new.add_edge(s, counter)
-        counter = counter + 1 
+        counter = counter + 1
+        direction = {'edge_is_in_node': 0, 'edge_is_out_node': 1}
+        attributes = {**new_edge_attr_dict, **node_attr_dict, **direction} 
         G_new.add_node(counter, **attributes)
         G_new.add_edge(counter - 1, counter)
         G_new.add_edge(counter, d)
@@ -49,6 +55,7 @@ def to_undirected_node_attributes_only_graph(G, verbose=True):
         print(f"expected {ns + 2 * es} nodes and {es * 3}")
 
     return G_new.to_undirected()
+    
 
 def plot_converted_graph(G):
     """ plots G for visual inspection
