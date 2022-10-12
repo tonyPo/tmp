@@ -119,7 +119,7 @@ def classify_svm(tbl, test_size = 0.75, seed=1):
     )
 
     # execute gridsearch and train classifier
-    clf = GridSearchCV(SVC(random_state=42), param_grid, scoring=scoring, cv=3, refit='f1_macro', n_jobs=-1)
+    clf = GridSearchCV(SVC(random_state=seed), param_grid, scoring=scoring, cv=3, refit='f1_macro', n_jobs=-1)
     clf.fit(X_train, y_train)
 
     # calculate f1 score on test set
