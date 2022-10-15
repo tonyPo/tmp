@@ -1,4 +1,5 @@
 #%%
+import os
 if __name__ == '__main__':
     import os
     os.chdir("../..")
@@ -19,7 +20,7 @@ from graphcase_experiments.algos.GraphCaseWrapper import GraphCaseWrapper
 #%%
 
 dims = [2, 4, 8, 16, 32, 64, 128, 256]
-dims = [2, 4]
+# dims = [2, 4]
 dims = np.asarray(dims)
 dims = np.expand_dims(dims, 1)
 dims = dims.repeat(3,axis=1)
@@ -35,14 +36,13 @@ layers = [1, 2, 3, 4, 5]
 
 grid ={
     'dims': dims,
-#     'support_size': support_size,
-#     'layers': layers
+    'support_size': support_size,
+    'layers': layers
 }
 
 #%%
 
-def calc_hyperparam_sensitivity(G, ref_params, test_size = 0.5, runs=1):
-    mlflow.set_experiment("ring_comp_all")
+def calc_hyperparam_sensitivity(G, ref_params, test_size=0.5, runs=1):
     seeds = np.random.RandomState(0).randint(0, 1000, runs)
         
     overall_results = []
@@ -54,6 +54,10 @@ def calc_hyperparam_sensitivity(G, ref_params, test_size = 0.5, runs=1):
                 if hpar == 'layers':
                     params['support_size'] = [params['support_size'][0]] * val
                     params['dims'] = params['dims'][:2] + [params['dims'][1]] * ((val-1)*2)
+                    
+                elif hpar == 'dims':
+                    params[hpar] = val
+                    params['hub0_feature_with_neighb_dim'] = val[-1]
                 else:
                     params[hpar] = val
                 algo_res = proces_graph(graph=G, params=params, algo=GraphCaseWrapper, seed=s, test_size = test_size)
