@@ -21,6 +21,12 @@ class Role2VecWrapper(BaseWrapper):
     COMP_PARAMS ={
     }
     ENRON_PARAMS = COMP_PARAMS
+    BZR_PARAMS = {
+        '--dimensions': 64
+    }
+    MOOC_PARAMS = {
+        '--dimensions': 16
+    }
     
     def __init__(self, G, **kwargs):
         self.params = {}

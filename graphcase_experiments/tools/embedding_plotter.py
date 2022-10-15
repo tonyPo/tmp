@@ -95,10 +95,10 @@ def plot_embedding3(pdf, path=None):
     color_cnt = color_tbl.shape[0]
 
     # plot embeding
-    fig, ax = plt.subplots(1,1)
+    fig, ax = plt.subplots(1,1, figsize=(8,5.5))
 
   
-    ax.scatter(embed_df['embed1'], embed_df['embed2'], s=20., c=embed_df['label_id']/color_cnt, cmap=plt.cm.Set3_r)
+    ax.scatter(embed_df['embed1'], embed_df['embed2'], s=40., c=embed_df['label_id']/color_cnt, cmap=plt.cm.Set3_r)
 
     # add legend and title 
     

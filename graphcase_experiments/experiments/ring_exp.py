@@ -15,7 +15,7 @@ from sklearn.metrics.cluster import adjusted_mutual_info_score
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, accuracy_score, balanced_accuracy_score
 from mlflow.tracking import MlflowClient
 
 BEST_RUN_ID = '54d3e60cc3fc457c95218c29a561b0d6'
@@ -119,18 +119,22 @@ def classify_svm(tbl, test_size = 0.75, seed=1):
     )
 
     # execute gridsearch and train classifier
-    clf = GridSearchCV(SVC(random_state=seed), param_grid, scoring=scoring, cv=3, refit='f1_macro', n_jobs=-1)
+    clf = GridSearchCV(SVC(random_state=seed, class_weight='balanced'), param_grid, scoring=scoring, cv=3, refit='f1_macro', n_jobs=-1)
     clf.fit(X_train, y_train)
 
     # calculate f1 score on test set
     y_pred = clf.predict(X_test)
     f1_macro = f1_score(y_test, y_pred, average='macro')
     f1_micro = f1_score(y_test, y_pred, average='micro')
+    accuracy = accuracy_score(y_test, y_pred)
+    balanced_accuracy = balanced_accuracy_score(y_test, y_pred, adjusted=True )
 
     #create table
     tbl['pred_label'] = clf.predict(X)
 
-    return {'f1_macro': f1_macro, 'f1_micro': f1_micro, 'pred_labels': tbl['pred_label']}
+    return {'f1_macro': f1_macro, 'f1_micro': f1_micro, 'pred_labels': tbl['pred_label'], 
+        'accuracy': accuracy, 'balanced_accuracy': balanced_accuracy
+    }
 
 def ring_exp_all(params):
     mlflow.set_experiment("ring_experiment_all_test")
@@ -181,10 +185,9 @@ def proces_graph(graph, params, algo=GraphAutoEncoder, test_size = 0.75, seed=1)
 
     #run classification
     svm_res = classify_svm(tbl, seed=seed, test_size=test_size)
-    res['f1_macro'] = svm_res['f1_macro']
-    res['f1_micro'] = svm_res['f1_micro']
-    mlflow.log_metric('svm_f1_macro', res['f1_macro'])
-    mlflow.log_metric('svm_f1_micro', res['f1_micro'])
+    for metric in ['f1_macro', 'f1_micro', 'accuracy', 'balanced_accuracy']:
+        res[metric] = svm_res[metric]
+        mlflow.log_metric(f'svm_{metric}', res[metric])
  
     return res
 

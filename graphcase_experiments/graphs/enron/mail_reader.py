@@ -196,10 +196,13 @@ class Enron_to_graph:
 
     def normalise_nodes(self, node_df):
         # get attribute names to normalise
-        df = node_df
+        df = node_df.fillna(0)
         attr = [c for c in df.columns if c.startswith("attr")]
-        for a in attr:  # apply log scaling
-            df = df.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+        for a in attr:  # apply log scaling ading 1 to aviod log(1)=0
+            df = (df
+                .withColumn(a, F.col(a) + F.lit(1.0))
+                .withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+            )
 
         assembler = VectorAssembler().setInputCols(attr).setOutputCol("features")
         transformed = assembler.transform(df)
@@ -215,8 +218,11 @@ class Enron_to_graph:
     def normalise_edges(self, edge_df):
         df = edge_df
         attr = [c for c in df.columns if c not in ['target', 'source']]
-        for a in attr:  # apply log scaling
-            df = df.withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+        for a in attr:  # apply log scaling ading 1 to aviod log(1)=0
+            df = (df
+                .withColumn(a, F.col(a) + F.lit(1.0))
+                .withColumn(a, F.when(F.col(a)==0, 0).otherwise(F.log10(a)))
+            )
 
         nodes = self.nodes.filter('isCore=1')
         internals = (self.edges
@@ -265,8 +271,8 @@ if __name__ == '__main__':
     print(os.getcwd())
     # enron_path = "/Users/tonpoppe/Downloads/enron_parsed.parquet"  #King
     enron_path = "/Users/tonpoppe/Downloads/enron_parsed_all4_dedup"  #all 
-    graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_graph3.pickle'
-    sub_graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_sub_graph3.pickle'
+    graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_graph4.pickle'
+    sub_graph_path = '/Users/tonpoppe/workspace/graphcase_experiments/graphcase_experiments/graphcase_experiments/graphs/enron/data/enron_sub_graph4.pickle'
     enron = Enron_to_graph(enron_path)
     nx.write_gpickle(enron.G, graph_path)
     nx.write_gpickle(enron.G_sub, sub_graph_path)

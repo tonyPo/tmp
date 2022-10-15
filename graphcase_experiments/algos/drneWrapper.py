@@ -13,7 +13,16 @@ class DrneWrapper(BaseWrapper):
         '-s': '16',
         '--undirected': 'False'
     }
-    ENRON_PARAMS = COMP_PARAMS
+    MOOC_PARAMS = {
+        '-s': '16',
+        '--undirected': 'False'
+    }
+    BZR_PARAMS = MOOC_PARAMS
+
+    ENRON_PARAMS = {
+        '-s': '128',
+        '--undirected': 'False'
+    }
     def __init__(self, G, **kwargs):
         self.params = {}
         for k, v in kwargs.items():

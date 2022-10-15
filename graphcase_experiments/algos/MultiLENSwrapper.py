@@ -6,7 +6,7 @@ from graphcase_experiments.algos.baseWrapper import BaseWrapper
 
 class MultilensWrapper(BaseWrapper):
     NAME = 'MultiLENS'
-    LOCATION = 'graphcase_experiments/algos/processing_files/multilens'
+    LOCATION = 'graphcase_experiments/algos/processing_files/multilens/'
     COMP_PARAMS ={
         '--dim': 128,
         '--L': 2,
@@ -17,6 +17,17 @@ class MultilensWrapper(BaseWrapper):
         '--L': 2,
         '--base': 2
     }
+    BZR_PARAMS = {
+        '--dim': 64,
+        '--L': 2,
+        '--base': 2
+    }
+    MOOC_PARAMS = {
+        '--dim': 16,
+        '--L': 2,
+        '--base': 2
+    }
+    
     def __init__(self, G, **kwargs):
         self.params = {}
         for k, v in kwargs.items():

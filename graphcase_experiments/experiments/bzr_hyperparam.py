@@ -1,7 +1,8 @@
 #%%
-import os
-os.chdir("../..")
-os.getcwd()
+if __name__ == '__main__':
+    import os
+    os.chdir("../..")
+print(os.getcwd())
 
 #%%
 import mlflow
@@ -24,7 +25,7 @@ dims = np.expand_dims(dims, 1)
 dims = dims.repeat(3,axis=1)
 dims = [[3, *r] for r in dims]
 
-support_size = [3, 5, 7, 9, 11,13, 15]
+support_size = [1, 3, 5, 7, 9, 11,13, 15]
 # support_size = [3, 5]
 support_size = np.asarray(support_size)
 support_size = np.expand_dims(support_size, 1)
@@ -34,13 +35,14 @@ layers = [1, 2, 3, 4, 5]
 
 grid ={
     'dims': dims,
-    'support_size': support_size,
-    'layers': layers
+    # 'support_size': support_size,
+    # 'layers': layers
 }
 
 #%%
 
-def calc_hyperparam_sensitivity(G, ref_params, path, test_size = 0.5, runs=1):
+def calc_hyperparam_sensitivity(G, ref_params, test_size = 0.5, runs=1):
+    mlflow.set_experiment("ring_comp_all")
     seeds = np.random.RandomState(0).randint(0, 1000, runs)
         
     overall_results = []
@@ -59,10 +61,11 @@ def calc_hyperparam_sensitivity(G, ref_params, path, test_size = 0.5, runs=1):
                 algo_res['seed'] = s
                 algo_res['value'] = str(val)
                 res_df = res_df.append(algo_res, ignore_index=True)
-                res_df.to_csv(path + f'hpar_{hpar}_details.csv', index=False)
+       
+                res_df.to_csv(PATH + f'hpar_{hpar}_details', index=False)
 
         smry_df = res_df.groupby(['param','value'])['ami','f1_macro', 'f1_micro',  'accuracy', 'balanced_accuracy'].agg(['mean', 'std'])
-        smry_df.to_csv(path + f'hpar_{hpar}_smry', index=False)
+        smry_df.to_csv(PATH + f'hpar_{hpar}_smry', index=True)
         overall_results.append(smry_df)
 
     res_df = pd.concat(overall_results, axis=0)
@@ -70,25 +73,25 @@ def calc_hyperparam_sensitivity(G, ref_params, path, test_size = 0.5, runs=1):
     return res_df
 
 # %%
+if __name__ == '__main__':
 
-# PATH = 'graphcase_experiments/data/results/hyper/'  #for the results
-# SOURCE_PATH = 'graphcase_experiments/graphs/bzr/bzr_graph'  #input graph
-# G = nx.read_gpickle(SOURCE_PATH)
-# ref_params = {'batch_size': 1024,
-#     'hub0_feature_with_neighb_dim': 64,
-#     'verbose': False,
-#     'seed': 1,
-#     'encoder_labels': ['attr1', 'attr2'],
-#     'learning_rate': 0.0001,
-#     'act': tf.nn.sigmoid,
-#     'useBN': True,
-#     'dropout': 0.1,
-#     'support_size': [7, 7],
-#     'dims': [4, 64, 64, 64],
-#     'epochs': 1500
-#  }
+    PATH = 'graphcase_experiments/data/results/hyper/'  #for the results
+    SOURCE_PATH = 'graphcase_experiments/graphs/bzr/bzr_graph'  #input graph
+    G = nx.read_gpickle(SOURCE_PATH)
+    ref_params = {'batch_size': 1024,
+        'hub0_feature_with_neighb_dim': 64,
+        'verbose': False,
+        'seed': 1,
+        'encoder_labels': ['attr1', 'attr2'],
+        'learning_rate': 0.0001,
+        'act': tf.nn.sigmoid,
+        'useBN': True,
+        'dropout': 0.1,
+        'support_size': [7, 7],
+        'dims': [4, 64, 64, 64],
+        'epochs': 1500
+    }
 
-# %%
-# res_df = calc_hyperparam_sensitivity(G, ref_params, test_size = 0.5, runs=2)
-# res_df
-# %%
+    res_df = calc_hyperparam_sensitivity(G, ref_params, test_size = 0.5, runs=2)
+    res_df
+    # %%

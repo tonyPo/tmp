@@ -71,7 +71,7 @@ def barbel_pos(G):
 def plot_directed_barbell(G, return_axes=False):
     """plots the barbell graph
     """
-    _, ax = plt.subplots()
+    _, ax = plt.subplots(figsize=(8,5.5))
     pos = barbel_pos(G)
     labels = [x for _,x in nx.get_node_attributes(G,'label').items()]
     labels.sort()
@@ -92,11 +92,11 @@ def plot_directed_barbell(G, return_axes=False):
         'edge_cmap': plt.cm.prism,
         # 'cmap': plt.cm.Wistia,
         'cmap': plt.cm.Set3_r,
-        'arrowsize': 20,
+        'arrowsize': 10,
         'font_size': 8
     }
     nx.draw(G, **options, ax=ax)
-    plt.title("Barbell graph")
+    # plt.title("Barbell graph")
     if return_axes:
         return (ax, color)
     else:

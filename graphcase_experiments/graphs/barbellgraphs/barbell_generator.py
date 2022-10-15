@@ -94,6 +94,11 @@ def create_directed_barbell(m1, m2):
     attr2 = 0.75
     weight=0.7
 
+
+    np.random.seed(5)
+    node_attributes = np.random.uniform(0.0, 1.0, (10,2))
+    node_attributes = [{"attr"+str(n+1):v for n,v in enumerate(row)} for row in node_attributes]
+
     bell1 = create_direted_complete(m1)
     bell2 = create_direted_complete(m1)
     G = nx.disjoint_union(bell1, bell2)
@@ -103,7 +108,7 @@ def create_directed_barbell(m1, m2):
             m2 = m2 + 1
     centernode = int((m2-1)/2+1)
     b4 = centernode + 2*m1 -1
-    G.add_node(b4, attr1=attr1, attr2=attr2,  label="b4")
+    G.add_node(b4, **node_attributes[0],  label="b4")
     path_lenght = centernode -1
 
     # relabel connecting nodes
@@ -119,7 +124,7 @@ def create_directed_barbell(m1, m2):
         else :
             target = [b4-i-1, b4+i+1]
             for t in target: # add nodes to graph
-                G.add_node(t, attr1=attr1, attr2=attr2,  label="b"+str(i+5))
+                G.add_node(t, **node_attributes[i+1],  label="b"+str(i+5))
         source = [b4-i, b4+i]
 
         if np.mod(i, 2) == 0:
@@ -131,3 +136,4 @@ def create_directed_barbell(m1, m2):
 
     return G
 
+# G = create_directed_barbell(10, 9)

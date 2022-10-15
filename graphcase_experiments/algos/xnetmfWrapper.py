@@ -29,6 +29,9 @@ class XnetmfWrapper(BaseWrapper):
         'gammaattr': 1
     }
     ENRON_PARAMS = COMP_PARAMS
+    BZR_PARAMS = COMP_PARAMS
+    MOOC_PARAMS = COMP_PARAMS
+
     def __init__(self, G, **kwargs):
         self.params = kwargs
 
@@ -42,8 +45,10 @@ class XnetmfWrapper(BaseWrapper):
         # create node attribute matrix
         nodes = G.nodes(data=True)
         at = list(nodes[0].keys())
-        at.remove('label')
-        at.remove('old_id')
+        if 'label' in at:
+            at.remove('label')
+        if 'old_id' in at:
+            at.remove('old_id')
         attr = np.array([[n] + [a[k] for k in at] for n,a in nodes])
         attr = attr[attr[:,0].argsort()]
 
@@ -72,6 +77,9 @@ class XnetmfWrapperWithGraphTransformation(XnetmfWrapper):
         'gammaattr': 1
     }
     ENRON_PARAMS = COMP_PARAMS
+    BZR_PARAMS = COMP_PARAMS
+    MOOC_PARAMS = COMP_PARAMS
+    
     def calculate_embeddings(self, G):
         G_undirected = to_undirected_node_attributes_only_graph(G, verbose=False)
         return super().calculate_embeddings(G_undirected)

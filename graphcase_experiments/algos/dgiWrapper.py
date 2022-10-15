@@ -24,6 +24,15 @@ class DGIWrapper(BaseWrapper):
         'epochs': 200
     }
     ENRON_PARAMS = COMP_PARAMS
+    BZR_PARAMS = COMP_PARAMS
+    MOOC_PARAMS = {
+        'batch_size': 128,
+        'num_samples': [5, 5],
+        'layer_sizes': [16, 16],
+        'activations': ["relu", "relu"],
+        'epochs': 400
+    }
+    
     def __init__(self, G, **kwargs):
         self.G_stellar = self.__constructor_stellargraph(G)
 
@@ -68,8 +77,10 @@ class DGIWrapper(BaseWrapper):
         # create feature matrix
         features = G.nodes(data=True)
         feature_names = list(features[0].keys())
-        feature_names.remove('label')
-        feature_names.remove('old_id')
+        if 'label' in feature_names:
+            feature_names.remove('label')
+        if 'old_id' in feature_names:
+            feature_names.remove('old_id')
         attr = np.array([[n] + [a[k] for k in feature_names] for n,a in features])
         attr = attr[attr[:,0].argsort()]
         features_df = pd.DataFrame(attr[:,1:], index=attr[:,0], columns=feature_names)

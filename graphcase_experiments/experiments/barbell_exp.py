@@ -5,7 +5,7 @@ from graphcase_experiments.graphs.barbellgraphs.barbell_generator import create_
 from graphcase_experiments.graphs.barbellgraphs.barbell_plotter import plot_directed_barbell, plot_embedding
 from graphcase_experiments.tools.calculate_embed import calculate_graphcase_embedding
 from graphcase_experiments.tools.gridsearch import grid_search_graphcase
-from graphcase_experiments.tools.embedding_plotter import plot_embedding
+from graphcase_experiments.tools.embedding_plotter import plot_embedding3
 from GAE.graph_case_controller import GraphAutoEncoder
 
 BEST_RUN_ID = '54d3e60cc3fc457c95218c29a561b0d6'
@@ -30,7 +30,7 @@ FIXED_PARAMS = {
         'trials': 3  #200
     }
 
-def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None):
+def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None, return_model=False):
     mlflow.set_experiment("barbell_experiment_test")
     with mlflow.start_run():
         # create graph
@@ -47,16 +47,19 @@ def barbell_exp(execute_grid_search=False, algo=GraphAutoEncoder, params=None):
                 with open(local_path, 'rb') as handle:
                     params = pickle.load(handle)
 
-        embed, tbl = calculate_graphcase_embedding(
-            G, PATH, params=params, algo=algo
+        embed, tbl, mdl = calculate_graphcase_embedding(
+            G, PATH, params=params, algo=algo, return_model=True
         )
 
         #plot 2-d embedding results
         
-        plot_embedding(G, embed[:G.number_of_nodes(),:], PATH)
+        plot_embedding3(tbl, PATH)
 
 
 
         #log artifacts
         mlflow.log_artifacts(PATH)
-    return (embed, G, tbl)
+    if return_model:
+        return (embed, G, tbl, mdl)
+    else:
+        return (embed, G, tbl)
