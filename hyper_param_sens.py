@@ -3,6 +3,12 @@
 # MAGIC %pip install optuna
 # MAGIC %pip install graphcase
 # MAGIC %pip install pyvis
+# MAGIC %pip install tensorflow==2.8.0
+
+# COMMAND ----------
+
+import tensorflow
+tensorflow.__version__
 
 # COMMAND ----------
 
@@ -17,7 +23,7 @@ os.chdir("antonius.b.a.poppe@nl.abnamro.com_old/tmp_graphcase")
 
 import networkx as nx
 import tensorflow as tf
-PATH = 'graphcase_experiments/data/results/hyper/'  #for the results
+PATH = '/dbfs/mnt/dseedsi/users/ton/bzr/'  #for the results
 SOURCE_PATH = 'graphcase_experiments/graphs/bzr/bzr_graph'  #input graph
 G = nx.read_gpickle(SOURCE_PATH)
 ref_params = {'batch_size': 1024,
@@ -38,18 +44,50 @@ ref_params = {'batch_size': 1024,
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC - params goed zetten
-# MAGIC - runs op 10
-
-# COMMAND ----------
-
 res_df = bzr_hyperparam.calc_hyperparam_sensitivity(G, ref_params, PATH, test_size = 0.5, runs=5)
 # res_df
 
 # COMMAND ----------
 
 res_df
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC 
+# MAGIC ls /dbfs/mnt/dseedsi/users/ton/bzr/
+
+# COMMAND ----------
+
+import pandas as pd
+
+
+# COMMAND ----------
+
+G.number_of_nodes()
+
+# COMMAND ----------
+
+G.number_of_edges()
+
+# COMMAND ----------
+
+import pandas as pd
+res = pd.DataFrame([v for k,v in G.nodes(data=True)])
+res.groupby('label').mean()
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+pd.DataFrame([v for s,d,v in G.edges(data=True)]).describe()
+
+# COMMAND ----------
+
+import tensorflow
+tensorflow.__version__
 
 # COMMAND ----------
 

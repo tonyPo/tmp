@@ -19,7 +19,7 @@ from graphcase_experiments.algos.GraphCaseWrapper import GraphCaseWrapper
 #%%
 
 dims = [2, 4, 8, 16, 32, 64, 128, 256]
-# dims = [2, 4]
+dims = [2, 4]
 dims = np.asarray(dims)
 dims = np.expand_dims(dims, 1)
 dims = dims.repeat(3,axis=1)
@@ -35,8 +35,8 @@ layers = [1, 2, 3, 4, 5]
 
 grid ={
     'dims': dims,
-    # 'support_size': support_size,
-    # 'layers': layers
+#     'support_size': support_size,
+#     'layers': layers
 }
 
 #%%

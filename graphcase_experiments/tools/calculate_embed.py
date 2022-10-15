@@ -28,7 +28,7 @@ def calculate_graphcase_embedding(G, path, params, verbose=True, algo=GraphAutoE
 
     #create table
     tbl = create_table(embed, G)
-    tbl.to_csv(path + 'tabel.csv')
+#     tbl.to_csv(path + 'tabel.csv')
     if return_model:
         return (embed, tbl, algo_instance)
     else:

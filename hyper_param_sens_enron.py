@@ -17,8 +17,8 @@ os.chdir("antonius.b.a.poppe@nl.abnamro.com_old/tmp_graphcase")
 
 import networkx as nx
 import tensorflow as tf
-PATH = 'graphcase_experiments/data/results/hyper/'  #for the results
-SOURCE_PATH = 'graphcase_experiments/graphs/enron/data/enron_sub_graph3.pickle'  #input graph
+PATH = '/dbfs/mnt/dseedsi/users/ton/enron/'  #for the results
+SOURCE_PATH = 'graphcase_experiments/graphs/enron/data/enron_sub_graph4.pickle'  #input graph
 G = nx.read_gpickle(SOURCE_PATH)
 ref_params = {'batch_size': 30,
     'hub0_feature_with_neighb_dim': 128,
@@ -38,12 +38,6 @@ ref_params = {'batch_size': 30,
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC - params goed zetten
-# MAGIC - runs op 10
-
-# COMMAND ----------
-
 res_df = bzr_hyperparam.calc_hyperparam_sensitivity(G, ref_params, PATH, test_size = 0.5, runs=5)
 # res_df
 
@@ -53,4 +47,10 @@ res_df
 
 # COMMAND ----------
 
+# MAGIC %sh
+# MAGIC 
+# MAGIC ls /dbfs/mnt/dseedsi/users/ton/enron
 
+# COMMAND ----------
+
+|
